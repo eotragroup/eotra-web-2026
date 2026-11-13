@@ -46,7 +46,7 @@ const FOUNDERS = [
     role: 'Co-Founder & Developer',
     initials: 'AM',
     image: '/team-4.jpg',
-    imageClass: 'object-cover',
+    imageClass: 'object-cover mix-blend-multiply',
   },
 ];
 
