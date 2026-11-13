@@ -583,10 +583,10 @@ export default function App() {
 
             <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-[13px] text-gray-600">
               <a
-                href="mailto:hello@eotra.com"
+                href="mailto:info@eotra.com"
                 className="text-gray-900 font-medium hover:text-[#0400F5] transition-colors"
               >
-                hello@eotra.com
+                info@eotra.com
               </a>
               <button
                 type="button"
