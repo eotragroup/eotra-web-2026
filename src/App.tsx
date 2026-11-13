@@ -45,7 +45,7 @@ const FOUNDERS = [
     name: 'Ahmed Masallate',
     role: 'Co-Founder & Developer',
     initials: 'AM',
-    image: '/team-4.svg',
+    image: '/team-4.jpg',
     imageClass: 'object-cover',
   },
 ];
