@@ -209,15 +209,6 @@ export function ProductPage({
                   alt={`${product.title} on a phone`}
                 />
               )}
-              {screens.desktop.slice(1).map((src, i) => (
-                <BrowserShot
-                  key={src}
-                  className="product-gsap-fade lg:col-span-6"
-                  src={src}
-                  domain={product.domainLabel}
-                  alt={`${product.title} screen ${i + 2}`}
-                />
-              ))}
             </div>
           )}
         </div>
