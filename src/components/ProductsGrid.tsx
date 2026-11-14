@@ -53,7 +53,7 @@ export function ProductsGrid({ products, onOpenProduct }: Props) {
           >
             {/* Picture of the product, logo sits inside it */}
             <div
-              className={`relative aspect-[4/5] rounded-2xl overflow-hidden bg-gradient-to-br ${
+              className={`relative aspect-[4/5] rounded-2xl overflow-hidden ring-1 ring-black/5 bg-gradient-to-br ${
                 TINTS[product.id] ?? 'from-gray-100 to-gray-200'
               }`}
             >
