@@ -7,6 +7,7 @@ import { Navbar } from './components/Navbar';
 import { RollButton } from './components/RollButton';
 import { ProductPage } from './components/ProductPage';
 import { TeamPage } from './components/TeamPage';
+import { FaqPage } from './components/FaqPage';
 import { ServicesSlider } from './components/ServicesSlider';
 import { PartnersMarquee } from './components/PartnersMarquee';
 import { TypewriterText } from './components/TypewriterText';
@@ -85,12 +86,19 @@ function isTeamPath(pathname: string): boolean {
   return pathname === '/team';
 }
 
+function isFaqPath(pathname: string): boolean {
+  return pathname === '/faq';
+}
+
 export default function App() {
   const [activeProductId, setActiveProductId] = useState<string | null>(() =>
     getProductIdFromPath(window.location.pathname)
   );
   const [isTeamPage, setIsTeamPage] = useState<boolean>(() =>
     isTeamPath(window.location.pathname)
+  );
+  const [isFaqPage, setIsFaqPage] = useState<boolean>(() =>
+    isFaqPath(window.location.pathname)
   );
   const [inquiryState, setInquiryState] = useState<{
     open: boolean;
@@ -110,6 +118,7 @@ export default function App() {
     const handlePopState = () => {
       setActiveProductId(getProductIdFromPath(window.location.pathname));
       setIsTeamPage(isTeamPath(window.location.pathname));
+      setIsFaqPage(isFaqPath(window.location.pathname));
     };
     window.addEventListener('popstate', handlePopState);
     return () => window.removeEventListener('popstate', handlePopState);
@@ -120,14 +129,16 @@ export default function App() {
       document.title = `${activeProduct.title} — Eotra`;
     } else if (isTeamPage) {
       document.title = 'The Founder Team — Eotra';
+    } else if (isFaqPage) {
+      document.title = 'FAQ — Eotra';
     } else {
       document.title = 'Eotra — Enterprise Operations & Transaction';
     }
-  }, [activeProduct, isTeamPage]);
+  }, [activeProduct, isTeamPage, isFaqPage]);
 
   // GSAP Animations
   useEffect(() => {
-    if (activeProduct || isTeamPage) return;
+    if (activeProduct || isTeamPage || isFaqPage) return;
 
     const ctx = gsap.context(() => {
       // Hero entrance animation
@@ -174,7 +185,7 @@ export default function App() {
     });
 
     return () => ctx.revert();
-  }, [activeProduct, isTeamPage]);
+  }, [activeProduct, isTeamPage, isFaqPage]);
 
   const navigateToProduct = (productId: string) => {
     const targetPath = `/products/${encodeURIComponent(productId)}`;
@@ -183,6 +194,7 @@ export default function App() {
     }
     setActiveProductId(productId);
     setIsTeamPage(false);
+    setIsFaqPage(false);
     window.scrollTo({ top: 0, behavior: 'auto' });
   };
 
@@ -190,6 +202,7 @@ export default function App() {
     window.history.pushState({}, '', '/team');
     setActiveProductId(null);
     setIsTeamPage(true);
+    setIsFaqPage(false);
     window.scrollTo({ top: 0, behavior: 'auto' });
   };
 
@@ -198,6 +211,7 @@ export default function App() {
     window.history.pushState({}, '', targetUrl);
     setActiveProductId(null);
     setIsTeamPage(false);
+    setIsFaqPage(false);
 
     if (sectionId) {
       requestAnimationFrame(() => {
@@ -226,6 +240,13 @@ export default function App() {
           onSelectProduct={navigateToProduct}
           onOpenInquiry={openInquiry}
           onNavigateToTeam={navigateToTeam}
+        />
+      ) : isFaqPage ? (
+        <FaqPage
+          onNavigateHome={navigateHome}
+          onOpenInquiry={openInquiry}
+          onNavigateToTeam={navigateToTeam}
+          onSelectProduct={navigateToProduct}
         />
       ) : isTeamPage ? (
         <TeamPage

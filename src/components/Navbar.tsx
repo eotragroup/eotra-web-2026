@@ -1,3 +1,4 @@
+import { goToFaq } from '../lib/nav';
 import { useEffect, useState } from 'react';
 import { ArrowRight, Clock, Menu, X } from 'lucide-react';
 import { RollButton } from './RollButton';
@@ -49,6 +50,12 @@ export function Navbar({ onOpenInquiry, onNavigateHome, onNavigateToTeam }: Navb
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
     }
+  };
+
+  const handleFaqClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    setMobileMenuOpen(false);
+    goToFaq();
   };
 
   const handleTeamClick = (e: React.MouseEvent) => {
@@ -140,6 +147,13 @@ export function Navbar({ onOpenInquiry, onNavigateHome, onNavigateToTeam }: Navb
                 className="text-[14px] text-gray-900 hover:text-gray-500 transition-colors duration-300 whitespace-nowrap shrink-0"
               >
                 Team
+              </a>
+              <a
+                href="/faq"
+                onClick={handleFaqClick}
+                className="text-[14px] text-gray-900 hover:text-gray-500 transition-colors duration-300 whitespace-nowrap shrink-0"
+              >
+                FAQ
               </a>
               <button
                 type="button"
@@ -262,6 +276,13 @@ export function Navbar({ onOpenInquiry, onNavigateHome, onNavigateToTeam }: Navb
               className="text-[28px] sm:text-[32px] font-medium text-gray-900 leading-tight hover:text-gray-500 transition-colors"
             >
               Team
+            </a>
+            <a
+              href="/faq"
+              onClick={handleFaqClick}
+              className="text-[28px] sm:text-[32px] font-medium text-gray-900 leading-tight hover:text-gray-500 transition-colors"
+            >
+              FAQ
             </a>
             <button
               type="button"

@@ -1,3 +1,4 @@
+import { goToFaq } from '../lib/nav';
 import React, { useState } from 'react';
 import { ArrowRight, Check, Globe } from 'lucide-react';
 import { PRODUCTS } from '../data/products';
@@ -248,6 +249,15 @@ export function Footer({
                   className="hover:text-[#0400F5] transition-colors text-left"
                 >
                   Meet the Team
+                </button>
+              </li>
+              <li>
+                <button
+                  type="button"
+                  onClick={() => goToFaq()}
+                  className="hover:text-[#0400F5] transition-colors text-left"
+                >
+                  FAQ
                 </button>
               </li>
               <li>
