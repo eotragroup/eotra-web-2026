@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Navbar } from './Navbar';
-import { TypewriterText } from './TypewriterText';
 import { ScrollRevealText } from './ScrollRevealText';
 import { Footer } from './Footer';
 
@@ -104,6 +103,21 @@ export function TeamPage({ onNavigateHome, onOpenInquiry, onNavigateToTeam, onSe
         ease: 'power3.out',
       });
 
+      // Heading: words hide -> show (no typing)
+      gsap.fromTo(
+        '.team-title-word',
+        { opacity: 0, y: 18, filter: 'blur(6px)' },
+        {
+          opacity: 1,
+          y: 0,
+          filter: 'blur(0px)',
+          duration: 0.7,
+          stagger: 0.14,
+          ease: 'power3.out',
+          delay: 0.2,
+        }
+      );
+
       // Founder cards stagger animation
       gsap.from('.founder-card', {
         y: 40,
@@ -152,19 +166,15 @@ export function TeamPage({ onNavigateHome, onOpenInquiry, onNavigateToTeam, onSe
           {/* Heading + subtext */}
           <div className="team-anim-header flex flex-col lg:flex-row lg:items-end justify-between gap-4 mb-12 sm:mb-16">
             <h1 className="text-[clamp(1.75rem,4vw,3.25rem)] font-medium leading-[1.1] tracking-[-0.025em] text-gray-900">
-              The core engineers<br />
-              building{' '}
-              <span className="text-[#0400F5]">
-                <TypewriterText
-                  words={[
-                    'Eotra.',
-                    'next-gen retail.',
-                    'enterprise POS & ERP.',
-                    'scalable cloud systems.',
-                    'unified commerce.',
-                  ]}
-                />
-              </span>
+              {[['The', 'core', 'engineers'], ['building', 'unified', 'commerce.']].map((line, li) => (
+                <span key={li} className="block">
+                  {line.map((word, wi) => (
+                    <span key={wi} className="team-title-word inline-block mr-[0.26em] text-gray-900">
+                      {word}
+                    </span>
+                  ))}
+                </span>
+              ))}
             </h1>
             <p className="text-[14px] sm:text-[15px] text-gray-600 max-w-md leading-relaxed">
               Dedicated to building the future of unified global retail
