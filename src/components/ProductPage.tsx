@@ -8,6 +8,7 @@ import { RollButton } from './RollButton';
 import { ShaderBackground } from './ShaderBackground';
 import { ScrollRevealText } from './ScrollRevealText';
 import { Footer } from './Footer';
+import { ProductCard } from './ProductsGrid';
 
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
@@ -326,45 +327,7 @@ export function ProductPage({
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-7">
             {otherProducts.map((other) => (
-              <article
-                key={other.id}
-                onClick={() => onSelectProduct(other.id)}
-                className="group cursor-pointer"
-              >
-                <div className="relative aspect-[16/10] rounded-2xl overflow-hidden bg-[#F8F8FA] border border-gray-200 group-hover:border-gray-900 transition-colors duration-300 flex items-center justify-center p-10 sm:p-14">
-                  {other.logoUrl && (
-                    <img
-                      src={other.logoUrl}
-                      alt={`${other.title} logo`}
-                      className="max-h-[68px] sm:max-h-[84px] w-auto max-w-[82%] object-contain transition-transform duration-500 ease-out group-hover:scale-[1.04]"
-                    />
-                  )}
-                  {/* Interactive Expanding Pill Button */}
-                  <div className="absolute bottom-4 left-4 h-9 w-9 group-hover:w-[156px] bg-gray-900 text-white rounded-full flex items-center pl-4 pr-[11px] overflow-hidden transition-all duration-300 ease-in-out shadow-sm">
-                    <span className="text-[13px] font-medium text-white whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-300 group-hover:delay-100">
-                      Open page
-                    </span>
-                    <span className="absolute right-[11px] top-1/2 -translate-y-1/2 flex items-center justify-center">
-                      <ArrowRight
-                        size={14}
-                        className="text-white shrink-0 -rotate-45 group-hover:rotate-0 transition-transform duration-300"
-                      />
-                    </span>
-                  </div>
-                </div>
-                <div className="mt-4 flex flex-col sm:flex-row sm:items-baseline justify-between gap-2">
-                  <div>
-                    <h3 className="text-[14px] sm:text-[15px] font-semibold text-gray-900">
-                      {other.title}
-                    </h3>
-                  </div>
-                  {other.domainLabel && (
-                    <span className="text-[13px] font-medium text-[#0400F5] shrink-0">
-                      {other.domainLabel}
-                    </span>
-                  )}
-                </div>
-              </article>
+              <ProductCard key={other.id} product={other} onOpenProduct={onSelectProduct} />
             ))}
 
             {/* Conversion CTA Card */}

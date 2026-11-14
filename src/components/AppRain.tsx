@@ -91,6 +91,16 @@ export function AppRain({ cta }: { cta?: React.ReactNode }) {
 
       {/* Left caption */}
       <div className="absolute left-6 sm:left-10 bottom-6 sm:bottom-10 z-10 max-w-[44%] sm:max-w-[34%]">
+        <div className="flex flex-wrap gap-2 mb-4">
+          {['POS', 'WMS', 'ERP', 'CRM'].map((label) => (
+            <span
+              key={label}
+              className="inline-flex items-center px-3.5 py-1.5 rounded-full border border-white/25 bg-white/10 text-white text-[11px] sm:text-[13px] font-medium"
+            >
+              {label}
+            </span>
+          ))}
+        </div>
         <p className="text-white text-[clamp(1.25rem,2.6vw,2.25rem)] font-medium leading-[1.1] tracking-[-0.02em]">
           Every app your retail runs on. One core.
         </p>
