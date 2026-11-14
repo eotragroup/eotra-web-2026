@@ -37,6 +37,12 @@ const TINTS: Record<string, string> = {
   tradespilot: 'from-[#e3f5ef] to-[#cdeee3]',
 };
 
+// Square-ish logo marks need more height than wide wordmarks
+const LOGO_SIZE: Record<string, string> = {
+  lidya: 'h-[68px] sm:h-[84px]',
+  tradespilot: 'h-[56px] sm:h-[68px]',
+};
+
 // Products whose picture is dark: show their logo in white
 const DARK = new Set(['tradespilot']);
 
@@ -92,7 +98,7 @@ export function ProductsGrid({ products, onOpenProduct }: Props) {
                     <img
                       src={product.logoUrl}
                       alt={`${product.title} logo`}
-                      className={`h-9 sm:h-10 w-auto max-w-[180px] object-contain ${DARK.has(product.id) ? 'brightness-0 invert' : ''}`}
+                      className={`${LOGO_SIZE[product.id] ?? 'h-9 sm:h-10'} w-auto max-w-[260px] object-contain ${DARK.has(product.id) ? 'brightness-0 invert' : ''}`}
                     />
                   ) : (
                     <span className="text-[17px] font-semibold text-gray-900">{product.title}</span>
