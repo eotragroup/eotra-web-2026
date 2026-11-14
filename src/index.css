@@ -116,3 +116,34 @@ html {
 .animate-float-badge {
   animation: float-badge 4s ease-in-out infinite;
 }
+
+@keyframes rain-down {
+  0% {
+    transform: translateY(-50%);
+  }
+  100% {
+    transform: translateY(0%);
+  }
+}
+
+.animate-rain-fast {
+  animation: rain-down 14s linear infinite;
+  will-change: transform;
+}
+
+.animate-rain-medium {
+  animation: rain-down 19s linear infinite;
+  will-change: transform;
+}
+
+.animate-rain-slow {
+  animation: rain-down 24s linear infinite;
+  will-change: transform;
+}
+
+.animate-rain-fast:hover,
+.animate-rain-medium:hover,
+.animate-rain-slow:hover {
+  animation-play-state: paused;
+}
+

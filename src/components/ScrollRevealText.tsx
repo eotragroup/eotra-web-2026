@@ -33,19 +33,19 @@ export function ScrollRevealText({
     const tween = gsap.fromTo(
       words,
       {
-        color: '#d1d5db',
-        opacity: 0.22,
+        color: '#d4d4d8',
+        opacity: 0.2,
       },
       {
-        color: '#111827',
+        color: '#0a0a0a',
         opacity: 1,
-        stagger: 0.2,
+        stagger: 0.15,
         ease: 'none',
         scrollTrigger: {
           trigger: el,
           start,
           end,
-          scrub: 0.8,
+          scrub: 0.6,
         },
       }
     );
@@ -66,7 +66,7 @@ export function ScrollRevealText({
       {words.map((word, idx) => (
         <span
           key={idx}
-          className="reveal-word inline-block mr-[0.26em] text-[#d1d5db] opacity-25 select-none transition-none"
+          className="reveal-word inline-block mr-[0.26em] text-[#d4d4d8] opacity-20 select-none transition-none"
         >
           {word}
         </span>

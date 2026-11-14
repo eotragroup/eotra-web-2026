@@ -11,7 +11,7 @@ import { ServicesSlider } from './components/ServicesSlider';
 import { PartnersMarquee } from './components/PartnersMarquee';
 import { TypewriterText } from './components/TypewriterText';
 import { ScrollRevealText } from './components/ScrollRevealText';
-import { HeroDevicesAnimation } from './components/HeroDevicesAnimation';
+import { FallingAppsAnimation } from './components/FallingAppsAnimation';
 import retailPosImg from './assets/images/eotra_retail_pos_men_1794584625031.jpg';
 import globalOpsImg from './assets/images/eotra_global_ops_men_1794584624835.jpg';
 import {
@@ -326,9 +326,9 @@ export default function App() {
               </div>
             </div>
 
-            {/* Right Column: Floating Devices Animation (Laptops, Phones & App Badges flying down) */}
-            <div className="lg:col-span-5 relative mt-8 lg:mt-0">
-              <HeroDevicesAnimation />
+            {/* Right Column: Falling Apps from Up to Down */}
+            <div className="lg:col-span-5 relative mt-8 lg:mt-0 flex items-center justify-center">
+              <FallingAppsAnimation />
             </div>
           </div>
         </div>
