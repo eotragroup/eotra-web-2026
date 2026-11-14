@@ -14,7 +14,7 @@ import { ScrollRevealText } from './components/ScrollRevealText';
 import { EotraBrandSculpture } from './components/EotraBrandSculpture';
 import { Footer } from './components/Footer';
 import { AppRain } from './components/AppRain';
-import { AdvantagePanel } from './components/AdvantagePanel';
+import { AdvantageStack } from './components/AdvantageStack';
 import {
   CASE_STUDIES,
   CaseStudyData,
@@ -395,10 +395,8 @@ export default function App() {
             </div>
           </div>
 
-          {/* Clean panel */}
-          <div className="gsap-fade-up">
-            <AdvantagePanel capabilities={CAPABILITIES} />
-          </div>
+          {/* Stacking cards: each one slides over the previous while scrolling */}
+          <AdvantageStack capabilities={CAPABILITIES} />
         </div>
       </section>
 
