@@ -54,27 +54,6 @@ const CAPABILITIES = [
   },
 ];
 
-const EDITIONS = [
-  {
-    name: 'Standard Edition',
-    audience: 'Single-brand retailers',
-    summary:
-      'Powerful POS and inventory control without the complexity of a massive ERP.',
-  },
-  {
-    name: 'Professional Edition',
-    audience: 'Multi-location chains',
-    summary:
-      'Advanced warehousing, omni-channel synchronization, and comprehensive CRM.',
-  },
-  {
-    name: 'Enterprise Edition',
-    audience: 'Global retail networks',
-    summary:
-      'Custom workflows, predictive analytics, and massive data volume handling.',
-  },
-];
-
 function PartnerStarburstIcon() {
   return (
     <svg
@@ -444,38 +423,8 @@ export default function App() {
           </div>
 
           {/* Clean panel */}
-          <div className="gsap-fade-up mb-14 sm:mb-16">
+          <div className="gsap-fade-up">
             <AdvantagePanel capabilities={CAPABILITIES} />
-          </div>
-
-          {/* Platform Editions */}
-          <div className="gsap-stagger-parent grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-6">
-            {EDITIONS.map((edition) => (
-              <div
-                key={edition.name}
-                className="bg-white rounded-none border border-gray-200 hover:border-gray-900 transition-colors duration-300 p-6 sm:p-7 flex flex-col justify-between"
-              >
-                <div>
-                  <p className="text-[11px] uppercase tracking-wider font-semibold text-gray-400 mb-2">
-                    {edition.audience}
-                  </p>
-                  <h3 className="text-[18px] font-semibold text-gray-900 mb-2.5">
-                    Eotra {edition.name}
-                  </h3>
-                  <p className="text-[13px] sm:text-[14px] text-gray-600 leading-relaxed font-normal">
-                    {edition.summary}
-                  </p>
-                </div>
-                <button
-                  type="button"
-                  onClick={() => openInquiry(`Inquiry: Eotra ${edition.name}`)}
-                  className="mt-6 inline-flex items-center gap-2 text-[13px] font-medium text-gray-900 hover:text-[#0400F5] transition-colors cursor-pointer self-start"
-                >
-                  <span>Request quote</span>
-                  <ArrowRight size={14} />
-                </button>
-              </div>
-            ))}
           </div>
         </div>
       </section>
