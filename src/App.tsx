@@ -10,6 +10,7 @@ import { TeamPage } from './components/TeamPage';
 import { ServicesSlider } from './components/ServicesSlider';
 import { PartnersMarquee } from './components/PartnersMarquee';
 import { TypewriterText } from './components/TypewriterText';
+import { ScrollRevealText } from './components/ScrollRevealText';
 import retailPosImg from './assets/images/eotra_retail_pos_men_1794584625031.jpg';
 import globalOpsImg from './assets/images/eotra_global_ops_men_1794584624835.jpg';
 import {
@@ -388,6 +389,23 @@ export default function App() {
                 className="w-full h-full object-cover"
               />
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* SECTION: SCROLL TEXT REVEAL MANIFESTO (Pentograf style) */}
+      <section className="bg-white py-20 sm:py-28 lg:py-36 border-t border-gray-100 overflow-hidden">
+        <div className="max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-12">
+          <div className="max-w-4xl">
+            <span className="text-[12px] sm:text-[13px] font-semibold text-[#0400F5] uppercase tracking-wider mb-6 block">
+              Architectural Statement · Eotra Core
+            </span>
+            <ScrollRevealText
+              text="We engineer unified retail platforms, omnichannel point of sale, and enterprise cloud operations. Connecting physical stores and global warehouses with real-time software that never fails."
+              className="text-[clamp(1.75rem,4.2vw,3.6rem)] text-gray-900"
+              start="top 80%"
+              end="bottom 45%"
+            />
           </div>
         </div>
       </section>

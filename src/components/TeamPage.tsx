@@ -3,6 +3,7 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Navbar } from './Navbar';
 import { TypewriterText } from './TypewriterText';
+import { ScrollRevealText } from './ScrollRevealText';
 
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
@@ -209,12 +210,17 @@ export function TeamPage({ onNavigateHome, onOpenInquiry, onNavigateToTeam }: Te
             ))}
           </div>
 
-          {/* Divider & Footer */}
-          <div className="border-t border-gray-100 pt-14 sm:pt-16 mb-16">
-            <p className="text-[13px] sm:text-[14px] text-gray-500 max-w-2xl leading-relaxed">
-              Eotra is built by engineers with deep roots in enterprise retail technology. We combine
-              domain expertise with modern engineering to deliver software that actually works at scale.
-            </p>
+          {/* Divider & Manifesto (Scroll Reveal style like pentograf.com) */}
+          <div className="border-t border-gray-100 pt-16 sm:pt-20 mb-20 max-w-4xl">
+            <span className="text-[12px] sm:text-[13px] font-semibold text-[#0400F5] uppercase tracking-wider mb-5 block">
+              Engineering Manifesto
+            </span>
+            <ScrollRevealText
+              text="Eotra is built by engineers with deep roots in enterprise retail technology. We combine domain expertise with modern engineering to deliver software that actually works at scale."
+              className="text-[clamp(1.5rem,3.2vw,2.5rem)] text-gray-900"
+              start="top 82%"
+              end="bottom 50%"
+            />
           </div>
 
           <footer className="pt-8 border-t border-gray-200 flex flex-col sm:flex-row items-center justify-between gap-4">
