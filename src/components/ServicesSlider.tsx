@@ -216,19 +216,9 @@ export function ServicesSlider({ onOpenInquiry }: ServicesSliderProps) {
   return (
     <section
       id="services"
-      className="bg-white pt-16 sm:pt-20 lg:pt-28 pb-16 sm:pb-20 lg:pb-28 overflow-hidden"
+      className="bg-[#F5F5F5] pt-16 sm:pt-20 lg:pt-28 pb-16 sm:pb-20 lg:pb-28 overflow-hidden"
     >
       <div className="max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-12">
-        {/* Badge Row */}
-        <div className="flex items-center gap-3 mb-6 sm:mb-8">
-          <span className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-gray-900 text-white text-[11px] sm:text-[12px] font-semibold flex items-center justify-center shrink-0">
-            3
-          </span>
-          <span className="text-[12px] sm:text-[13px] font-medium text-gray-900 border border-gray-200 rounded-full px-3 sm:px-4 py-1 sm:py-1.5">
-            Our Services
-          </span>
-        </div>
-
         {/* Header + Controls */}
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-10 sm:mb-12">
           <div>
@@ -239,17 +229,9 @@ export function ServicesSlider({ onOpenInquiry }: ServicesSliderProps) {
               start="top 85%"
               end="bottom 55%"
             />
-            <p className="text-[14px] sm:text-[15px] text-gray-600 mt-4 max-w-xl leading-relaxed">
-              From custom web and mobile apps to product design, APIs, and
-              dedicated engineering—everything modern software teams ship.
-            </p>
           </div>
 
           <div className="flex items-center gap-3 shrink-0">
-            <span className="text-[13px] font-medium text-gray-500 tabular-nums mr-2">
-              {String(activeIndex + 1).padStart(2, '0')} /{' '}
-              {String(EOTRA_SERVICES.length).padStart(2, '0')}
-            </span>
             <button
               type="button"
               onClick={() => scrollByCard(-1)}
@@ -328,9 +310,6 @@ export function ServicesSlider({ onOpenInquiry }: ServicesSliderProps) {
                     <h3 className="text-[20px] sm:text-[22px] font-semibold text-white tracking-[-0.015em]">
                       {service.title}
                     </h3>
-                    <p className="text-[13px] sm:text-[14px] text-white/80 mt-1 line-clamp-1">
-                      {service.description}
-                    </p>
                   </div>
 
                   <button

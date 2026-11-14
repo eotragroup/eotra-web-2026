@@ -129,7 +129,7 @@ export function ProductPage({
 
             {/* Right: Clean Logo Showcase Card */}
             <div className="product-hero-anim lg:col-span-5">
-              <div className="bg-white rounded-none border border-gray-200 aspect-[16/10] flex items-center justify-center p-10 sm:p-14 shadow-none">
+              <div className="bg-white rounded-2xl border border-gray-200 aspect-[16/10] flex items-center justify-center p-10 sm:p-14 shadow-none">
                 {product.logoUrl ? (
                   <img
                     src={product.logoUrl}
@@ -331,7 +331,7 @@ export function ProductPage({
                 onClick={() => onSelectProduct(other.id)}
                 className="group cursor-pointer"
               >
-                <div className="relative aspect-[16/10] rounded-none overflow-hidden bg-[#F8F8FA] border border-gray-200 group-hover:border-gray-900 transition-colors duration-300 flex items-center justify-center p-10 sm:p-14">
+                <div className="relative aspect-[16/10] rounded-2xl overflow-hidden bg-[#F8F8FA] border border-gray-200 group-hover:border-gray-900 transition-colors duration-300 flex items-center justify-center p-10 sm:p-14">
                   {other.logoUrl && (
                     <img
                       src={other.logoUrl}

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { ArrowRight, ExternalLink, MessageSquare } from 'lucide-react';
+import { MessageSquare } from 'lucide-react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ShaderBackground } from './components/ShaderBackground';
@@ -13,8 +13,9 @@ import { TypewriterText } from './components/TypewriterText';
 import { ScrollRevealText } from './components/ScrollRevealText';
 import { EotraBrandSculpture } from './components/EotraBrandSculpture';
 import { Footer } from './components/Footer';
-import retailPosImg from './assets/images/eotra_retail_pos_men_1794584625031.jpg';
-import globalOpsImg from './assets/images/eotra_global_ops_men_1794584624835.jpg';
+import { AppRain } from './components/AppRain';
+import { AdvantageStack } from './components/AdvantageStack';
+import { ProductsGrid } from './components/ProductsGrid';
 import {
   CASE_STUDIES,
   CaseStudyData,
@@ -36,39 +37,21 @@ const CAPABILITIES = [
     title: 'Point of Sale & Order Management',
     description:
       'Offline-first omni-channel transactions and unified fulfillment across every store.',
+    nodes: ['pos'],
   },
   {
     index: '02.',
     title: 'Inventory & Global WMS',
     description:
       'Real-time global stock visibility across international warehouses and retail locations.',
+    nodes: ['wms', 'erp'],
   },
   {
     index: '03.',
     title: 'CRM, Loyalty & Predictive Analytics',
     description:
       'Customer retention, data-driven reporting, and seamless ERP workflow integrations.',
-  },
-];
-
-const EDITIONS = [
-  {
-    name: 'Standard Edition',
-    audience: 'Single-brand retailers',
-    summary:
-      'Powerful POS and inventory control without the complexity of a massive ERP.',
-  },
-  {
-    name: 'Professional Edition',
-    audience: 'Multi-location chains',
-    summary:
-      'Advanced warehousing, omni-channel synchronization, and comprehensive CRM.',
-  },
-  {
-    name: 'Enterprise Edition',
-    audience: 'Global retail networks',
-    summary:
-      'Custom workflows, predictive analytics, and massive data volume handling.',
+    nodes: ['crm', 'analytics'],
   },
 ];
 
@@ -262,6 +245,7 @@ export default function App() {
           onNavigateHome={navigateHome}
           onOpenInquiry={openInquiry}
           onNavigateToTeam={navigateToTeam}
+          onSelectProduct={navigateToProduct}
         />
       ) : (
         <div id="top" className="min-h-screen bg-white text-gray-900 antialiased">
@@ -342,16 +326,6 @@ export default function App() {
         className="bg-white pt-16 sm:pt-20 lg:pt-28 pb-16 sm:pb-20 lg:pb-28 overflow-hidden"
       >
         <div className="max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-12">
-          {/* Badge Row */}
-          <div className="gsap-fade-up flex items-center gap-3 mb-6 sm:mb-8">
-            <span className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-gray-900 text-white text-[11px] sm:text-[12px] font-semibold flex items-center justify-center shrink-0">
-              1
-            </span>
-            <span className="text-[12px] sm:text-[13px] font-medium text-gray-900 border border-gray-200 rounded-full px-3 sm:px-4 py-1 sm:py-1.5">
-              Introducing Eotra
-            </span>
-          </div>
-
           {/* Editorial Header + Summary & CTA Row */}
           <div className="gsap-fade-up grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-end mb-12 sm:mb-16">
             <div className="lg:col-span-7">
@@ -364,147 +338,50 @@ export default function App() {
               />
             </div>
 
-            <div className="lg:col-span-5 flex flex-col items-start lg:pb-1">
-              <p className="text-[15px] sm:text-[17px] leading-[1.6] font-medium text-gray-600 max-w-md">
-                A single unified system linking POS, WMS, ERP, and CRM to power
-                your growth without limits.
-              </p>
-              <div className="mt-6">
+          </div>
+
+          {/* Raining apps panel */}
+          <div className="gsap-fade-up">
+            <AppRain
+              cta={
                 <RollButton
                   label="About our company"
                   variant="orange"
                   size="hero"
                   onClick={() => setInfoModal('company')}
                 />
-              </div>
-            </div>
-          </div>
-
-          {/* Balanced Asymmetric Image Row */}
-          <div className="gsap-fade-up grid grid-cols-1 md:grid-cols-12 gap-5 sm:gap-6 items-stretch">
-            <div className="md:col-span-5 aspect-[4/3] md:aspect-auto md:h-[400px] lg:h-[460px] rounded-2xl overflow-hidden bg-gray-100">
-              <img
-                src={retailPosImg}
-                alt="Flagship retail checkout with Eotra POS"
-                className="w-full h-full object-cover"
-              />
-            </div>
-            <div className="md:col-span-7 aspect-[3/2] md:aspect-auto md:h-[400px] lg:h-[460px] rounded-2xl overflow-hidden bg-gray-100">
-              <img
-                src={globalOpsImg}
-                alt="Eotra global operations headquarters"
-                className="w-full h-full object-cover"
-              />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* SECTION: SCROLL TEXT REVEAL MANIFESTO (Pentograf style) */}
-      <section className="bg-white py-20 sm:py-28 lg:py-36 border-t border-gray-100 overflow-hidden">
-        <div className="max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-12">
-          <div className="max-w-4xl">
-            <span className="text-[12px] sm:text-[13px] font-semibold text-[#0400F5] uppercase tracking-wider mb-6 block">
-              Architectural Statement · Eotra Core
-            </span>
-            <ScrollRevealText
-              text="We engineer unified retail platforms, omnichannel point of sale, and enterprise cloud operations. Connecting physical stores and global warehouses with real-time software that never fails."
-              className="text-[clamp(1.75rem,4.2vw,3.6rem)] text-gray-900"
-              start="top 80%"
-              end="bottom 45%"
+              }
             />
           </div>
         </div>
       </section>
 
-      {/* SECTION 3: PLATFORM & EDITIONS (Light gray background) */}
+      {/* SECTION 2: SERVICES SLIDER (Light gray background) */}
+      <ServicesSlider onOpenInquiry={openInquiry} />
+
+      {/* SECTION 3: THE EOTRA ADVANTAGE — stacking cards (White background) */}
       <section
         id="solutions"
-        className="bg-[#F5F5F5] pt-16 sm:pt-20 lg:pt-28 pb-16 sm:pb-20 lg:pb-28"
+        className="bg-white pt-16 sm:pt-20 lg:pt-28 pb-16 sm:pb-20 lg:pb-28"
       >
         <div className="max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-12">
-          {/* Badge Row */}
-          <div className="gsap-fade-up flex items-center gap-3 mb-6 sm:mb-8">
-            <span className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-gray-900 text-white text-[11px] sm:text-[12px] font-semibold flex items-center justify-center shrink-0">
-              2
-            </span>
-            <span className="text-[12px] sm:text-[13px] font-medium text-gray-900 border border-gray-300 rounded-full px-3 sm:px-4 py-1 sm:py-1.5">
-              The Eotra Advantage
-            </span>
-          </div>
-
-          <div className="gsap-fade-up grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 mb-14 sm:mb-16">
-            <div className="lg:col-span-5">
+          {/* Editorial header + summary */}
+          <div className="gsap-fade-up grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-end mb-12 sm:mb-16">
+            <div className="lg:col-span-7">
               <ScrollRevealText
                 as="h2"
                 text="Replacing five disconnected systems with one unified operational core."
-                className="text-[clamp(1.5rem,3.6vw,2.75rem)] text-gray-900 mb-5"
+                className="text-[clamp(1.75rem,4vw,3.25rem)] text-gray-900 max-w-2xl"
                 start="top 85%"
                 end="bottom 55%"
               />
-              <p className="text-[14px] sm:text-[15px] text-gray-600 leading-relaxed max-w-md">
-                From single-brand boutiques to 50+ store global retail networks,
-                Eotra deploys in weeks with bank-grade security and dedicated
-                onboarding support.
-              </p>
-            </div>
-
-            <div className="lg:col-span-7 divide-y divide-gray-300 border-y border-gray-300 gsap-stagger-parent">
-              {CAPABILITIES.map((cap) => (
-                <div
-                  key={cap.index}
-                  className="py-5 sm:py-6 flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-6"
-                >
-                  <span className="text-[13px] font-semibold text-[#0400F5] tabular-nums shrink-0">
-                    {cap.index}
-                  </span>
-                  <div className="flex-1">
-                    <h3 className="text-[16px] font-semibold text-gray-900">
-                      {cap.title}
-                    </h3>
-                    <p className="text-[13px] sm:text-[14px] text-gray-600 mt-1.5 leading-relaxed">
-                      {cap.description}
-                    </p>
-                  </div>
-                </div>
-              ))}
             </div>
           </div>
 
-          {/* Platform Editions */}
-          <div className="gsap-stagger-parent grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-6">
-            {EDITIONS.map((edition) => (
-              <div
-                key={edition.name}
-                className="bg-white rounded-none border border-gray-200 hover:border-gray-900 transition-colors duration-300 p-6 sm:p-7 flex flex-col justify-between"
-              >
-                <div>
-                  <p className="text-[11px] uppercase tracking-wider font-semibold text-gray-400 mb-2">
-                    {edition.audience}
-                  </p>
-                  <h3 className="text-[18px] font-semibold text-gray-900 mb-2.5">
-                    Eotra {edition.name}
-                  </h3>
-                  <p className="text-[13px] sm:text-[14px] text-gray-600 leading-relaxed font-normal">
-                    {edition.summary}
-                  </p>
-                </div>
-                <button
-                  type="button"
-                  onClick={() => openInquiry(`Inquiry: Eotra ${edition.name}`)}
-                  className="mt-6 inline-flex items-center gap-2 text-[13px] font-medium text-gray-900 hover:text-[#0400F5] transition-colors cursor-pointer self-start"
-                >
-                  <span>Request quote</span>
-                  <ArrowRight size={14} />
-                </button>
-              </div>
-            ))}
-          </div>
+          {/* Stacking cards: each one slides over the previous while scrolling */}
+          <AdvantageStack capabilities={CAPABILITIES} onOpenInquiry={openInquiry} />
         </div>
       </section>
-
-      {/* SECTION 3: SERVICES SLIDER (White background) */}
-      <ServicesSlider onOpenInquiry={openInquiry} />
 
       {/* SECTION 4: CASE STUDIES & CLIENT IMPACT (Light gray background) */}
       <section
@@ -512,16 +389,6 @@ export default function App() {
         className="bg-[#F5F5F5] pt-16 sm:pt-20 lg:pt-28 pb-16 sm:pb-20 lg:pb-24"
       >
         <div className="max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-12">
-          {/* Badge Row */}
-          <div className="gsap-fade-up flex items-center gap-3 mb-6 sm:mb-8">
-            <span className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-gray-900 text-white text-[11px] sm:text-[12px] font-semibold flex items-center justify-center shrink-0">
-              4
-            </span>
-            <span className="text-[12px] sm:text-[13px] font-medium text-gray-900 border border-gray-300 rounded-full px-3 sm:px-4 py-1 sm:py-1.5">
-              Featured products &amp; client work
-            </span>
-          </div>
-
           {/* Heading with ScrollRevealText */}
           <ScrollRevealText
             as="h2"
@@ -531,55 +398,8 @@ export default function App() {
             end="bottom 55%"
           />
 
-          {/* Live Products Row */}
-          <div className="gsap-stagger-parent grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6 lg:gap-7 mb-10 sm:mb-12">
-            {PRODUCTS.map((product) => (
-              <article
-                key={product.id}
-                className="group cursor-pointer"
-                onClick={() => navigateToProduct(product.id)}
-              >
-                <div className="relative aspect-[16/10] rounded-none overflow-hidden bg-white border border-gray-200 group-hover:border-gray-900 transition-colors duration-300 flex items-center justify-center p-10 sm:p-14">
-                  <img
-                    src={product.logoUrl}
-                    alt={`${product.title} logo`}
-                    className="max-h-[64px] sm:max-h-[80px] w-auto max-w-[80%] object-contain transition-transform duration-500 ease-out group-hover:scale-[1.03]"
-                  />
-                  {/* Interactive Expanding Pill Button */}
-                  <div className="absolute bottom-4 left-4 h-9 w-9 group-hover:w-[158px] bg-gray-900 text-white rounded-full flex items-center pl-4 pr-[11px] overflow-hidden transition-all duration-300 ease-in-out shadow-sm">
-                    <span className="text-[13px] font-medium text-white whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-300 group-hover:delay-100">
-                      Open page
-                    </span>
-                    <span className="absolute right-[11px] top-1/2 -translate-y-1/2 flex items-center justify-center">
-                      <ArrowRight
-                        size={14}
-                        className="shrink-0 text-white -rotate-45 group-hover:rotate-0 transition-transform duration-300"
-                      />
-                    </span>
-                  </div>
-                </div>
-                <div className="mt-4 flex flex-col sm:flex-row sm:items-baseline justify-between gap-2">
-                  <div className="min-w-0">
-                    <h3 className="text-[16px] sm:text-[17px] font-semibold text-gray-900 group-hover:text-[#0400F5] transition-colors flex items-center gap-2">
-                      <span>{product.title}</span>
-                    </h3>
-                  </div>
-                  {product.liveUrl && (
-                    <a
-                      href={product.liveUrl}
-                      target="_blank"
-                      rel="noreferrer"
-                      onClick={(e) => e.stopPropagation()}
-                      className="inline-flex items-center gap-1.5 text-[12px] font-medium text-gray-500 hover:text-[#0400F5] shrink-0"
-                    >
-                      <span>{product.domainLabel}</span>
-                      <ExternalLink size={12} />
-                    </a>
-                  )}
-                </div>
-              </article>
-            ))}
-          </div>
+          {/* Products grid */}
+          <ProductsGrid products={PRODUCTS} onOpenProduct={navigateToProduct} />
         </div>
       </section>
 

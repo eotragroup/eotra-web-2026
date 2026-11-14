@@ -60,21 +60,18 @@ export function Footer({
 
   return (
     <footer className="w-full border-t border-gray-200 bg-white">
+      {/* Newsletter & Sign-up Banner (full-width brand color) */}
+      <div className="w-full bg-[#0400F5]">
       <div className="max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-12">
-        {/* Newsletter & Sign-up Banner */}
-      <div className="py-12 sm:py-16 border-b border-gray-100">
+      <div className="py-12 sm:py-16">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start lg:items-center">
           <div className="lg:col-span-6">
-            <span className="text-[12px] font-semibold uppercase tracking-wider text-[#0400F5] mb-2 block">
+            <span className="text-[12px] font-semibold uppercase tracking-wider text-white/70 mb-2 block">
               Stay Informed
             </span>
-            <h3 className="text-[24px] sm:text-[30px] font-medium tracking-[-0.02em] text-gray-900 leading-[1.15]">
+            <h3 className="text-[24px] sm:text-[30px] font-medium tracking-[-0.02em] text-white leading-[1.15]">
               Subscribe to the Eotra Dispatch.
             </h3>
-            <p className="mt-2 text-[14px] sm:text-[15px] text-gray-600 leading-relaxed max-w-lg">
-              Engineering breakthroughs, retail system updates, global commerce
-              dispatches, and new platform rollouts delivered to your inbox.
-            </p>
           </div>
 
           <div className="lg:col-span-6">
@@ -89,11 +86,11 @@ export function Footer({
                   }}
                   placeholder="Enter your work email"
                   aria-label="Work email address"
-                  className="flex-1 px-4 py-3 text-[14px] text-gray-900 bg-[#FBFBFB] border border-gray-300 focus:border-[#0400F5] focus:bg-white focus:outline-none transition-colors"
+                  className="flex-1 px-4 py-3 text-[14px] text-gray-900 bg-[#FBFBFB] border border-gray-300 focus:border-white focus:bg-white focus:outline-none transition-colors"
                 />
                 <button
                   type="submit"
-                  className="px-6 py-3 bg-gray-900 hover:bg-[#0400F5] text-white text-[13px] font-medium tracking-wide transition-colors duration-200 flex items-center justify-center gap-2 cursor-pointer shrink-0"
+                  className="px-6 py-3 bg-gray-900 hover:bg-white hover:text-[#0400F5] text-white text-[13px] font-medium tracking-wide transition-colors duration-200 flex items-center justify-center gap-2 cursor-pointer shrink-0"
                 >
                   {subscribed ? (
                     <>
@@ -110,22 +107,21 @@ export function Footer({
               </div>
 
               {error && (
-                <p className="text-[12px] text-red-600 font-medium">{error}</p>
+                <p className="text-[12px] text-red-200 font-medium">{error}</p>
               )}
               {subscribed && (
-                <p className="text-[12px] text-emerald-600 font-medium">
+                <p className="text-[12px] text-emerald-200 font-medium">
                   Thank you for subscribing. We will keep you updated.
                 </p>
               )}
-              <p className="text-[11px] text-gray-500">
-                Zero spam. You can unsubscribe at any time. Read our privacy
-                standards.
-              </p>
             </form>
           </div>
         </div>
       </div>
+      </div>
+      </div>
 
+      <div className="max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-12">
       {/* Multi-Column Links & Information Section */}
       <div className="py-12 sm:py-16">
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8 sm:gap-10">
@@ -146,11 +142,7 @@ export function Footer({
             <p className="text-[13px] font-medium text-gray-900 mb-1">
               Enterprise Operations &amp; Transaction
             </p>
-            <p className="text-[13px] text-gray-600 leading-relaxed max-w-sm mb-5">
-              Next-generation retail, digital commerce, and platform
-              architecture engineered for multi-market scale from source to
-              sale.
-            </p>
+            <div className="mb-5" />
 
             <div className="space-y-1.5 text-[13px] text-gray-600">
               <p>
@@ -166,12 +158,6 @@ export function Footer({
                   info@eotra.com
                 </a>
               </p>
-              <div className="flex items-center gap-2 pt-2">
-                <span className="inline-block w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                <span className="text-[12px] text-gray-500 font-medium">
-                  Global Systems Operational · 24/7 Monitoring
-                </span>
-              </div>
             </div>
           </div>
 
