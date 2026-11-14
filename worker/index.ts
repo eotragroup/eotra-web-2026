@@ -1,7 +1,8 @@
-// Cloudflare Worker: blog view counter. Everything except /api/* is served straight from the static assets.
+// Cloudflare Worker: blog view counter, sitemap.xml and robots.txt. Everything else is served straight from the static assets.
 //   GET  /api/views         -> { "<slug>": <count>, ... }
 //   POST /api/views/<slug>  -> { "views": <new count> }   (adds one view)
 import { POSTS } from '../src/data/posts';
+import { PRODUCTS } from '../src/data/products';
 
 interface KV {
   get(key: string): Promise<string | null>;
@@ -13,6 +14,25 @@ interface Env {
 }
 
 const KNOWN = new Set(POSTS.map((p) => p.slug));
+
+// sitemap.xml and robots.txt are generated from the address they are requested on, so they are always correct
+function sitemap(origin: string): Response {
+  const urls: { path: string; lastmod?: string }[] = [
+    { path: '/' },
+    { path: '/team' },
+    { path: '/faq' },
+    { path: '/blog' },
+    ...PRODUCTS.map((p) => ({ path: `/products/${p.id}` })),
+    ...POSTS.map((p) => ({ path: `/blog/${p.slug}`, lastmod: p.date })),
+  ];
+  const body =
+    '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' +
+    urls
+      .map((u) => `  <url><loc>${origin}${u.path}</loc>${u.lastmod ? `<lastmod>${u.lastmod}</lastmod>` : ''}</url>`)
+      .join('\n') +
+    '\n</urlset>\n';
+  return new Response(body, { headers: { 'content-type': 'application/xml; charset=utf-8', 'cache-control': 'public, max-age=3600' } });
+}
 const json = (data: unknown, status = 200) =>
   new Response(JSON.stringify(data), {
     status,
@@ -22,6 +42,13 @@ const json = (data: unknown, status = 200) =>
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {
     const url = new URL(request.url);
+
+    if (url.pathname === '/sitemap.xml') return sitemap(url.origin);
+    if (url.pathname === '/robots.txt') {
+      return new Response(`User-agent: *\nAllow: /\n\nSitemap: ${url.origin}/sitemap.xml\n`, {
+        headers: { 'content-type': 'text/plain; charset=utf-8', 'cache-control': 'public, max-age=3600' },
+      });
+    }
 
     if (url.pathname === '/api/views' && request.method === 'GET') {
       if (!env.VIEWS) return json({ error: 'views storage not configured' }, 503);
