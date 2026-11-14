@@ -40,6 +40,13 @@ const FOUNDERS: Founder[] = [
   },
 ];
 
+const STATS = [
+  { value: '5+', label: 'Years Experience' },
+  { value: '12+', label: 'Products Built' },
+  { value: '30+', label: 'Clients & Partners' },
+  { value: '99.9%', label: 'Uptime Reliability' },
+];
+
 interface FounderAvatarProps {
   src: string;
   name: string;
@@ -127,43 +134,22 @@ export function TeamPage({ onNavigateHome, onOpenInquiry, onNavigateToTeam }: Te
             ))}
           </div>
 
-          {/* MINIMALIST METRICS STRIP */}
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 py-8 sm:py-10 border-y border-gray-200 mb-16 sm:mb-20">
-            <div>
-              <div className="text-[28px] sm:text-[36px] font-semibold text-gray-900 tracking-tight tabular-nums">
-                5+
+          {/* MINIMALIST METRICS STRIP WITH HOVER & ACCENT ANIMATION */}
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6 py-6 sm:py-8 border-y border-gray-200 mb-16 sm:mb-20">
+            {STATS.map((stat) => (
+              <div
+                key={stat.label}
+                className="group relative p-4 sm:p-5 rounded-2xl transition-all duration-300 hover:bg-gray-50/80 cursor-default select-none"
+              >
+                <div className="h-0.5 w-6 bg-gray-200 group-hover:w-12 group-hover:bg-[#0400F5] transition-all duration-300 rounded-full mb-3.5" />
+                <div className="text-[28px] sm:text-[38px] font-semibold text-gray-900 tracking-tight tabular-nums transition-all duration-300 group-hover:translate-x-1 group-hover:text-[#0400F5]">
+                  {stat.value}
+                </div>
+                <div className="text-[13px] sm:text-[14px] text-gray-500 font-medium mt-1 transition-colors duration-300 group-hover:text-gray-900">
+                  {stat.label}
+                </div>
               </div>
-              <div className="text-[13px] sm:text-[14px] text-gray-500 font-medium mt-1">
-                Years Experience
-              </div>
-            </div>
-
-            <div>
-              <div className="text-[28px] sm:text-[36px] font-semibold text-gray-900 tracking-tight tabular-nums">
-                12+
-              </div>
-              <div className="text-[13px] sm:text-[14px] text-gray-500 font-medium mt-1">
-                Products Built
-              </div>
-            </div>
-
-            <div>
-              <div className="text-[28px] sm:text-[36px] font-semibold text-gray-900 tracking-tight tabular-nums">
-                30+
-              </div>
-              <div className="text-[13px] sm:text-[14px] text-gray-500 font-medium mt-1">
-                Clients &amp; Partners
-              </div>
-            </div>
-
-            <div>
-              <div className="text-[28px] sm:text-[36px] font-semibold text-gray-900 tracking-tight tabular-nums">
-                99.9%
-              </div>
-              <div className="text-[13px] sm:text-[14px] text-gray-500 font-medium mt-1">
-                Uptime Reliability
-              </div>
-            </div>
+            ))}
           </div>
 
           {/* Divider & Footer */}
