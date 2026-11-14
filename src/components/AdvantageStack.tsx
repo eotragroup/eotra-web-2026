@@ -11,45 +11,37 @@ interface Capability {
 interface CardStyle {
   card: string;
   index: string;
-  chip: string;
-  items: string[];
   btn: string;
   btnIcon: string;
   image: string;
   imageAlt: string;
 }
 
-// One picture per capability + the systems it connects
+// One picture per capability
 const STYLES: CardStyle[] = [
   {
     card: 'bg-gray-950 text-white',
     index: 'text-white/40',
-    chip: 'bg-white/10 border-white/20 text-white',
     btn: 'bg-[#0400F5] text-white hover:bg-[#0300cc]',
     btnIcon: 'bg-white text-[#0400F5]',
     image: posImg,
     imageAlt: 'Cashier using a point of sale terminal in a store',
-    items: ['POS'],
   },
   {
     card: 'bg-[#0400F5] text-white',
     index: 'text-white/50',
-    chip: 'bg-white/15 border-white/30 text-white',
     btn: 'bg-white text-gray-900 hover:bg-gray-100',
     btnIcon: 'bg-[#0400F5] text-white',
     image: wmsImg,
     imageAlt: 'Warehouse aisles with live inventory scanning',
-    items: ['WMS', 'ERP'],
   },
   {
     card: 'bg-white text-gray-900 border border-gray-200',
     index: 'text-gray-400',
-    chip: 'bg-gray-100 border-gray-200 text-gray-900',
     btn: 'bg-gray-950 text-white hover:bg-gray-800',
     btnIcon: 'bg-white text-gray-950',
     image: crmImg,
     imageAlt: 'Store team meeting a loyalty customer',
-    items: ['CRM', 'Analytics'],
   },
 ];
 
@@ -70,7 +62,7 @@ export function AdvantageStack({
             className={`sticky rounded-2xl overflow-hidden mb-6 sm:mb-10 last:mb-0 shadow-[0_-10px_40px_rgba(0,0,0,0.12)] ${st.card}`}
             style={{ top: `calc(88px + ${i} * 18px)` }}
           >
-            {/* Mobile: picture, systems, number, title + button. Desktop: number / systems on the left top, title on the left bottom, picture on the right */}
+            {/* Mobile: picture, number, title + button. Desktop: number top-left, title bottom-left, picture on the right */}
             <div className="grid grid-cols-1 md:grid-cols-12 md:grid-rows-[auto_1fr] gap-y-6 md:gap-y-10 md:gap-x-8 p-6 sm:p-10 lg:p-14 min-h-[360px] sm:min-h-[420px] lg:min-h-[460px]">
               {/* Picture (top on phones, right side on desktop) */}
               <div className="order-1 md:order-none md:col-span-5 md:col-start-8 md:row-start-1 md:row-span-2 relative rounded-2xl overflow-hidden aspect-[16/10] md:aspect-auto md:min-h-[320px]">
@@ -102,18 +94,6 @@ export function AdvantageStack({
                     <ArrowRight size={15} />
                   </span>
                 </button>
-              </div>
-
-              {/* Connected systems */}
-              <div className="order-2 md:order-none md:col-start-1 md:col-span-7 md:row-start-1 flex flex-wrap gap-2 md:justify-end md:content-start">
-                {st.items.map((label) => (
-                  <span
-                    key={label}
-                    className={`inline-flex items-center px-4 py-2 rounded-full border text-[12px] sm:text-[13px] font-medium ${st.chip}`}
-                  >
-                    {label}
-                  </span>
-                ))}
               </div>
             </div>
           </div>
