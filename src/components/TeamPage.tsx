@@ -4,6 +4,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Navbar } from './Navbar';
 import { TypewriterText } from './TypewriterText';
 import { ScrollRevealText } from './ScrollRevealText';
+import { Footer } from './Footer';
 
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
@@ -88,9 +89,10 @@ interface TeamPageProps {
   onNavigateHome: (sectionId?: string) => void;
   onOpenInquiry: (subject?: string) => void;
   onNavigateToTeam?: () => void;
+  onSelectProduct?: (id: string) => void;
 }
 
-export function TeamPage({ onNavigateHome, onOpenInquiry, onNavigateToTeam }: TeamPageProps) {
+export function TeamPage({ onNavigateHome, onOpenInquiry, onNavigateToTeam, onSelectProduct }: TeamPageProps) {
   useEffect(() => {
     const ctx = gsap.context(() => {
       // Header entrance animation
@@ -222,44 +224,15 @@ export function TeamPage({ onNavigateHome, onOpenInquiry, onNavigateToTeam }: Te
               end="bottom 50%"
             />
           </div>
-
-          <footer className="pt-8 border-t border-gray-200 flex flex-col sm:flex-row items-center justify-between gap-4">
-            <div className="flex items-center gap-4">
-              <button
-                type="button"
-                onClick={() => onNavigateHome()}
-                className="hover:opacity-70 transition-opacity cursor-pointer"
-              >
-                <img
-                  src="/assets/aistudio/Eotra_aef517cd.svg"
-                  alt="Eotra"
-                  className="h-[22px] w-auto max-w-none"
-                />
-              </button>
-              <span className="font-semibold text-gray-900">
-                Enterprise Operations &amp; Transaction
-              </span>
-            </div>
-
-            <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-[13px] text-gray-600">
-              <a
-                href="mailto:info@eotra.com"
-                className="text-gray-900 font-medium hover:text-[#0400F5] transition-colors"
-              >
-                info@eotra.com
-              </a>
-              <button
-                type="button"
-                onClick={() => onOpenInquiry('Connect with Eotra')}
-                className="hover:text-gray-900 transition-colors cursor-pointer"
-              >
-                Contact Sales
-              </button>
-              <span>&copy; 2026 Eotra Inc.</span>
-            </div>
-          </footer>
         </div>
       </section>
+
+      <Footer
+        onNavigateHome={() => onNavigateHome()}
+        onOpenInquiry={onOpenInquiry}
+        onNavigateToProduct={(id) => onSelectProduct?.(id)}
+        onNavigateToTeam={onNavigateToTeam}
+      />
     </div>
   );
 }

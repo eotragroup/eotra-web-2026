@@ -262,6 +262,7 @@ export default function App() {
           onNavigateHome={navigateHome}
           onOpenInquiry={openInquiry}
           onNavigateToTeam={navigateToTeam}
+          onSelectProduct={navigateToProduct}
         />
       ) : (
         <div id="top" className="min-h-screen bg-white text-gray-900 antialiased">
