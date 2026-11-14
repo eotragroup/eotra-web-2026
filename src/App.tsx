@@ -11,6 +11,7 @@ import { ServicesSlider } from './components/ServicesSlider';
 import { PartnersMarquee } from './components/PartnersMarquee';
 import { TypewriterText } from './components/TypewriterText';
 import { ScrollRevealText } from './components/ScrollRevealText';
+import { HeroDevicesAnimation } from './components/HeroDevicesAnimation';
 import retailPosImg from './assets/images/eotra_retail_pos_men_1794584625031.jpg';
 import globalOpsImg from './assets/images/eotra_global_ops_men_1794584624835.jpg';
 import {
@@ -273,52 +274,62 @@ export default function App() {
 
         {/* Hero Content (z-20) */}
         <div className="relative z-20 w-full max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-12 pb-14 sm:pb-16 lg:pb-20">
-          <p className="hero-anim text-[13px] sm:text-[14px] text-gray-900 tracking-wide mb-5 sm:mb-8">
-            Eotra · Enterprise Operations &amp; Transaction
-          </p>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-end">
+            {/* Left Column: Heading, Subtitle & CTAs */}
+            <div className="lg:col-span-7">
+              <p className="hero-anim text-[13px] sm:text-[14px] text-gray-900 tracking-wide mb-5 sm:mb-8">
+                Eotra · Enterprise Operations &amp; Transaction
+              </p>
 
-          <h1 className="hero-anim text-[clamp(1.75rem,7vw,4.2rem)] sm:text-[clamp(2.5rem,5vw,4.2rem)] font-medium leading-[1.08] tracking-[-0.03em] text-gray-900">
-            Powering modern retail,
-            <br className="hidden sm:block" />
-            <span className="sm:hidden"> </span>
-            from source to sale across
-            <br className="hidden sm:block" />
-            <span className="sm:hidden"> </span>
-            <span className="text-[#0400F5]">
-              <TypewriterText
-                words={[
-                  'your global operations.',
-                  'omnichannel stores.',
-                  'international retail.',
-                  'enterprise supply chains.',
-                  'unified commerce.',
-                ]}
-              />
-            </span>
-          </h1>
+              <h1 className="hero-anim text-[clamp(1.75rem,5.5vw,3.75rem)] xl:text-[clamp(2.4rem,4.6vw,4.1rem)] font-medium leading-[1.08] tracking-[-0.03em] text-gray-900">
+                Powering modern retail,
+                <br className="hidden sm:block" />
+                <span className="sm:hidden"> </span>
+                from source to sale across
+                <br className="hidden sm:block" />
+                <span className="sm:hidden"> </span>
+                <span className="text-[#0400F5]">
+                  <TypewriterText
+                    words={[
+                      'your global operations.',
+                      'omnichannel stores.',
+                      'international retail.',
+                      'enterprise supply chains.',
+                      'unified commerce.',
+                    ]}
+                  />
+                </span>
+              </h1>
 
-          {/* CTA Row */}
-          <div className="hero-anim mt-8 sm:mt-12 flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-5">
-            <RollButton
-              label="Get started now"
-              variant="orange"
-              size="hero"
-              onClick={() => openInquiry('Get Started with Eotra')}
-            />
+              {/* CTA Row */}
+              <div className="hero-anim mt-8 sm:mt-10 flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-5">
+                <RollButton
+                  label="Get started now"
+                  variant="orange"
+                  size="hero"
+                  onClick={() => openInquiry('Get Started with Eotra')}
+                />
 
-            <button
-              type="button"
-              onClick={() => setInfoModal('suite')}
-              className="bg-white rounded-[4px] px-3 py-2 shadow-[0_2px_8px_rgba(0,0,0,0.08)] hover:shadow-[0_4px_16px_rgba(0,0,0,0.12)] transition-shadow duration-300 inline-flex items-center gap-2.5 cursor-pointer"
-            >
-              <PartnerStarburstIcon />
-              <span className="text-[13px] sm:text-[14px] font-medium text-gray-900 whitespace-nowrap">
-                Unified POS · WMS · ERP · CRM
-              </span>
-              <span className="text-[10px] sm:text-[11px] font-medium bg-gray-900 text-white px-1.5 sm:px-2 py-0.5 rounded whitespace-nowrap">
-                Enterprise
-              </span>
-            </button>
+                <button
+                  type="button"
+                  onClick={() => setInfoModal('suite')}
+                  className="bg-white rounded-[4px] px-3 py-2 shadow-[0_2px_8px_rgba(0,0,0,0.08)] hover:shadow-[0_4px_16px_rgba(0,0,0,0.12)] transition-shadow duration-300 inline-flex items-center gap-2.5 cursor-pointer"
+                >
+                  <PartnerStarburstIcon />
+                  <span className="text-[13px] sm:text-[14px] font-medium text-gray-900 whitespace-nowrap">
+                    Unified POS · WMS · ERP · CRM
+                  </span>
+                  <span className="text-[10px] sm:text-[11px] font-medium bg-gray-900 text-white px-1.5 sm:px-2 py-0.5 rounded whitespace-nowrap">
+                    Enterprise
+                  </span>
+                </button>
+              </div>
+            </div>
+
+            {/* Right Column: Floating Devices Animation (Laptops, Phones & App Badges flying down) */}
+            <div className="lg:col-span-5 relative mt-8 lg:mt-0">
+              <HeroDevicesAnimation />
+            </div>
           </div>
         </div>
       </section>
@@ -342,19 +353,13 @@ export default function App() {
           {/* Editorial Header + Summary & CTA Row */}
           <div className="gsap-fade-up grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-end mb-12 sm:mb-16">
             <div className="lg:col-span-7">
-              <h2 className="text-[clamp(1.75rem,4vw,3.25rem)] font-medium leading-[1.1] tracking-[-0.025em] text-gray-900 max-w-2xl">
-                Accompanies you in your overseas{' '}
-                <span className="text-[#0400F5]">
-                  <TypewriterText
-                    words={[
-                      'expansion & growth.',
-                      'market expansion.',
-                      'digital retail evolution.',
-                      'global operations.',
-                    ]}
-                  />
-                </span>
-              </h2>
+              <ScrollRevealText
+                as="h2"
+                text="Accompanies you in your overseas expansion and global retail growth."
+                className="text-[clamp(1.75rem,4vw,3.25rem)] text-gray-900 max-w-2xl"
+                start="top 85%"
+                end="bottom 55%"
+              />
             </div>
 
             <div className="lg:col-span-5 flex flex-col items-start lg:pb-1">
@@ -428,19 +433,13 @@ export default function App() {
 
           <div className="gsap-fade-up grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 mb-14 sm:mb-16">
             <div className="lg:col-span-5">
-              <h2 className="text-[clamp(1.5rem,3.6vw,2.75rem)] font-medium leading-[1.12] tracking-[-0.02em] text-gray-900 mb-5">
-                Replacing five disconnected systems with{' '}
-                <span className="text-[#0400F5]">
-                  <TypewriterText
-                    words={[
-                      'one unified core.',
-                      'real-time sync.',
-                      'cloud-native scale.',
-                      'seamless POS & ERP.',
-                    ]}
-                  />
-                </span>
-              </h2>
+              <ScrollRevealText
+                as="h2"
+                text="Replacing five disconnected systems with one unified operational core."
+                className="text-[clamp(1.5rem,3.6vw,2.75rem)] text-gray-900 mb-5"
+                start="top 85%"
+                end="bottom 55%"
+              />
               <p className="text-[14px] sm:text-[15px] text-gray-600 leading-relaxed max-w-md">
                 From single-brand boutiques to 50+ store global retail networks,
                 Eotra deploys in weeks with bank-grade security and dedicated
@@ -524,20 +523,14 @@ export default function App() {
             </span>
           </div>
 
-          {/* Heading with Typewriter */}
-          <h2 className="gsap-fade-up text-[clamp(1.75rem,7vw,4.2rem)] sm:text-[clamp(2.5rem,5vw,4.2rem)] font-medium leading-[1.08] tracking-[-0.03em] text-gray-900 mb-10 sm:mb-14 lg:mb-16">
-            Our products &amp;{' '}
-            <span className="text-[#0400F5]">
-              <TypewriterText
-                words={[
-                  'projects.',
-                  'enterprise suites.',
-                  'flagship platforms.',
-                  'retail systems.',
-                ]}
-              />
-            </span>
-          </h2>
+          {/* Heading with ScrollRevealText */}
+          <ScrollRevealText
+            as="h2"
+            text="Featured products and client platforms engineered for global scale."
+            className="text-[clamp(1.75rem,5.5vw,3.75rem)] text-gray-900 mb-10 sm:mb-14 lg:mb-16"
+            start="top 85%"
+            end="bottom 55%"
+          />
 
           {/* Live Products Row */}
           <div className="gsap-stagger-parent grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6 lg:gap-7 mb-10 sm:mb-12">

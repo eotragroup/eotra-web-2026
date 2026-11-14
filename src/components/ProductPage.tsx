@@ -6,6 +6,7 @@ import { PRODUCTS, ProductPageData } from '../data/products';
 import { Navbar } from './Navbar';
 import { RollButton } from './RollButton';
 import { ShaderBackground } from './ShaderBackground';
+import { ScrollRevealText } from './ScrollRevealText';
 
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);

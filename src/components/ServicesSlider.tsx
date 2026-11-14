@@ -12,6 +12,7 @@ import {
   Smartphone,
 } from 'lucide-react';
 import { TypewriterText } from './TypewriterText';
+import { ScrollRevealText } from './ScrollRevealText';
 import webAppsImg from '../assets/images/agency_web_apps_1794584483920.jpg';
 import mobileDevImg from '../assets/images/agency_mobile_dev_1794584483437.jpg';
 import uiUxImg from '../assets/images/agency_ui_ux_design_men_1794584626063.jpg';
@@ -231,19 +232,13 @@ export function ServicesSlider({ onOpenInquiry }: ServicesSliderProps) {
         {/* Header + Controls */}
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-10 sm:mb-12">
           <div>
-            <h2 className="text-[clamp(1.6rem,3.8vw,3rem)] font-medium leading-[1.1] tracking-[-0.025em] text-gray-900 max-w-2xl text-balance">
-              End-to-end software services built by our{' '}
-              <span className="text-[#0400F5]">
-                <TypewriterText
-                  words={[
-                    'engineering team.',
-                    'senior builders.',
-                    'in-house developers.',
-                    'expert founders.',
-                  ]}
-                />
-              </span>
-            </h2>
+            <ScrollRevealText
+              as="h2"
+              text="End-to-end software services built by our senior engineering team."
+              className="text-[clamp(1.6rem,3.8vw,3rem)] text-gray-900 max-w-2xl text-balance"
+              start="top 85%"
+              end="bottom 55%"
+            />
             <p className="text-[14px] sm:text-[15px] text-gray-600 mt-4 max-w-xl leading-relaxed">
               From custom web and mobile apps to product design, APIs, and
               dedicated engineering—everything modern software teams ship.
