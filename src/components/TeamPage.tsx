@@ -127,73 +127,41 @@ export function TeamPage({ onNavigateHome, onOpenInquiry, onNavigateToTeam }: Te
             ))}
           </div>
 
-          {/* TRACK RECORD & CLIENTELE STATS BAR */}
-          <div className="rounded-3xl bg-neutral-900 text-white p-8 sm:p-10 lg:p-12 mb-16 sm:mb-20">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-8 mb-8 border-b border-neutral-800">
-              <div>
-                <span className="text-[11px] sm:text-[12px] font-medium tracking-wider uppercase text-neutral-400">
-                  Engineering Track Record &amp; Experience
-                </span>
-                <h2 className="text-[20px] sm:text-[24px] font-medium text-white mt-1">
-                  Built on 5+ years of production-grade engineering.
-                </h2>
+          {/* MINIMALIST METRICS STRIP */}
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 py-8 sm:py-10 border-y border-gray-200 mb-16 sm:mb-20">
+            <div>
+              <div className="text-[28px] sm:text-[36px] font-semibold text-gray-900 tracking-tight tabular-nums">
+                5+
               </div>
-              <button
-                type="button"
-                onClick={() => onOpenInquiry('Partner with Eotra Engineering')}
-                className="self-start sm:self-auto bg-white hover:bg-neutral-100 text-neutral-900 text-[13px] font-medium rounded-full px-5 py-2.5 transition-colors cursor-pointer shrink-0"
-              >
-                Work with us
-              </button>
+              <div className="text-[13px] sm:text-[14px] text-gray-500 font-medium mt-1">
+                Years Experience
+              </div>
             </div>
 
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
-              <div className="border-l-2 border-[#0400F5] pl-4 sm:pl-5">
-                <div className="text-[32px] sm:text-[40px] font-semibold text-white tracking-tight tabular-nums">
-                  5+
-                </div>
-                <div className="text-[14px] sm:text-[15px] font-medium text-white mt-1">
-                  Years of Experience
-                </div>
-                <div className="text-[12px] sm:text-[13px] text-neutral-400 mt-1 leading-relaxed">
-                  In enterprise programming, cloud architecture, and high-performance software.
-                </div>
+            <div>
+              <div className="text-[28px] sm:text-[36px] font-semibold text-gray-900 tracking-tight tabular-nums">
+                12+
               </div>
-
-              <div className="border-l-2 border-[#0400F5] pl-4 sm:pl-5">
-                <div className="text-[32px] sm:text-[40px] font-semibold text-white tracking-tight tabular-nums">
-                  12+
-                </div>
-                <div className="text-[14px] sm:text-[15px] font-medium text-white mt-1">
-                  Products Built
-                </div>
-                <div className="text-[12px] sm:text-[13px] text-neutral-400 mt-1 leading-relaxed">
-                  From omni-channel POS and ERP suites to custom inventory &amp; analytics engines.
-                </div>
+              <div className="text-[13px] sm:text-[14px] text-gray-500 font-medium mt-1">
+                Products Built
               </div>
+            </div>
 
-              <div className="border-l-2 border-[#0400F5] pl-4 sm:pl-5">
-                <div className="text-[32px] sm:text-[40px] font-semibold text-white tracking-tight tabular-nums">
-                  30+
-                </div>
-                <div className="text-[14px] sm:text-[15px] font-medium text-white mt-1">
-                  Clientele &amp; Partners
-                </div>
-                <div className="text-[12px] sm:text-[13px] text-neutral-400 mt-1 leading-relaxed">
-                  Global retail operators, commercial brands, and scaling business networks.
-                </div>
+            <div>
+              <div className="text-[28px] sm:text-[36px] font-semibold text-gray-900 tracking-tight tabular-nums">
+                30+
               </div>
+              <div className="text-[13px] sm:text-[14px] text-gray-500 font-medium mt-1">
+                Clients &amp; Partners
+              </div>
+            </div>
 
-              <div className="border-l-2 border-[#0400F5] pl-4 sm:pl-5">
-                <div className="text-[32px] sm:text-[40px] font-semibold text-white tracking-tight tabular-nums">
-                  99.9%
-                </div>
-                <div className="text-[14px] sm:text-[15px] font-medium text-white mt-1">
-                  Production Reliability
-                </div>
-                <div className="text-[12px] sm:text-[13px] text-neutral-400 mt-1 leading-relaxed">
-                  Fault-tolerant, offline-first systems engineered for zero operational downtime.
-                </div>
+            <div>
+              <div className="text-[28px] sm:text-[36px] font-semibold text-gray-900 tracking-tight tabular-nums">
+                99.9%
+              </div>
+              <div className="text-[13px] sm:text-[14px] text-gray-500 font-medium mt-1">
+                Uptime Reliability
               </div>
             </div>
           </div>
