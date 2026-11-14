@@ -46,36 +46,11 @@ export function ProductsGrid({ products, onOpenProduct }: Props) {
           <article
             key={product.id}
             onClick={() => onOpenProduct(product.id)}
-            className="group cursor-pointer rounded-2xl bg-white border border-gray-200 hover:border-gray-900 transition-colors duration-300 p-3 flex flex-col"
+            className="group cursor-pointer"
           >
-            {/* Top: logo */}
-            <div className="flex items-center justify-between gap-3 px-3 sm:px-4 pt-4 pb-5">
-              {product.logoUrl ? (
-                <img
-                  src={product.logoUrl}
-                  alt={`${product.title} logo`}
-                  className="h-8 sm:h-9 w-auto max-w-[62%] object-contain object-left"
-                />
-              ) : (
-                <span className="text-[18px] font-semibold text-gray-900">{product.title}</span>
-              )}
-              {product.liveUrl && (
-                <a
-                  href={product.liveUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                  onClick={(e) => e.stopPropagation()}
-                  className="inline-flex items-center gap-1.5 text-[12px] font-medium text-gray-500 hover:text-[#0400F5] shrink-0"
-                >
-                  <span>{product.domainLabel}</span>
-                  <ExternalLink size={12} />
-                </a>
-              )}
-            </div>
-
-            {/* Picture of the product */}
+            {/* Picture of the product, logo sits inside it */}
             <div
-              className={`relative aspect-[4/3] rounded-xl overflow-hidden bg-gradient-to-br ${
+              className={`relative aspect-[4/5] rounded-2xl overflow-hidden bg-gradient-to-br ${
                 TINTS[product.id] ?? 'from-gray-100 to-gray-200'
               }`}
             >
@@ -97,8 +72,23 @@ export function ProductsGrid({ products, onOpenProduct }: Props) {
                 />
               )}
 
+              {/* Logo badge inside the image */}
+              <div className="absolute top-4 left-4 right-4 flex items-start justify-between gap-3">
+                <div className="bg-white rounded-xl px-4 py-3 shadow-[0_6px_20px_rgba(0,0,0,0.08)] flex items-center">
+                  {product.logoUrl ? (
+                    <img
+                      src={product.logoUrl}
+                      alt={`${product.title} logo`}
+                      className="h-7 sm:h-8 w-auto max-w-[150px] object-contain"
+                    />
+                  ) : (
+                    <span className="text-[15px] font-semibold text-gray-900">{product.title}</span>
+                  )}
+                </div>
+              </div>
+
               {/* Same expanding pill button */}
-              <div className="absolute bottom-4 left-4 h-9 w-9 group-hover:w-[158px] bg-gray-900 text-white rounded-full flex items-center pl-4 pr-[11px] overflow-hidden transition-all duration-300 ease-in-out shadow-sm">
+              <div className="absolute bottom-5 left-5 h-9 w-9 group-hover:w-[158px] bg-gray-900 text-white rounded-full flex items-center pl-4 pr-[11px] overflow-hidden transition-all duration-300 ease-in-out shadow-sm">
                 <span className="text-[13px] font-medium text-white whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-300 group-hover:delay-100">
                   Open page
                 </span>
@@ -111,10 +101,24 @@ export function ProductsGrid({ products, onOpenProduct }: Props) {
               </div>
             </div>
 
-            {/* Title */}
-            <h3 className="px-3 sm:px-4 pt-4 pb-3 text-[16px] sm:text-[17px] font-semibold text-gray-900 group-hover:text-[#0400F5] transition-colors">
-              {product.title}
-            </h3>
+            {/* Title + domain */}
+            <div className="mt-4 flex items-baseline justify-between gap-3">
+              <h3 className="text-[16px] sm:text-[18px] font-semibold text-gray-900 group-hover:text-[#0400F5] transition-colors">
+                {product.title}
+              </h3>
+              {product.liveUrl && (
+                <a
+                  href={product.liveUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  onClick={(e) => e.stopPropagation()}
+                  className="inline-flex items-center gap-1.5 text-[12px] font-medium text-gray-500 hover:text-[#0400F5] shrink-0"
+                >
+                  <span>{product.domainLabel}</span>
+                  <ExternalLink size={12} />
+                </a>
+              )}
+            </div>
           </article>
         );
       })}
