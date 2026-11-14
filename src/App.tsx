@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { ArrowRight, ExternalLink, MessageSquare } from 'lucide-react';
+import { MessageSquare } from 'lucide-react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ShaderBackground } from './components/ShaderBackground';
@@ -15,6 +15,7 @@ import { EotraBrandSculpture } from './components/EotraBrandSculpture';
 import { Footer } from './components/Footer';
 import { AppRain } from './components/AppRain';
 import { AdvantageStack } from './components/AdvantageStack';
+import { ProductsSlider } from './components/ProductsSlider';
 import {
   CASE_STUDIES,
   CaseStudyData,
@@ -428,55 +429,8 @@ export default function App() {
             end="bottom 55%"
           />
 
-          {/* Live Products Row */}
-          <div className="gsap-stagger-parent grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6 lg:gap-7 mb-10 sm:mb-12">
-            {PRODUCTS.map((product) => (
-              <article
-                key={product.id}
-                className="group cursor-pointer"
-                onClick={() => navigateToProduct(product.id)}
-              >
-                <div className="relative aspect-[16/10] rounded-none overflow-hidden bg-white border border-gray-200 group-hover:border-gray-900 transition-colors duration-300 flex items-center justify-center p-10 sm:p-14">
-                  <img
-                    src={product.logoUrl}
-                    alt={`${product.title} logo`}
-                    className="max-h-[64px] sm:max-h-[80px] w-auto max-w-[80%] object-contain transition-transform duration-500 ease-out group-hover:scale-[1.03]"
-                  />
-                  {/* Interactive Expanding Pill Button */}
-                  <div className="absolute bottom-4 left-4 h-9 w-9 group-hover:w-[158px] bg-gray-900 text-white rounded-full flex items-center pl-4 pr-[11px] overflow-hidden transition-all duration-300 ease-in-out shadow-sm">
-                    <span className="text-[13px] font-medium text-white whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-300 group-hover:delay-100">
-                      Open page
-                    </span>
-                    <span className="absolute right-[11px] top-1/2 -translate-y-1/2 flex items-center justify-center">
-                      <ArrowRight
-                        size={14}
-                        className="shrink-0 text-white -rotate-45 group-hover:rotate-0 transition-transform duration-300"
-                      />
-                    </span>
-                  </div>
-                </div>
-                <div className="mt-4 flex flex-col sm:flex-row sm:items-baseline justify-between gap-2">
-                  <div className="min-w-0">
-                    <h3 className="text-[16px] sm:text-[17px] font-semibold text-gray-900 group-hover:text-[#0400F5] transition-colors flex items-center gap-2">
-                      <span>{product.title}</span>
-                    </h3>
-                  </div>
-                  {product.liveUrl && (
-                    <a
-                      href={product.liveUrl}
-                      target="_blank"
-                      rel="noreferrer"
-                      onClick={(e) => e.stopPropagation()}
-                      className="inline-flex items-center gap-1.5 text-[12px] font-medium text-gray-500 hover:text-[#0400F5] shrink-0"
-                    >
-                      <span>{product.domainLabel}</span>
-                      <ExternalLink size={12} />
-                    </a>
-                  )}
-                </div>
-              </article>
-            ))}
-          </div>
+          {/* Products slider */}
+          <ProductsSlider products={PRODUCTS} onOpenProduct={navigateToProduct} />
         </div>
       </section>
 
