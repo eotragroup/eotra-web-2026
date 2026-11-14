@@ -64,6 +64,9 @@ export function PartnersMarquee({ className = '' }: PartnersMarqueeProps) {
                     <div title="Lidya&Co" className="group px-4 py-2 flex items-center justify-center opacity-65 hover:opacity-100 transition-opacity duration-300 cursor-pointer">
                       <img src="/assets/lidya-logo.svg" alt="Lidya&Co" className="h-6 sm:h-7 w-auto object-contain grayscale group-hover:grayscale-0 transition-all duration-300 group-hover:scale-105" />
                     </div>
+                    <div title="TradesPilot AI" className="group px-4 py-2 flex items-center justify-center opacity-65 hover:opacity-100 transition-opacity duration-300 cursor-pointer">
+                      <img src="/assets/tradespilot-logo.svg" alt="TradesPilot AI" className="h-7 sm:h-8 w-auto object-contain grayscale group-hover:grayscale-0 transition-all duration-300 group-hover:scale-105" />
+                    </div>
                   </React.Fragment>
                 ))}
               </div>

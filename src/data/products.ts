@@ -462,12 +462,99 @@ export const LIDYA_PRODUCT: ProductPageData = {
   inquirySubject: 'Inquiry: Lidya&Co Cosmetics Digital Flagship',
 };
 
+export const TRADESPILOT_PRODUCT: ProductPageData = {
+  id: 'tradespilot',
+  title: 'TradesPilot AI',
+  tagline: 'Institutional-grade automated forex trading and trade copier systems powered by AI.',
+  description:
+    'Algorithmic trading platform featuring low-latency trade copiers, MT4/MT5 broker connectors, predictive risk analytics, and real-time execution telemetry',
+  logoUrl: '/assets/tradespilot-logo.svg',
+  liveUrl: 'https://tradespilot-ai.com/en',
+  domainLabel: 'tradespilot-ai.com',
+  client: 'TradesPilot AI',
+  year: '2026',
+  deliverables: [
+    'Automated Trading Architecture',
+    'Low-Latency Trade Copier',
+    'Real-Time Telemetry & Risk Engine',
+  ],
+  summary:
+    'Engineered for TradesPilot AI to power institutional-grade automated forex trading—connecting proprietary machine learning algorithms, ultra-low latency trade copier infrastructure, MT4/MT5 bridge connectors, and transparent real-time risk analytics into a cohesive platform.',
+  overviewParagraphs: [
+    'Forex traders and capital allocators require sub-millisecond execution fidelity, strict drawdown guardrails, and transparent analytics that traditional retail broker software cannot provide.',
+    'Eotra designed and engineered a high-frequency trading interface and broker connectivity layer—delivering millisecond-grade trade copy propagation, multi-account risk management, and live performance telemetry across global liquidity providers.',
+  ],
+  quote:
+    'Institutional-grade automated execution and trade copying engineered for speed, transparency, and risk control.',
+  quoteAuthor: 'TradesPilot AI · tradespilot-ai.com',
+  metrics: [
+    { label: 'Execution Engine', value: 'Sub-Millisecond' },
+    { label: 'Platform Bridge', value: 'MT4 & MT5 Native' },
+    { label: 'Risk Control', value: 'Automated Stop-Drawdown' },
+    { label: 'Telemetry', value: 'Real-Time Equity Curves' },
+  ],
+  capabilities: [
+    {
+      index: '01.',
+      title: 'Low-Latency Multi-Broker Trade Copier',
+      description:
+        'Propagate parent account orders across dozens of child accounts in milliseconds with slippage prevention and dynamic lot size scaling.',
+    },
+    {
+      index: '02.',
+      title: 'AI-Powered Quantitative Strategy Engines',
+      description:
+        'Continuous market analysis scanning currency pair momentum, volatility expansion, and automated entry/exit execution 24/5.',
+    },
+    {
+      index: '03.',
+      title: 'Dynamic Capital Allocation & Risk Guardrails',
+      description:
+        'Configurable daily loss ceilings, trailing drawdowns, and automated position liquidation ensuring disciplined capital preservation.',
+    },
+    {
+      index: '04.',
+      title: 'Real-Time Performance Analytics & Telemetry',
+      description:
+        'Interactive dashboards tracking win rates, profit factor, Sharpe ratio, and trade duration with transparent investor reporting.',
+    },
+  ],
+  workflows: [
+    {
+      label: 'Automation',
+      title: 'Algorithmic Deployment',
+      summary:
+        'Deploy verified trading strategies directly to cloud VPS instances connected to prime brokers with zero local setup.',
+    },
+    {
+      label: 'Synchronization',
+      title: 'Multi-Account Mirroring',
+      summary:
+        'Sub-millisecond trade copying across multiple broker terminals with per-account multiplier settings.',
+    },
+    {
+      label: 'Telemetry',
+      title: 'Live Risk Oversight',
+      summary:
+        'Real-time position monitoring, floating P&L telemetry, and automated alerts delivered via web and mobile.',
+    },
+  ],
+  specifications: [
+    { label: 'Primary Domain', value: 'tradespilot-ai.com' },
+    { label: 'Supported Platforms', value: 'MetaTrader 4 · MetaTrader 5 · Web' },
+    { label: 'Execution Profile', value: 'Ultra-Low Latency Cloud Copier' },
+    { label: 'Supported Locales', value: 'English · Arabic' },
+  ],
+  inquirySubject: 'Inquiry: TradesPilot AI Trading Infrastructure',
+};
+
 export const PRODUCTS: ProductPageData[] = [
   JAMJOOM_PRODUCT,
   EOTRA_MENU_PRODUCT,
   NEOSHE_PRODUCT,
   IBOSH_PRODUCT,
   LIDYA_PRODUCT,
+  TRADESPILOT_PRODUCT,
 ];
 
 export const CASE_STUDIES: CaseStudyData[] = [
