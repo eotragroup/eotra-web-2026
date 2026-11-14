@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { ArrowRight, ExternalLink } from 'lucide-react';
+import { ArrowRight, ExternalLink, MessageSquare } from 'lucide-react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ShaderBackground } from './components/ShaderBackground';
@@ -596,6 +596,22 @@ export default function App() {
       />
         </div>
       )}
+
+      {/* Floating Bottom-Right Chat Icon Button */}
+      <aside aria-label="Quick contact" className="fixed bottom-5 right-5 sm:bottom-6 sm:right-6 z-40">
+        <button
+          type="button"
+          onClick={() => openInquiry('Quick Contact')}
+          aria-label="Open contact chat"
+          title="Contact Eotra"
+          className="group relative flex items-center justify-center w-[52px] h-[52px] sm:w-[56px] sm:h-[56px] bg-gray-950 hover:bg-black text-white rounded-full shadow-2xl hover:shadow-black/40 transition-all duration-200 ease-out hover:scale-105 active:scale-95 cursor-pointer border border-white/15"
+        >
+          <MessageSquare
+            size={22}
+            className="text-white shrink-0 group-hover:scale-105 transition-transform duration-200"
+          />
+        </button>
+      </aside>
 
       <InquiryModal
         open={inquiryState.open}
