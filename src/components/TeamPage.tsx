@@ -176,10 +176,7 @@ export function TeamPage({ onNavigateHome, onOpenInquiry, onNavigateToTeam, onSe
                 </span>
               ))}
             </h1>
-            <p className="text-[14px] sm:text-[15px] text-gray-600 max-w-md leading-relaxed">
-              Dedicated to building the future of unified global retail
-              management and enterprise operations.
-            </p>
+
           </div>
 
           {/* Photo Grid */}

@@ -348,11 +348,7 @@ export default function App() {
             </div>
 
             <div className="lg:col-span-5 flex flex-col items-start lg:pb-1">
-              <p className="text-[15px] sm:text-[17px] leading-[1.6] font-medium text-gray-600 max-w-md">
-                A single unified system linking POS, WMS, ERP, and CRM to power
-                your growth without limits.
-              </p>
-              <div className="mt-6">
+              <div>
                 <RollButton
                   label="About our company"
                   variant="orange"
@@ -366,23 +362,6 @@ export default function App() {
           {/* Raining apps panel */}
           <div className="gsap-fade-up">
             <AppRain />
-          </div>
-        </div>
-      </section>
-
-      {/* SECTION: SCROLL TEXT REVEAL MANIFESTO (Pentograf style) */}
-      <section className="bg-white py-20 sm:py-28 lg:py-36 border-t border-gray-100 overflow-hidden">
-        <div className="max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-12">
-          <div className="max-w-4xl">
-            <span className="text-[12px] sm:text-[13px] font-semibold text-[#0400F5] uppercase tracking-wider mb-6 block">
-              Architectural Statement · Eotra Core
-            </span>
-            <ScrollRevealText
-              text="We engineer unified retail platforms, omnichannel point of sale, and enterprise cloud operations. Connecting physical stores and global warehouses with real-time software that never fails."
-              className="text-[clamp(1.75rem,4.2vw,3.6rem)] text-gray-900"
-              start="top 80%"
-              end="bottom 45%"
-            />
           </div>
         </div>
       </section>
@@ -413,12 +392,6 @@ export default function App() {
                 start="top 85%"
                 end="bottom 55%"
               />
-            </div>
-            <div className="lg:col-span-5 lg:pb-1">
-              <p className="text-[15px] sm:text-[17px] leading-[1.6] font-medium text-gray-600 max-w-md">
-                From single boutiques to 50+ store networks, Eotra deploys in
-                weeks with bank-grade security.
-              </p>
             </div>
           </div>
 

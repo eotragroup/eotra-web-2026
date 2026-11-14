@@ -239,17 +239,9 @@ export function ServicesSlider({ onOpenInquiry }: ServicesSliderProps) {
               start="top 85%"
               end="bottom 55%"
             />
-            <p className="text-[14px] sm:text-[15px] text-gray-600 mt-4 max-w-xl leading-relaxed">
-              From custom web and mobile apps to product design, APIs, and
-              dedicated engineering—everything modern software teams ship.
-            </p>
           </div>
 
           <div className="flex items-center gap-3 shrink-0">
-            <span className="text-[13px] font-medium text-gray-500 tabular-nums mr-2">
-              {String(activeIndex + 1).padStart(2, '0')} /{' '}
-              {String(EOTRA_SERVICES.length).padStart(2, '0')}
-            </span>
             <button
               type="button"
               onClick={() => scrollByCard(-1)}
@@ -328,9 +320,6 @@ export function ServicesSlider({ onOpenInquiry }: ServicesSliderProps) {
                     <h3 className="text-[20px] sm:text-[22px] font-semibold text-white tracking-[-0.015em]">
                       {service.title}
                     </h3>
-                    <p className="text-[13px] sm:text-[14px] text-white/80 mt-1 line-clamp-1">
-                      {service.description}
-                    </p>
                   </div>
 
                   <button

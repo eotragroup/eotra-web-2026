@@ -72,10 +72,6 @@ export function Footer({
             <h3 className="text-[24px] sm:text-[30px] font-medium tracking-[-0.02em] text-white leading-[1.15]">
               Subscribe to the Eotra Dispatch.
             </h3>
-            <p className="mt-2 text-[14px] sm:text-[15px] text-white/80 leading-relaxed max-w-lg">
-              Engineering breakthroughs, retail system updates, global commerce
-              dispatches, and new platform rollouts delivered to your inbox.
-            </p>
           </div>
 
           <div className="lg:col-span-6">
@@ -118,10 +114,6 @@ export function Footer({
                   Thank you for subscribing. We will keep you updated.
                 </p>
               )}
-              <p className="text-[11px] text-white/70">
-                Zero spam. You can unsubscribe at any time. Read our privacy
-                standards.
-              </p>
             </form>
           </div>
         </div>
@@ -150,11 +142,7 @@ export function Footer({
             <p className="text-[13px] font-medium text-gray-900 mb-1">
               Enterprise Operations &amp; Transaction
             </p>
-            <p className="text-[13px] text-gray-600 leading-relaxed max-w-sm mb-5">
-              Next-generation retail, digital commerce, and platform
-              architecture engineered for multi-market scale from source to
-              sale.
-            </p>
+            <div className="mb-5" />
 
             <div className="space-y-1.5 text-[13px] text-gray-600">
               <p>
@@ -170,12 +158,6 @@ export function Footer({
                   info@eotra.com
                 </a>
               </p>
-              <div className="flex items-center gap-2 pt-2">
-                <span className="inline-block w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                <span className="text-[12px] text-gray-500 font-medium">
-                  Global Systems Operational · 24/7 Monitoring
-                </span>
-              </div>
             </div>
           </div>
 

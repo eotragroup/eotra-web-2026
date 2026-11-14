@@ -94,9 +94,6 @@ export function AppRain() {
         <p className="text-white text-[clamp(1.25rem,2.6vw,2.25rem)] font-medium leading-[1.1] tracking-[-0.02em]">
           Every app your retail runs on. One core.
         </p>
-        <p className="mt-3 text-[12px] sm:text-[14px] text-white/60 leading-relaxed">
-          POS · WMS · ERP · CRM and more, connected in real time.
-        </p>
       </div>
 
       {/* Falling apps */}
