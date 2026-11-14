@@ -376,7 +376,7 @@ export default function App() {
           </div>
 
           {/* Stacking cards: each one slides over the previous while scrolling */}
-          <AdvantageStack capabilities={CAPABILITIES} />
+          <AdvantageStack capabilities={CAPABILITIES} onOpenInquiry={openInquiry} />
         </div>
       </section>
 
