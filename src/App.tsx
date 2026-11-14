@@ -11,7 +11,7 @@ import { ServicesSlider } from './components/ServicesSlider';
 import { PartnersMarquee } from './components/PartnersMarquee';
 import { TypewriterText } from './components/TypewriterText';
 import { ScrollRevealText } from './components/ScrollRevealText';
-import { FallingAppsAnimation } from './components/FallingAppsAnimation';
+import { EotraBrandSculpture } from './components/EotraBrandSculpture';
 import retailPosImg from './assets/images/eotra_retail_pos_men_1794584625031.jpg';
 import globalOpsImg from './assets/images/eotra_global_ops_men_1794584624835.jpg';
 import {
@@ -288,17 +288,15 @@ export default function App() {
                 from source to sale across
                 <br className="hidden sm:block" />
                 <span className="sm:hidden"> </span>
-                <span className="text-[#0400F5]">
-                  <TypewriterText
-                    words={[
-                      'your global operations.',
-                      'omnichannel stores.',
-                      'international retail.',
-                      'enterprise supply chains.',
-                      'unified commerce.',
-                    ]}
-                  />
-                </span>
+                <TypewriterText
+                  words={[
+                    'your global operations.',
+                    'omnichannel stores.',
+                    'international retail.',
+                    'enterprise supply chains.',
+                    'unified commerce.',
+                  ]}
+                />
               </h1>
 
               {/* CTA Row */}
@@ -326,13 +324,16 @@ export default function App() {
               </div>
             </div>
 
-            {/* Right Column: Falling Apps from Up to Down */}
+            {/* Right Column: Eotra 3D Kinetic Brand Sculpture */}
             <div className="lg:col-span-5 relative mt-8 lg:mt-0 flex items-center justify-center">
-              <FallingAppsAnimation />
+              <EotraBrandSculpture />
             </div>
           </div>
         </div>
       </section>
+
+      {/* PARTNER LOGO BAR DOWN THE HERO (Zero Text, Pure Logos) */}
+      <PartnersMarquee />
 
       {/* SECTION 2: INTRODUCING EOTRA (White background) */}
       <section
@@ -474,16 +475,16 @@ export default function App() {
             {EDITIONS.map((edition) => (
               <div
                 key={edition.name}
-                className="bg-white rounded-2xl border border-gray-200/80 p-6 sm:p-7 flex flex-col justify-between"
+                className="bg-white rounded-none border border-gray-200 hover:border-gray-900 transition-colors duration-300 p-6 sm:p-7 flex flex-col justify-between"
               >
                 <div>
-                  <p className="text-[12px] font-medium text-gray-500 mb-1.5">
+                  <p className="text-[11px] uppercase tracking-wider font-semibold text-gray-400 mb-2">
                     {edition.audience}
                   </p>
                   <h3 className="text-[18px] font-semibold text-gray-900 mb-2.5">
                     Eotra {edition.name}
                   </h3>
-                  <p className="text-[13px] sm:text-[14px] text-gray-600 leading-relaxed">
+                  <p className="text-[13px] sm:text-[14px] text-gray-600 leading-relaxed font-normal">
                     {edition.summary}
                   </p>
                 </div>
@@ -504,10 +505,7 @@ export default function App() {
       {/* SECTION 3: SERVICES SLIDER (White background) */}
       <ServicesSlider onOpenInquiry={openInquiry} />
 
-      {/* SECTION 4: OUR PARTNERS MARQUEE (Light gray background) */}
-      <PartnersMarquee onOpenInquiry={openInquiry} />
-
-      {/* SECTION 6: CASE STUDIES & CLIENT IMPACT (Light gray background) */}
+      {/* SECTION 4: CASE STUDIES & CLIENT IMPACT (Light gray background) */}
       <section
         id="projects"
         className="bg-[#F5F5F5] pt-16 sm:pt-20 lg:pt-28 pb-16 sm:pb-20 lg:pb-24"
@@ -516,7 +514,7 @@ export default function App() {
           {/* Badge Row */}
           <div className="gsap-fade-up flex items-center gap-3 mb-6 sm:mb-8">
             <span className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-gray-900 text-white text-[11px] sm:text-[12px] font-semibold flex items-center justify-center shrink-0">
-              6
+              4
             </span>
             <span className="text-[12px] sm:text-[13px] font-medium text-gray-900 border border-gray-300 rounded-full px-3 sm:px-4 py-1 sm:py-1.5">
               Featured products &amp; client work
@@ -540,12 +538,13 @@ export default function App() {
                 className="group cursor-pointer"
                 onClick={() => navigateToProduct(product.id)}
               >
-                <div className="relative aspect-[16/10] rounded-2xl overflow-hidden bg-white border border-gray-200/80 flex items-center justify-center p-10 sm:p-14">
+                <div className="relative aspect-[16/10] rounded-none overflow-hidden bg-white border border-gray-200 group-hover:border-gray-900 transition-colors duration-300 flex items-center justify-center p-10 sm:p-14">
                   <img
                     src={product.logoUrl}
                     alt={`${product.title} logo`}
-                    className="max-h-[68px] sm:max-h-[84px] w-auto max-w-[82%] object-contain transition-transform duration-500 ease-out group-hover:scale-[1.04]"
+                    className="max-h-[64px] sm:max-h-[80px] w-auto max-w-[80%] object-contain transition-transform duration-500 ease-out group-hover:scale-[1.03]"
                   />
+                  {/* Interactive Expanding Pill Button */}
                   <div className="absolute bottom-4 left-4 h-9 w-9 group-hover:w-[158px] bg-gray-900 text-white rounded-full flex items-center pl-4 pr-[11px] overflow-hidden transition-all duration-300 ease-in-out shadow-sm">
                     <span className="text-[13px] font-medium text-white whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-300 group-hover:delay-100">
                       Open page
@@ -560,22 +559,12 @@ export default function App() {
                 </div>
                 <div className="mt-4 flex flex-col sm:flex-row sm:items-baseline justify-between gap-2">
                   <div className="min-w-0">
-                    <p className="text-[13px] sm:text-[14px] text-gray-600 leading-relaxed">
+                    <h3 className="text-[16px] sm:text-[17px] font-semibold text-gray-900 group-hover:text-[#0400F5] transition-colors flex items-center gap-2">
+                      <span>{product.title}</span>
+                    </h3>
+                    <p className="text-[13px] sm:text-[14px] text-gray-500 mt-1 leading-relaxed">
                       {product.description}
                     </p>
-                    <h3 className="text-[14px] sm:text-[15px] font-semibold text-gray-900 mt-1">
-                      <a
-                        href={`/products/${product.id}`}
-                        onClick={(e) => {
-                          e.preventDefault();
-                          e.stopPropagation();
-                          navigateToProduct(product.id);
-                        }}
-                        className="hover:text-[#0400F5] transition-colors"
-                      >
-                        {product.title}
-                      </a>
-                    </h3>
                   </div>
                   {product.liveUrl && (
                     <a
@@ -583,10 +572,10 @@ export default function App() {
                       target="_blank"
                       rel="noreferrer"
                       onClick={(e) => e.stopPropagation()}
-                      className="inline-flex items-center gap-1.5 text-[13px] font-medium text-[#0400F5] hover:underline shrink-0"
+                      className="inline-flex items-center gap-1.5 text-[12px] font-medium text-gray-500 hover:text-[#0400F5] shrink-0"
                     >
                       <span>{product.domainLabel}</span>
-                      <ExternalLink size={13} />
+                      <ExternalLink size={12} />
                     </a>
                   )}
                 </div>

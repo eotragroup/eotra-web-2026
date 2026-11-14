@@ -128,7 +128,7 @@ export function ProductPage({
 
             {/* Right: Clean Logo Showcase Card */}
             <div className="product-hero-anim lg:col-span-5">
-              <div className="bg-white rounded-2xl border border-gray-200/80 aspect-[16/10] flex items-center justify-center p-10 sm:p-14 shadow-[0_6px_28px_rgba(0,0,0,0.05)]">
+              <div className="bg-white rounded-none border border-gray-200 aspect-[16/10] flex items-center justify-center p-10 sm:p-14 shadow-none">
                 {product.logoUrl ? (
                   <img
                     src={product.logoUrl}
@@ -281,7 +281,7 @@ export function ProductPage({
             {product.workflows.map((wf) => (
               <div
                 key={wf.title}
-                className="bg-white rounded-2xl border border-gray-200/80 p-6 sm:p-7 flex flex-col justify-between"
+                className="bg-white rounded-none border border-gray-200 hover:border-gray-900 transition-colors duration-300 p-6 sm:p-7 flex flex-col justify-between"
               >
                 <div>
                   <p className="text-[12px] font-medium text-gray-500 mb-1.5">
@@ -330,7 +330,7 @@ export function ProductPage({
                 onClick={() => onSelectProduct(other.id)}
                 className="group cursor-pointer"
               >
-                <div className="relative aspect-[16/10] rounded-2xl overflow-hidden bg-[#F8F8FA] border border-gray-200/80 flex items-center justify-center p-10 sm:p-14">
+                <div className="relative aspect-[16/10] rounded-none overflow-hidden bg-[#F8F8FA] border border-gray-200 group-hover:border-gray-900 transition-colors duration-300 flex items-center justify-center p-10 sm:p-14">
                   {other.logoUrl && (
                     <img
                       src={other.logoUrl}
@@ -338,6 +338,7 @@ export function ProductPage({
                       className="max-h-[68px] sm:max-h-[84px] w-auto max-w-[82%] object-contain transition-transform duration-500 ease-out group-hover:scale-[1.04]"
                     />
                   )}
+                  {/* Interactive Expanding Pill Button */}
                   <div className="absolute bottom-4 left-4 h-9 w-9 group-hover:w-[156px] bg-gray-900 text-white rounded-full flex items-center pl-4 pr-[11px] overflow-hidden transition-all duration-300 ease-in-out shadow-sm">
                     <span className="text-[13px] font-medium text-white whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-300 group-hover:delay-100">
                       Open page
