@@ -1,5 +1,12 @@
-// Blog posts. Pure data (no asset imports) so the Cloudflare Worker can validate slugs against it.
-// Cover pictures are mapped by slug in src/components/BlogPage.tsx (files in src/assets/blog/<slug>.jpg).
+// BLOG POSTS
+// To add a post:
+//   1. Put its cover picture in src/assets/blog/ named exactly like the slug (for example my-new-post.jpg).
+//   2. Copy one of the entries below to the TOP of the POSTS list and change the text.
+//      - slug: lowercase letters, numbers and dashes only; it becomes the address /blog/<slug>
+//      - date: YYYY-MM-DD
+//      - body: one string per paragraph
+// Save, merge to main, and the post goes live. View counting starts automatically.
+// (This file holds plain data only, because the Cloudflare Worker also reads it to know which posts exist.)
 
 export interface BlogPost {
   slug: string;

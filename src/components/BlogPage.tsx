@@ -6,15 +6,19 @@ import { RollButton } from './RollButton';
 import { POSTS, BlogPost, formatPostDate } from '../data/posts';
 import { formatViews, recordView, useViewCounts } from '../lib/views';
 import { goToBlog, goToPost } from '../lib/nav';
-import offlineImg from '../assets/blog/offline-first-pos.jpg';
-import stockImg from '../assets/blog/one-stock-number.jpg';
-import outgrownImg from '../assets/blog/systems-outgrown.jpg';
 
-const COVERS: Record<string, string> = {
-  'offline-first-pos': offlineImg,
-  'one-stock-number': stockImg,
-  'systems-outgrown': outgrownImg,
-};
+// Cover pictures load automatically from src/assets/blog/<slug>.jpg (or .jpeg/.png/.webp)
+const COVER_FILES = import.meta.glob('../assets/blog/*.{jpg,jpeg,png,webp}', {
+  eager: true,
+  import: 'default',
+}) as Record<string, string>;
+
+const COVERS: Record<string, string> = Object.fromEntries(
+  Object.entries(COVER_FILES).map(([path, url]) => [
+    (path.split('/').pop() ?? '').replace(/\.[^.]+$/, ''),
+    url,
+  ])
+);
 
 interface SharedProps {
   onNavigateHome: (sectionId?: string) => void;
