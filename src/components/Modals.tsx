@@ -66,7 +66,7 @@ export function InquiryModal({ open, subject, onClose }: InquiryModalProps) {
         <div className="flex items-start justify-between gap-4 mb-6">
           <div>
             <p className="text-[12px] font-medium text-gray-500 mb-1">
-              Eotra Inc. · hello@eotra.com
+              Eotra Inc. · info@eotra.com
             </p>
             <h3
               id="inquiry-modal-title"
@@ -97,10 +97,10 @@ export function InquiryModal({ open, subject, onClose }: InquiryModalProps) {
               Thank you, {name}. Our Eotra enterprise team will review your{' '}
               {edition} inquiry and follow up at {email} or via{' '}
               <a
-                href="mailto:hello@eotra.com"
+                href="mailto:info@eotra.com"
                 className="underline text-gray-900"
               >
-                hello@eotra.com
+                info@eotra.com
               </a>
               .
             </p>
@@ -193,11 +193,11 @@ export function InquiryModal({ open, subject, onClose }: InquiryModalProps) {
 
             <div className="pt-2 flex items-center justify-between gap-3">
               <a
-                href="mailto:hello@eotra.com"
+                href="mailto:info@eotra.com"
                 className="inline-flex items-center gap-1.5 text-[13px] text-gray-600 hover:text-gray-900"
               >
                 <Mail size={14} />
-                <span>hello@eotra.com</span>
+                <span>info@eotra.com</span>
               </a>
 
               <div className="flex items-center gap-3">

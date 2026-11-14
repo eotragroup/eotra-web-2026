@@ -5,6 +5,7 @@ import { RollButton } from './RollButton';
 interface NavbarProps {
   onOpenInquiry: (subject?: string) => void;
   onNavigateHome?: (sectionId?: string) => void;
+  onNavigateToTeam?: () => void;
 }
 
 function getLondonTime(): string {
@@ -16,7 +17,7 @@ function getLondonTime(): string {
   }).format(new Date());
 }
 
-export function Navbar({ onOpenInquiry, onNavigateHome }: NavbarProps) {
+export function Navbar({ onOpenInquiry, onNavigateHome, onNavigateToTeam }: NavbarProps) {
   const [londonTime, setLondonTime] = useState<string>(() => getLondonTime());
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -47,6 +48,19 @@ export function Navbar({ onOpenInquiry, onNavigateHome }: NavbarProps) {
     const element = document.getElementById(id);
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  const handleTeamClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    setMobileMenuOpen(false);
+    if (onNavigateToTeam) {
+      onNavigateToTeam();
+    } else if (window.location.pathname === '/team') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      window.history.pushState({}, '', '/team');
+      window.dispatchEvent(new PopStateEvent('popstate'));
     }
   };
 
@@ -119,6 +133,13 @@ export function Navbar({ onOpenInquiry, onNavigateHome }: NavbarProps) {
                 className="text-[14px] text-gray-900 hover:text-gray-500 transition-colors duration-300 whitespace-nowrap shrink-0"
               >
                 Solutions
+              </a>
+              <a
+                href="/team"
+                onClick={handleTeamClick}
+                className="text-[14px] text-gray-900 hover:text-gray-500 transition-colors duration-300 whitespace-nowrap shrink-0"
+              >
+                Team
               </a>
               <button
                 type="button"
@@ -234,6 +255,13 @@ export function Navbar({ onOpenInquiry, onNavigateHome }: NavbarProps) {
               className="text-[28px] sm:text-[32px] font-medium text-gray-900 leading-tight hover:text-gray-500 transition-colors"
             >
               Solutions
+            </a>
+            <a
+              href="/team"
+              onClick={handleTeamClick}
+              className="text-[28px] sm:text-[32px] font-medium text-gray-900 leading-tight hover:text-gray-500 transition-colors"
+            >
+              Team
             </a>
             <button
               type="button"

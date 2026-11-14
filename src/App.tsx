@@ -4,6 +4,7 @@ import { ShaderBackground } from './components/ShaderBackground';
 import { Navbar } from './components/Navbar';
 import { RollButton } from './components/RollButton';
 import { ProductPage } from './components/ProductPage';
+import { TeamPage } from './components/TeamPage';
 import { ServicesSlider } from './components/ServicesSlider';
 import { PartnersMarquee } from './components/PartnersMarquee';
 import retailPosImg from './assets/images/eotra_retail_pos_men_1794584625031.jpg';
@@ -18,37 +19,6 @@ import {
   InfoModal,
   InquiryModal,
 } from './components/Modals';
-
-const FOUNDERS = [
-  {
-    name: 'Saed I. S. Ayyad',
-    role: 'Co-Founder & Developer',
-    initials: 'SA',
-    image: '/team-1.jpg',
-    imageClass: 'object-cover object-top',
-  },
-  {
-    name: 'Wail Al Wesabi',
-    role: 'Co-Founder & Developer',
-    initials: 'WW',
-    image: '/team-2.jpg',
-    imageClass: 'object-cover object-top',
-  },
-  {
-    name: 'Mansor Aljabali',
-    role: 'Co-Founder & Developer',
-    initials: 'MA',
-    image: '/team-3.jpg',
-    imageClass: 'object-cover',
-  },
-  {
-    name: 'Ahmed Masallate',
-    role: 'Co-Founder & Developer',
-    initials: 'AM',
-    image: '/team-4.jpg',
-    imageClass: 'object-cover mix-blend-multiply',
-  },
-];
 
 const CAPABILITIES = [
   {
@@ -126,48 +96,21 @@ function LinkChainIcon() {
   );
 }
 
-interface FounderAvatarProps {
-  src: string;
-  name: string;
-  initials: string;
-  imageClass: string;
-}
-
-function FounderAvatar({
-  src,
-  name,
-  initials,
-  imageClass,
-}: FounderAvatarProps) {
-  const [failed, setFailed] = useState(false);
-
-  if (failed) {
-    return (
-      <div className="w-full h-full bg-gray-900 text-white flex items-center justify-center text-lg font-semibold">
-        {initials}
-      </div>
-    );
-  }
-
-  return (
-    <img
-      src={src}
-      alt={name}
-      referrerPolicy="no-referrer"
-      onError={() => setFailed(true)}
-      className={`w-full h-full object-cover ${imageClass}`}
-    />
-  );
-}
-
 function getProductIdFromPath(pathname: string): string | null {
   const match = pathname.match(/^\/products\/([^/]+)\/?$/);
   return match ? decodeURIComponent(match[1]) : null;
 }
 
+function isTeamPath(pathname: string): boolean {
+  return pathname === '/team';
+}
+
 export default function App() {
   const [activeProductId, setActiveProductId] = useState<string | null>(() =>
     getProductIdFromPath(window.location.pathname)
+  );
+  const [isTeamPage, setIsTeamPage] = useState<boolean>(() =>
+    isTeamPath(window.location.pathname)
   );
   const [inquiryState, setInquiryState] = useState<{
     open: boolean;
@@ -186,6 +129,7 @@ export default function App() {
   useEffect(() => {
     const handlePopState = () => {
       setActiveProductId(getProductIdFromPath(window.location.pathname));
+      setIsTeamPage(isTeamPath(window.location.pathname));
     };
     window.addEventListener('popstate', handlePopState);
     return () => window.removeEventListener('popstate', handlePopState);
@@ -194,10 +138,12 @@ export default function App() {
   useEffect(() => {
     if (activeProduct) {
       document.title = `${activeProduct.title} — Eotra`;
+    } else if (isTeamPage) {
+      document.title = 'The Founder Team — Eotra';
     } else {
       document.title = 'Eotra — Enterprise Operations & Transaction';
     }
-  }, [activeProduct]);
+  }, [activeProduct, isTeamPage]);
 
   const navigateToProduct = (productId: string) => {
     const targetPath = `/products/${encodeURIComponent(productId)}`;
@@ -205,6 +151,14 @@ export default function App() {
       window.history.pushState({}, '', targetPath);
     }
     setActiveProductId(productId);
+    setIsTeamPage(false);
+    window.scrollTo({ top: 0, behavior: 'auto' });
+  };
+
+  const navigateToTeam = () => {
+    window.history.pushState({}, '', '/team');
+    setActiveProductId(null);
+    setIsTeamPage(true);
     window.scrollTo({ top: 0, behavior: 'auto' });
   };
 
@@ -212,6 +166,7 @@ export default function App() {
     const targetUrl = sectionId ? `/#${sectionId}` : '/';
     window.history.pushState({}, '', targetUrl);
     setActiveProductId(null);
+    setIsTeamPage(false);
 
     if (sectionId) {
       requestAnimationFrame(() => {
@@ -239,6 +194,13 @@ export default function App() {
           onNavigateHome={navigateHome}
           onSelectProduct={navigateToProduct}
           onOpenInquiry={openInquiry}
+          onNavigateToTeam={navigateToTeam}
+        />
+      ) : isTeamPage ? (
+        <TeamPage
+          onNavigateHome={navigateHome}
+          onOpenInquiry={openInquiry}
+          onNavigateToTeam={navigateToTeam}
         />
       ) : (
         <div id="top" className="min-h-screen bg-white text-gray-900 antialiased">
@@ -246,7 +208,7 @@ export default function App() {
       <section className="relative min-h-screen flex flex-col bg-[#EFEFEF] overflow-hidden">
         <ShaderBackground />
 
-        <Navbar onOpenInquiry={openInquiry} />
+        <Navbar onOpenInquiry={openInquiry} onNavigateHome={navigateHome} onNavigateToTeam={navigateToTeam} />
 
         <div className="flex-1" />
 
@@ -439,52 +401,6 @@ export default function App() {
 
       {/* SECTION 4: OUR PARTNERS MARQUEE (Light gray background) */}
       <PartnersMarquee onOpenInquiry={openInquiry} />
-
-      {/* SECTION 5: THE FOUNDER TEAM (White background) */}
-      <section className="bg-white pt-16 sm:pt-20 lg:pt-28 pb-16 sm:pb-20 lg:pb-28">
-        <div className="max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-12">
-          {/* Badge Row */}
-          <div className="flex items-center gap-3 mb-6 sm:mb-8">
-            <span className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-gray-900 text-white text-[11px] sm:text-[12px] font-semibold flex items-center justify-center shrink-0">
-              5
-            </span>
-            <span className="text-[12px] sm:text-[13px] font-medium text-gray-900 border border-gray-200 rounded-full px-3 sm:px-4 py-1 sm:py-1.5">
-              The Founder Team
-            </span>
-          </div>
-
-          <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-4 mb-10 sm:mb-14">
-            <h2 className="text-[clamp(1.5rem,3.6vw,2.75rem)] font-medium leading-[1.12] tracking-[-0.02em] text-gray-900">
-              The core engineers building Eotra.
-            </h2>
-            <p className="text-[14px] sm:text-[15px] text-gray-600 max-w-md leading-relaxed">
-              Dedicated to building the future of unified global retail
-              management and enterprise operations.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6">
-            {FOUNDERS.map((founder) => (
-              <div key={founder.name}>
-                <div className="aspect-square rounded-2xl overflow-hidden bg-gray-100 mb-3.5">
-                  <FounderAvatar
-                    src={founder.image}
-                    name={founder.name}
-                    initials={founder.initials}
-                    imageClass={founder.imageClass}
-                  />
-                </div>
-                <h3 className="text-[14px] sm:text-[15px] font-semibold text-gray-900">
-                  {founder.name}
-                </h3>
-                <p className="text-[12px] sm:text-[13px] text-gray-600 mt-0.5">
-                  {founder.role}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* SECTION 6: CASE STUDIES & CLIENT IMPACT (Light gray background) */}
       <section

@@ -9,6 +9,7 @@ interface ProductPageProps {
   onNavigateHome: (sectionId?: string) => void;
   onSelectProduct: (productId: string) => void;
   onOpenInquiry: (subject?: string) => void;
+  onNavigateToTeam?: () => void;
 }
 
 export function ProductPage({
@@ -16,6 +17,7 @@ export function ProductPage({
   onNavigateHome,
   onSelectProduct,
   onOpenInquiry,
+  onNavigateToTeam,
 }: ProductPageProps) {
   const otherProducts = PRODUCTS.filter((p) => p.id !== product.id);
 
@@ -28,6 +30,7 @@ export function ProductPage({
         <Navbar
           onOpenInquiry={onOpenInquiry}
           onNavigateHome={onNavigateHome}
+          onNavigateToTeam={onNavigateToTeam}
         />
 
         <div className="relative z-20 w-full max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-12 pt-8 sm:pt-12 lg:pt-16">
@@ -375,10 +378,10 @@ export function ProductPage({
 
             <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-[13px] text-gray-600">
               <a
-                href="mailto:hello@eotra.com"
+                href="mailto:info@eotra.com"
                 className="text-gray-900 font-medium hover:text-[#0400F5] transition-colors"
               >
-                hello@eotra.com
+                info@eotra.com
               </a>
               <button
                 type="button"
