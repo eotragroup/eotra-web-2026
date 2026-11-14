@@ -300,17 +300,15 @@ export function ServicesSlider({ onOpenInquiry }: ServicesSliderProps) {
                 }`}
               >
                 <div
-                  className={`flex items-end justify-between gap-4 transition-transform duration-300 ease-out ${
+                  className={`flex flex-col items-start gap-4 transition-transform duration-300 ease-out ${
                     isRevealed
                       ? 'translate-y-0'
                       : 'translate-y-2 group-hover:translate-y-0 group-focus-within:translate-y-0'
                   }`}
                 >
-                  <div className="min-w-0">
-                    <h3 className="text-[20px] sm:text-[22px] font-semibold text-white tracking-[-0.015em]">
-                      {service.title}
-                    </h3>
-                  </div>
+                  <h3 className="text-[20px] sm:text-[22px] font-semibold text-white tracking-[-0.015em]">
+                    {service.title}
+                  </h3>
 
                   <button
                     type="button"
@@ -319,9 +317,12 @@ export function ServicesSlider({ onOpenInquiry }: ServicesSliderProps) {
                       e.stopPropagation();
                       onOpenInquiry(`Service Inquiry: ${service.title}`);
                     }}
-                    className="w-10 h-10 rounded-full bg-[#0400F5] hover:bg-[#0300cc] text-white inline-flex items-center justify-center shrink-0 transition-colors cursor-pointer"
+                    className="inline-flex items-center gap-2 pl-4 pr-1.5 h-10 rounded-full bg-[#0400F5] hover:bg-[#0300cc] text-white text-[13px] font-medium transition-colors cursor-pointer"
                   >
-                    <ArrowRight size={16} />
+                    <span>Request quote</span>
+                    <span className="w-7 h-7 rounded-full bg-white text-[#0400F5] flex items-center justify-center">
+                      <ArrowRight size={14} />
+                    </span>
                   </button>
                 </div>
               </div>
