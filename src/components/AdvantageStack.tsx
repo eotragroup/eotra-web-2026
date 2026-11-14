@@ -11,6 +11,8 @@ interface Capability {
 interface CardStyle {
   card: string;
   index: string;
+  chip: string;
+  items: string[];
   btn: string;
   btnIcon: string;
   image: string;
@@ -22,6 +24,8 @@ const STYLES: CardStyle[] = [
   {
     card: 'bg-gray-950 text-white',
     index: 'text-white/40',
+    chip: 'bg-white/10 border-white/20 text-white',
+    items: ['POS'],
     btn: 'bg-[#0400F5] text-white hover:bg-[#0300cc]',
     btnIcon: 'bg-white text-[#0400F5]',
     image: posImg,
@@ -30,6 +34,8 @@ const STYLES: CardStyle[] = [
   {
     card: 'bg-[#0400F5] text-white',
     index: 'text-white/50',
+    chip: 'bg-white/15 border-white/30 text-white',
+    items: ['WMS', 'ERP'],
     btn: 'bg-white text-gray-900 hover:bg-gray-100',
     btnIcon: 'bg-[#0400F5] text-white',
     image: wmsImg,
@@ -38,6 +44,8 @@ const STYLES: CardStyle[] = [
   {
     card: 'bg-white text-gray-900 border border-gray-200',
     index: 'text-gray-400',
+    chip: 'bg-gray-100 border-gray-200 text-gray-900',
+    items: ['CRM', 'Analytics'],
     btn: 'bg-gray-950 text-white hover:bg-gray-800',
     btnIcon: 'bg-white text-gray-950',
     image: crmImg,
@@ -81,6 +89,16 @@ export function AdvantageStack({
 
               {/* Title + button */}
               <div className="order-4 md:order-none md:col-start-1 md:col-span-7 md:row-start-2 md:self-end">
+                <div className="flex flex-wrap gap-2 mb-4">
+                  {st.items.map((label) => (
+                    <span
+                      key={label}
+                      className={`inline-flex items-center px-4 py-1.5 rounded-full border text-[12px] sm:text-[13px] font-medium ${st.chip}`}
+                    >
+                      {label}
+                    </span>
+                  ))}
+                </div>
                 <h3 className="text-[clamp(1.75rem,4.2vw,3.5rem)] font-medium leading-[1.05] tracking-[-0.03em] max-w-xl">
                   {cap.title}
                 </h3>
