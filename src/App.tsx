@@ -8,12 +8,14 @@ import { RollButton } from './components/RollButton';
 import { ProductPage } from './components/ProductPage';
 import { TeamPage } from './components/TeamPage';
 import { FaqPage } from './components/FaqPage';
+import { BlogPage, BlogPostPage } from './components/BlogPage';
 import { ServicesSlider } from './components/ServicesSlider';
 import { PartnersMarquee } from './components/PartnersMarquee';
 import { TypewriterText } from './components/TypewriterText';
 import { ScrollRevealText } from './components/ScrollRevealText';
 import { EotraBrandSculpture } from './components/EotraBrandSculpture';
 import { Footer } from './components/Footer';
+import { POSTS } from './data/posts';
 import { AppRain } from './components/AppRain';
 import { AdvantageStack } from './components/AdvantageStack';
 import { ProductsGrid } from './components/ProductsGrid';
@@ -90,6 +92,13 @@ function isFaqPath(pathname: string): boolean {
   return pathname === '/faq';
 }
 
+// '/blog' -> '' (list), '/blog/<slug>' -> slug, anything else -> null
+function getBlogFromPath(pathname: string): string | null {
+  if (/^\/blog\/?$/.test(pathname)) return '';
+  const m = pathname.match(/^\/blog\/([a-z0-9-]+)\/?$/);
+  return m ? m[1] : null;
+}
+
 export default function App() {
   const [activeProductId, setActiveProductId] = useState<string | null>(() =>
     getProductIdFromPath(window.location.pathname)
@@ -99,6 +108,9 @@ export default function App() {
   );
   const [isFaqPage, setIsFaqPage] = useState<boolean>(() =>
     isFaqPath(window.location.pathname)
+  );
+  const [blogRoute, setBlogRoute] = useState<string | null>(() =>
+    getBlogFromPath(window.location.pathname)
   );
   const [inquiryState, setInquiryState] = useState<{
     open: boolean;
@@ -119,6 +131,7 @@ export default function App() {
       setActiveProductId(getProductIdFromPath(window.location.pathname));
       setIsTeamPage(isTeamPath(window.location.pathname));
       setIsFaqPage(isFaqPath(window.location.pathname));
+      setBlogRoute(getBlogFromPath(window.location.pathname));
     };
     window.addEventListener('popstate', handlePopState);
     return () => window.removeEventListener('popstate', handlePopState);
@@ -131,14 +144,16 @@ export default function App() {
       document.title = 'The Founder Team — Eotra';
     } else if (isFaqPage) {
       document.title = 'FAQ — Eotra';
+    } else if (blogRoute !== null) {
+      document.title = blogRoute ? `${POSTS.find((p) => p.slug === blogRoute)?.title ?? 'Blog'} — Eotra` : 'Blog — Eotra';
     } else {
       document.title = 'Eotra — Enterprise Operations & Transaction';
     }
-  }, [activeProduct, isTeamPage, isFaqPage]);
+  }, [activeProduct, isTeamPage, isFaqPage, blogRoute]);
 
   // GSAP Animations
   useEffect(() => {
-    if (activeProduct || isTeamPage || isFaqPage) return;
+    if (activeProduct || isTeamPage || isFaqPage || blogRoute !== null) return;
 
     const ctx = gsap.context(() => {
       // Hero entrance animation
@@ -185,7 +200,7 @@ export default function App() {
     });
 
     return () => ctx.revert();
-  }, [activeProduct, isTeamPage, isFaqPage]);
+  }, [activeProduct, isTeamPage, isFaqPage, blogRoute]);
 
   const navigateToProduct = (productId: string) => {
     const targetPath = `/products/${encodeURIComponent(productId)}`;
@@ -195,6 +210,7 @@ export default function App() {
     setActiveProductId(productId);
     setIsTeamPage(false);
     setIsFaqPage(false);
+    setBlogRoute(null);
     window.scrollTo({ top: 0, behavior: 'auto' });
   };
 
@@ -203,6 +219,7 @@ export default function App() {
     setActiveProductId(null);
     setIsTeamPage(true);
     setIsFaqPage(false);
+    setBlogRoute(null);
     window.scrollTo({ top: 0, behavior: 'auto' });
   };
 
@@ -212,6 +229,7 @@ export default function App() {
     setActiveProductId(null);
     setIsTeamPage(false);
     setIsFaqPage(false);
+    setBlogRoute(null);
 
     if (sectionId) {
       requestAnimationFrame(() => {
@@ -241,6 +259,23 @@ export default function App() {
           onOpenInquiry={openInquiry}
           onNavigateToTeam={navigateToTeam}
         />
+      ) : blogRoute !== null ? (
+        blogRoute === '' ? (
+          <BlogPage
+            onNavigateHome={navigateHome}
+            onOpenInquiry={openInquiry}
+            onNavigateToTeam={navigateToTeam}
+            onSelectProduct={navigateToProduct}
+          />
+        ) : (
+          <BlogPostPage
+            slug={blogRoute}
+            onNavigateHome={navigateHome}
+            onOpenInquiry={openInquiry}
+            onNavigateToTeam={navigateToTeam}
+            onSelectProduct={navigateToProduct}
+          />
+        )
       ) : isFaqPage ? (
         <FaqPage
           onNavigateHome={navigateHome}
