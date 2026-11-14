@@ -88,7 +88,7 @@ export function Navbar({ onOpenInquiry, onNavigateHome, onNavigateToTeam }: Navb
                 <img
                   src="/assets/aistudio/Eotra_aef517cd.svg"
                   alt="Eotra"
-                  className="h-[26px] sm:h-[28px] w-auto max-w-none -ml-3 -mr-6"
+                  className="h-[32px] sm:h-[36px] w-auto max-w-none -ml-3.5 -mr-7"
                 />
               </span>
             </a>
