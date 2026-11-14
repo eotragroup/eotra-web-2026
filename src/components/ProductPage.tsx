@@ -1,8 +1,15 @@
+import { useEffect } from 'react';
 import { ArrowLeft, ArrowRight, ExternalLink } from 'lucide-react';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { PRODUCTS, ProductPageData } from '../data/products';
 import { Navbar } from './Navbar';
 import { RollButton } from './RollButton';
 import { ShaderBackground } from './ShaderBackground';
+
+if (typeof window !== 'undefined') {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 interface ProductPageProps {
   product: ProductPageData;
@@ -20,6 +27,34 @@ export function ProductPage({
   onNavigateToTeam,
 }: ProductPageProps) {
   const otherProducts = PRODUCTS.filter((p) => p.id !== product.id);
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.from('.product-hero-anim', {
+        y: 35,
+        opacity: 0,
+        duration: 0.85,
+        stagger: 0.12,
+        ease: 'power3.out',
+      });
+
+      gsap.utils.toArray<HTMLElement>('.product-gsap-fade').forEach((el) => {
+        gsap.from(el, {
+          scrollTrigger: {
+            trigger: el,
+            start: 'top 85%',
+            toggleActions: 'play none none none',
+          },
+          y: 35,
+          opacity: 0,
+          duration: 0.8,
+          ease: 'power2.out',
+        });
+      });
+    });
+
+    return () => ctx.revert();
+  }, [product.id]);
 
   return (
     <div className="min-h-screen bg-white text-gray-900 antialiased">
@@ -46,7 +81,7 @@ export function ProductPage({
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
             {/* Left: Title, Metadata & CTAs */}
             <div className="lg:col-span-7">
-              <div className="flex flex-wrap items-center gap-2 text-[13px] text-gray-600 mb-4">
+              <div className="product-hero-anim flex flex-wrap items-center gap-2 text-[13px] text-gray-600 mb-4">
                 <span>{product.client}</span>
                 <span aria-hidden="true">·</span>
                 <span>{product.year}</span>
@@ -60,15 +95,15 @@ export function ProductPage({
                 )}
               </div>
 
-              <h1 className="text-[clamp(2rem,4.5vw,3.75rem)] font-medium leading-[1.08] tracking-[-0.03em] text-gray-900 mb-5 text-balance">
+              <h1 className="product-hero-anim text-[clamp(2rem,4.5vw,3.75rem)] font-medium leading-[1.08] tracking-[-0.03em] text-gray-900 mb-5 text-balance">
                 {product.title}
               </h1>
 
-              <p className="text-[15px] sm:text-[18px] leading-[1.6] font-medium text-gray-600 max-w-2xl">
+              <p className="product-hero-anim text-[15px] sm:text-[18px] leading-[1.6] font-medium text-gray-600 max-w-2xl">
                 {product.tagline}
               </p>
 
-              <div className="mt-8 sm:mt-10 flex flex-wrap items-center gap-4">
+              <div className="product-hero-anim mt-8 sm:mt-10 flex flex-wrap items-center gap-4">
                 <RollButton
                   label="Book a demo"
                   variant="orange"
@@ -91,7 +126,7 @@ export function ProductPage({
             </div>
 
             {/* Right: Clean Logo Showcase Card */}
-            <div className="lg:col-span-5">
+            <div className="product-hero-anim lg:col-span-5">
               <div className="bg-white rounded-2xl border border-gray-200/80 aspect-[16/10] flex items-center justify-center p-10 sm:p-14 shadow-[0_6px_28px_rgba(0,0,0,0.05)]">
                 {product.logoUrl ? (
                   <img

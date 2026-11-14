@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 import { ArrowRight, ExternalLink } from 'lucide-react';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ShaderBackground } from './components/ShaderBackground';
 import { Navbar } from './components/Navbar';
 import { RollButton } from './components/RollButton';
@@ -7,6 +9,7 @@ import { ProductPage } from './components/ProductPage';
 import { TeamPage } from './components/TeamPage';
 import { ServicesSlider } from './components/ServicesSlider';
 import { PartnersMarquee } from './components/PartnersMarquee';
+import { TypewriterText } from './components/TypewriterText';
 import retailPosImg from './assets/images/eotra_retail_pos_men_1794584625031.jpg';
 import globalOpsImg from './assets/images/eotra_global_ops_men_1794584624835.jpg';
 import {
@@ -19,6 +22,10 @@ import {
   InfoModal,
   InquiryModal,
 } from './components/Modals';
+
+if (typeof window !== 'undefined') {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 const CAPABILITIES = [
   {
@@ -145,6 +152,39 @@ export default function App() {
     }
   }, [activeProduct, isTeamPage]);
 
+  // GSAP Animations
+  useEffect(() => {
+    if (activeProduct || isTeamPage) return;
+
+    const ctx = gsap.context(() => {
+      // Hero entrance animation
+      gsap.from('.hero-anim', {
+        y: 35,
+        opacity: 0,
+        duration: 0.9,
+        stagger: 0.14,
+        ease: 'power3.out',
+      });
+
+      // ScrollTrigger reveal for sections & cards
+      gsap.utils.toArray<HTMLElement>('.gsap-fade-up').forEach((el) => {
+        gsap.from(el, {
+          scrollTrigger: {
+            trigger: el,
+            start: 'top 85%',
+            toggleActions: 'play none none none',
+          },
+          y: 40,
+          opacity: 0,
+          duration: 0.85,
+          ease: 'power2.out',
+        });
+      });
+    });
+
+    return () => ctx.revert();
+  }, [activeProduct, isTeamPage]);
+
   const navigateToProduct = (productId: string) => {
     const targetPath = `/products/${encodeURIComponent(productId)}`;
     if (window.location.pathname !== targetPath) {
@@ -214,22 +254,32 @@ export default function App() {
 
         {/* Hero Content (z-20) */}
         <div className="relative z-20 w-full max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-12 pb-14 sm:pb-16 lg:pb-20">
-          <p className="text-[13px] sm:text-[14px] text-gray-900 tracking-wide mb-5 sm:mb-8">
+          <p className="hero-anim text-[13px] sm:text-[14px] text-gray-900 tracking-wide mb-5 sm:mb-8">
             Eotra · Enterprise Operations &amp; Transaction
           </p>
 
-          <h1 className="text-[clamp(1.75rem,7vw,4.2rem)] sm:text-[clamp(2.5rem,5vw,4.2rem)] font-medium leading-[1.08] tracking-[-0.03em] text-gray-900">
+          <h1 className="hero-anim text-[clamp(1.75rem,7vw,4.2rem)] sm:text-[clamp(2.5rem,5vw,4.2rem)] font-medium leading-[1.08] tracking-[-0.03em] text-gray-900">
             Powering modern retail,
             <br className="hidden sm:block" />
             <span className="sm:hidden"> </span>
             from source to sale across
             <br className="hidden sm:block" />
             <span className="sm:hidden"> </span>
-            your global operations.
+            <span className="text-[#0400F5]">
+              <TypewriterText
+                words={[
+                  'your global operations.',
+                  'omnichannel stores.',
+                  'international retail.',
+                  'enterprise supply chains.',
+                  'unified commerce.',
+                ]}
+              />
+            </span>
           </h1>
 
           {/* CTA Row */}
-          <div className="mt-8 sm:mt-12 flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-5">
+          <div className="hero-anim mt-8 sm:mt-12 flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-5">
             <RollButton
               label="Get started now"
               variant="orange"
@@ -261,7 +311,7 @@ export default function App() {
       >
         <div className="max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-12">
           {/* Badge Row */}
-          <div className="flex items-center gap-3 mb-6 sm:mb-8">
+          <div className="gsap-fade-up flex items-center gap-3 mb-6 sm:mb-8">
             <span className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-gray-900 text-white text-[11px] sm:text-[12px] font-semibold flex items-center justify-center shrink-0">
               1
             </span>
@@ -271,7 +321,7 @@ export default function App() {
           </div>
 
           {/* Editorial Header + Summary & CTA Row */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-end mb-12 sm:mb-16">
+          <div className="gsap-fade-up grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-end mb-12 sm:mb-16">
             <div className="lg:col-span-7">
               <h2 className="text-[clamp(1.75rem,4vw,3.25rem)] font-medium leading-[1.1] tracking-[-0.025em] text-gray-900 max-w-2xl">
                 Accompanies you in your overseas expansion and growth.
@@ -295,7 +345,7 @@ export default function App() {
           </div>
 
           {/* Balanced Asymmetric Image Row */}
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-5 sm:gap-6 items-stretch">
+          <div className="gsap-fade-up grid grid-cols-1 md:grid-cols-12 gap-5 sm:gap-6 items-stretch">
             <div className="md:col-span-5 aspect-[4/3] md:aspect-auto md:h-[400px] lg:h-[460px] rounded-2xl overflow-hidden bg-gray-100">
               <img
                 src={retailPosImg}
