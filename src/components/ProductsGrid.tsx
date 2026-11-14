@@ -49,98 +49,108 @@ const DARK = new Set(['tradespilot']);
 // Products whose picture is a photo: add a soft white fade behind the logo
 const PHOTO = new Set(['eotra-menu', 'ibosh', 'jamjoom-online']);
 
+export function ProductCard({
+  product,
+  onOpenProduct,
+}: {
+  product: GridProduct;
+  onOpenProduct: (id: string) => void;
+}) {
+  const cover = coverFor(product.id);
+  return (
+      <article
+        key={product.id}
+        onClick={() => onOpenProduct(product.id)}
+        className="group cursor-pointer"
+      >
+        {/* Picture of the product, logo sits inside it */}
+        <div
+          className={`relative aspect-[4/5] rounded-2xl overflow-hidden ring-1 ring-black/5 bg-gradient-to-br ${
+            TINTS[product.id] ?? 'from-gray-100 to-gray-200'
+          }`}
+        >
+          {cover ? (
+            <img
+              src={cover}
+              alt={`${product.title} preview`}
+              className="absolute inset-0 w-full h-full object-cover object-top transition-transform duration-700 ease-out group-hover:scale-[1.04]"
+            />
+          ) : (
+            <div
+              className="absolute inset-0 opacity-70"
+              aria-hidden="true"
+              style={{
+                backgroundImage:
+                  'radial-gradient(circle, rgba(0,0,0,0.12) 1px, transparent 1px)',
+                backgroundSize: '20px 20px',
+              }}
+            />
+          )}
+
+          {cover && PHOTO.has(product.id) && (
+            <div
+              className="absolute inset-x-0 top-0 h-[34%] bg-gradient-to-b from-white/90 via-white/55 to-transparent pointer-events-none"
+              aria-hidden="true"
+            />
+          )}
+
+          {/* Logo, top-center inside the image (no card behind it) */}
+          <div className="absolute inset-x-0 top-0 flex items-start justify-center p-5 pointer-events-none">
+            <div className="flex items-center pt-2 transition-transform duration-500 ease-out group-hover:scale-[1.04]">
+              {product.logoUrl ? (
+                <img
+                  src={product.logoUrl}
+                  alt={`${product.title} logo`}
+                  className={`${LOGO_SIZE[product.id] ?? 'h-9 sm:h-10'} w-auto max-w-[260px] object-contain ${DARK.has(product.id) ? 'brightness-0 invert' : ''}`}
+                />
+              ) : (
+                <span className="text-[17px] font-semibold text-gray-900">{product.title}</span>
+              )}
+            </div>
+          </div>
+
+          {/* Same expanding pill button */}
+          <div className="absolute bottom-5 left-5 h-9 w-9 group-hover:w-[158px] bg-gray-900 text-white rounded-full flex items-center pl-4 pr-[11px] overflow-hidden transition-all duration-300 ease-in-out shadow-sm">
+            <span className="text-[13px] font-medium text-white whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-300 group-hover:delay-100">
+              Open page
+            </span>
+            <span className="absolute right-[11px] top-1/2 -translate-y-1/2 flex items-center justify-center">
+              <ArrowRight
+                size={14}
+                className="shrink-0 text-white -rotate-45 group-hover:rotate-0 transition-transform duration-300"
+              />
+            </span>
+          </div>
+        </div>
+
+        {/* Title + domain */}
+        <div className="mt-4 flex items-baseline justify-between gap-3">
+          <h3 className="text-[16px] sm:text-[18px] font-semibold text-gray-900 group-hover:text-[#0400F5] transition-colors">
+            {product.title}
+          </h3>
+          {product.liveUrl && (
+            <a
+              href={product.liveUrl}
+              target="_blank"
+              rel="noreferrer"
+              onClick={(e) => e.stopPropagation()}
+              className="inline-flex items-center gap-1.5 text-[12px] font-medium text-gray-500 hover:text-[#0400F5] shrink-0"
+            >
+              <span>{product.domainLabel}</span>
+              <ExternalLink size={12} />
+            </a>
+          )}
+        </div>
+      </article>
+  );
+}
+
 export function ProductsGrid({ products, onOpenProduct }: Props) {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-6 lg:gap-8">
-      {products.map((product) => {
-        const cover = coverFor(product.id);
-        return (
-          <article
-            key={product.id}
-            onClick={() => onOpenProduct(product.id)}
-            className="group cursor-pointer"
-          >
-            {/* Picture of the product, logo sits inside it */}
-            <div
-              className={`relative aspect-[4/5] rounded-2xl overflow-hidden ring-1 ring-black/5 bg-gradient-to-br ${
-                TINTS[product.id] ?? 'from-gray-100 to-gray-200'
-              }`}
-            >
-              {cover ? (
-                <img
-                  src={cover}
-                  alt={`${product.title} preview`}
-                  className="absolute inset-0 w-full h-full object-cover object-top transition-transform duration-700 ease-out group-hover:scale-[1.04]"
-                />
-              ) : (
-                <div
-                  className="absolute inset-0 opacity-70"
-                  aria-hidden="true"
-                  style={{
-                    backgroundImage:
-                      'radial-gradient(circle, rgba(0,0,0,0.12) 1px, transparent 1px)',
-                    backgroundSize: '20px 20px',
-                  }}
-                />
-              )}
-
-              {cover && PHOTO.has(product.id) && (
-                <div
-                  className="absolute inset-x-0 top-0 h-[34%] bg-gradient-to-b from-white/90 via-white/55 to-transparent pointer-events-none"
-                  aria-hidden="true"
-                />
-              )}
-
-              {/* Logo, top-center inside the image (no card behind it) */}
-              <div className="absolute inset-x-0 top-0 flex items-start justify-center p-5 pointer-events-none">
-                <div className="flex items-center pt-2 transition-transform duration-500 ease-out group-hover:scale-[1.04]">
-                  {product.logoUrl ? (
-                    <img
-                      src={product.logoUrl}
-                      alt={`${product.title} logo`}
-                      className={`${LOGO_SIZE[product.id] ?? 'h-9 sm:h-10'} w-auto max-w-[260px] object-contain ${DARK.has(product.id) ? 'brightness-0 invert' : ''}`}
-                    />
-                  ) : (
-                    <span className="text-[17px] font-semibold text-gray-900">{product.title}</span>
-                  )}
-                </div>
-              </div>
-
-              {/* Same expanding pill button */}
-              <div className="absolute bottom-5 left-5 h-9 w-9 group-hover:w-[158px] bg-gray-900 text-white rounded-full flex items-center pl-4 pr-[11px] overflow-hidden transition-all duration-300 ease-in-out shadow-sm">
-                <span className="text-[13px] font-medium text-white whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-300 group-hover:delay-100">
-                  Open page
-                </span>
-                <span className="absolute right-[11px] top-1/2 -translate-y-1/2 flex items-center justify-center">
-                  <ArrowRight
-                    size={14}
-                    className="shrink-0 text-white -rotate-45 group-hover:rotate-0 transition-transform duration-300"
-                  />
-                </span>
-              </div>
-            </div>
-
-            {/* Title + domain */}
-            <div className="mt-4 flex items-baseline justify-between gap-3">
-              <h3 className="text-[16px] sm:text-[18px] font-semibold text-gray-900 group-hover:text-[#0400F5] transition-colors">
-                {product.title}
-              </h3>
-              {product.liveUrl && (
-                <a
-                  href={product.liveUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                  onClick={(e) => e.stopPropagation()}
-                  className="inline-flex items-center gap-1.5 text-[12px] font-medium text-gray-500 hover:text-[#0400F5] shrink-0"
-                >
-                  <span>{product.domainLabel}</span>
-                  <ExternalLink size={12} />
-                </a>
-              )}
-            </div>
-          </article>
-        );
-      })}
+      {products.map((product) => (
+        <ProductCard key={product.id} product={product} onOpenProduct={onOpenProduct} />
+      ))}
     </div>
   );
 }
