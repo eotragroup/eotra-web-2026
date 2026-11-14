@@ -159,25 +159,43 @@ export default function App() {
     const ctx = gsap.context(() => {
       // Hero entrance animation
       gsap.from('.hero-anim', {
-        y: 35,
+        y: 40,
         opacity: 0,
-        duration: 0.9,
+        duration: 0.95,
         stagger: 0.14,
         ease: 'power3.out',
       });
 
-      // ScrollTrigger reveal for sections & cards
+      // ScrollTrigger reveal for sections & headers
       gsap.utils.toArray<HTMLElement>('.gsap-fade-up').forEach((el) => {
         gsap.from(el, {
           scrollTrigger: {
             trigger: el,
-            start: 'top 85%',
+            start: 'top 86%',
+            toggleActions: 'play none none none',
+          },
+          y: 45,
+          opacity: 0,
+          duration: 0.85,
+          ease: 'power2.out',
+        });
+      });
+
+      // Staggered items (capabilities list, platform editions, products)
+      gsap.utils.toArray<HTMLElement>('.gsap-stagger-parent').forEach((parent) => {
+        const children = parent.children;
+        if (!children || children.length === 0) return;
+        gsap.from(children, {
+          scrollTrigger: {
+            trigger: parent,
+            start: 'top 84%',
             toggleActions: 'play none none none',
           },
           y: 40,
           opacity: 0,
-          duration: 0.85,
-          ease: 'power2.out',
+          duration: 0.8,
+          stagger: 0.14,
+          ease: 'power3.out',
         });
       });
     });
@@ -324,7 +342,17 @@ export default function App() {
           <div className="gsap-fade-up grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-end mb-12 sm:mb-16">
             <div className="lg:col-span-7">
               <h2 className="text-[clamp(1.75rem,4vw,3.25rem)] font-medium leading-[1.1] tracking-[-0.025em] text-gray-900 max-w-2xl">
-                Accompanies you in your overseas expansion and growth.
+                Accompanies you in your overseas{' '}
+                <span className="text-[#0400F5]">
+                  <TypewriterText
+                    words={[
+                      'expansion & growth.',
+                      'market expansion.',
+                      'digital retail evolution.',
+                      'global operations.',
+                    ]}
+                  />
+                </span>
               </h2>
             </div>
 
@@ -371,7 +399,7 @@ export default function App() {
       >
         <div className="max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-12">
           {/* Badge Row */}
-          <div className="flex items-center gap-3 mb-6 sm:mb-8">
+          <div className="gsap-fade-up flex items-center gap-3 mb-6 sm:mb-8">
             <span className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-gray-900 text-white text-[11px] sm:text-[12px] font-semibold flex items-center justify-center shrink-0">
               2
             </span>
@@ -380,10 +408,20 @@ export default function App() {
             </span>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 mb-14 sm:mb-16">
+          <div className="gsap-fade-up grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 mb-14 sm:mb-16">
             <div className="lg:col-span-5">
               <h2 className="text-[clamp(1.5rem,3.6vw,2.75rem)] font-medium leading-[1.12] tracking-[-0.02em] text-gray-900 mb-5">
-                Replacing five disconnected systems with one unified core.
+                Replacing five disconnected systems with{' '}
+                <span className="text-[#0400F5]">
+                  <TypewriterText
+                    words={[
+                      'one unified core.',
+                      'real-time sync.',
+                      'cloud-native scale.',
+                      'seamless POS & ERP.',
+                    ]}
+                  />
+                </span>
               </h2>
               <p className="text-[14px] sm:text-[15px] text-gray-600 leading-relaxed max-w-md">
                 From single-brand boutiques to 50+ store global retail networks,
@@ -392,7 +430,7 @@ export default function App() {
               </p>
             </div>
 
-            <div className="lg:col-span-7 divide-y divide-gray-300 border-y border-gray-300">
+            <div className="lg:col-span-7 divide-y divide-gray-300 border-y border-gray-300 gsap-stagger-parent">
               {CAPABILITIES.map((cap) => (
                 <div
                   key={cap.index}
@@ -415,7 +453,7 @@ export default function App() {
           </div>
 
           {/* Platform Editions */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-6">
+          <div className="gsap-stagger-parent grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-6">
             {EDITIONS.map((edition) => (
               <div
                 key={edition.name}
@@ -459,7 +497,7 @@ export default function App() {
       >
         <div className="max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-12">
           {/* Badge Row */}
-          <div className="flex items-center gap-3 mb-6 sm:mb-8">
+          <div className="gsap-fade-up flex items-center gap-3 mb-6 sm:mb-8">
             <span className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-gray-900 text-white text-[11px] sm:text-[12px] font-semibold flex items-center justify-center shrink-0">
               6
             </span>
@@ -468,13 +506,23 @@ export default function App() {
             </span>
           </div>
 
-          {/* Heading */}
-          <h2 className="text-[clamp(1.75rem,7vw,4.2rem)] sm:text-[clamp(2.5rem,5vw,4.2rem)] font-medium leading-[1.08] tracking-[-0.03em] text-gray-900 mb-10 sm:mb-14 lg:mb-16">
-            Our products &amp; projects
+          {/* Heading with Typewriter */}
+          <h2 className="gsap-fade-up text-[clamp(1.75rem,7vw,4.2rem)] sm:text-[clamp(2.5rem,5vw,4.2rem)] font-medium leading-[1.08] tracking-[-0.03em] text-gray-900 mb-10 sm:mb-14 lg:mb-16">
+            Our products &amp;{' '}
+            <span className="text-[#0400F5]">
+              <TypewriterText
+                words={[
+                  'projects.',
+                  'enterprise suites.',
+                  'flagship platforms.',
+                  'retail systems.',
+                ]}
+              />
+            </span>
           </h2>
 
           {/* Live Products Row */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6 lg:gap-7 mb-10 sm:mb-12">
+          <div className="gsap-stagger-parent grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6 lg:gap-7 mb-10 sm:mb-12">
             {PRODUCTS.map((product) => (
               <article
                 key={product.id}
