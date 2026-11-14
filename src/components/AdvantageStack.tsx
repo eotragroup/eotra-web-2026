@@ -1,15 +1,7 @@
 import posImg from '../assets/advantage/pos.jpg';
 import wmsImg from '../assets/advantage/wms.jpg';
 import crmImg from '../assets/advantage/crm.jpg';
-import {
-  ShoppingCart,
-  Warehouse,
-  Receipt,
-  Users,
-  BarChart3,
-  ArrowRight,
-  type LucideIcon,
-} from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 
 interface Capability {
   index: string;
@@ -20,62 +12,44 @@ interface CardStyle {
   card: string;
   index: string;
   chip: string;
-  tile: string;
-  tileIcon: string;
-  items: { label: string; Icon: LucideIcon }[];
-  Icon: LucideIcon;
+  items: string[];
   btn: string;
   btnIcon: string;
   image: string;
   imageAlt: string;
 }
 
-// One quiet visual per capability: a big icon tile + the systems it connects
+// One picture per capability + the systems it connects
 const STYLES: CardStyle[] = [
   {
     card: 'bg-gray-950 text-white',
     index: 'text-white/40',
     chip: 'bg-white/10 border-white/20 text-white',
-    tile: 'bg-white',
-    tileIcon: '#0400F5',
-    Icon: ShoppingCart,
     btn: 'bg-[#0400F5] text-white hover:bg-[#0300cc]',
     btnIcon: 'bg-white text-[#0400F5]',
     image: posImg,
     imageAlt: 'Cashier using a point of sale terminal in a store',
-    items: [{ label: 'POS', Icon: ShoppingCart }],
+    items: ['POS'],
   },
   {
     card: 'bg-[#0400F5] text-white',
     index: 'text-white/50',
     chip: 'bg-white/15 border-white/30 text-white',
-    tile: 'bg-white',
-    tileIcon: '#0400F5',
-    Icon: Warehouse,
     btn: 'bg-white text-gray-900 hover:bg-gray-100',
     btnIcon: 'bg-[#0400F5] text-white',
     image: wmsImg,
     imageAlt: 'Warehouse aisles with live inventory scanning',
-    items: [
-      { label: 'WMS', Icon: Warehouse },
-      { label: 'ERP', Icon: Receipt },
-    ],
+    items: ['WMS', 'ERP'],
   },
   {
     card: 'bg-white text-gray-900 border border-gray-200',
     index: 'text-gray-400',
     chip: 'bg-gray-100 border-gray-200 text-gray-900',
-    tile: 'bg-gray-950',
-    tileIcon: '#ffffff',
-    Icon: Users,
     btn: 'bg-gray-950 text-white hover:bg-gray-800',
     btnIcon: 'bg-white text-gray-950',
     image: crmImg,
     imageAlt: 'Store team meeting a loyalty customer',
-    items: [
-      { label: 'CRM', Icon: Users },
-      { label: 'Analytics', Icon: BarChart3 },
-    ],
+    items: ['CRM', 'Analytics'],
   },
 ];
 
@@ -106,9 +80,6 @@ export function AdvantageStack({
                   loading="lazy"
                   className="absolute inset-0 w-full h-full object-cover"
                 />
-                <div className={`absolute left-4 bottom-4 w-12 h-12 sm:w-14 sm:h-14 rounded-2xl flex items-center justify-center shadow-xl ${st.tile}`}>
-                  <st.Icon strokeWidth={1.6} color={st.tileIcon} className="w-6 h-6 sm:w-7 sm:h-7" />
-                </div>
               </div>
 
               {/* Number */}
@@ -135,12 +106,11 @@ export function AdvantageStack({
 
               {/* Connected systems */}
               <div className="order-2 md:order-none md:col-start-1 md:col-span-7 md:row-start-1 flex flex-wrap gap-2 md:justify-end md:content-start">
-                {st.items.map(({ label, Icon }) => (
+                {st.items.map((label) => (
                   <span
                     key={label}
-                    className={`inline-flex items-center gap-2 px-3.5 py-2 rounded-full border text-[12px] sm:text-[13px] font-medium ${st.chip}`}
+                    className={`inline-flex items-center px-4 py-2 rounded-full border text-[12px] sm:text-[13px] font-medium ${st.chip}`}
                   >
-                    <Icon size={14} />
                     {label}
                   </span>
                 ))}
