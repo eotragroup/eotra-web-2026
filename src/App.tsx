@@ -14,6 +14,7 @@ import { ScrollRevealText } from './components/ScrollRevealText';
 import { EotraBrandSculpture } from './components/EotraBrandSculpture';
 import { Footer } from './components/Footer';
 import { AppRain } from './components/AppRain';
+import { UnifiedCore } from './components/UnifiedCore';
 import {
   CASE_STUDIES,
   CaseStudyData,
@@ -35,18 +36,21 @@ const CAPABILITIES = [
     title: 'Point of Sale & Order Management',
     description:
       'Offline-first omni-channel transactions and unified fulfillment across every store.',
+    nodes: ['pos'],
   },
   {
     index: '02.',
     title: 'Inventory & Global WMS',
     description:
       'Real-time global stock visibility across international warehouses and retail locations.',
+    nodes: ['wms', 'erp'],
   },
   {
     index: '03.',
     title: 'CRM, Loyalty & Predictive Analytics',
     description:
       'Customer retention, data-driven reporting, and seamless ERP workflow integrations.',
+    nodes: ['crm', 'analytics'],
   },
 ];
 
@@ -420,41 +424,35 @@ export default function App() {
             </span>
           </div>
 
-          <div className="gsap-fade-up grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 mb-14 sm:mb-16">
+          <div className="gsap-fade-up grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 mb-14 sm:mb-16 items-start">
             <div className="lg:col-span-5">
               <ScrollRevealText
                 as="h2"
                 text="Replacing five disconnected systems with one unified operational core."
-                className="text-[clamp(1.5rem,3.6vw,2.75rem)] text-gray-900 mb-5"
+                className="text-[clamp(1.5rem,3.6vw,2.75rem)] text-gray-900 mb-8"
                 start="top 85%"
                 end="bottom 55%"
               />
-              <p className="text-[14px] sm:text-[15px] text-gray-600 leading-relaxed max-w-md">
-                From single-brand boutiques to 50+ store global retail networks,
-                Eotra deploys in weeks with bank-grade security and dedicated
-                onboarding support.
-              </p>
+              <div className="grid grid-cols-3 gap-3 sm:gap-4 max-w-md">
+                {[
+                  { big: '5→1', small: 'systems unified' },
+                  { big: 'Weeks', small: 'to deploy' },
+                  { big: '50+', small: 'store networks' },
+                ].map((stat) => (
+                  <div key={stat.small} className="border-t-2 border-gray-900 pt-3">
+                    <div className="text-[clamp(1.4rem,2.6vw,2.1rem)] font-semibold tracking-tight text-gray-900 leading-none">
+                      {stat.big}
+                    </div>
+                    <div className="mt-1.5 text-[11px] sm:text-[12px] text-gray-500 font-medium leading-tight">
+                      {stat.small}
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
 
-            <div className="lg:col-span-7 divide-y divide-gray-300 border-y border-gray-300 gsap-stagger-parent">
-              {CAPABILITIES.map((cap) => (
-                <div
-                  key={cap.index}
-                  className="py-5 sm:py-6 flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-6"
-                >
-                  <span className="text-[13px] font-semibold text-[#0400F5] tabular-nums shrink-0">
-                    {cap.index}
-                  </span>
-                  <div className="flex-1">
-                    <h3 className="text-[16px] font-semibold text-gray-900">
-                      {cap.title}
-                    </h3>
-                    <p className="text-[13px] sm:text-[14px] text-gray-600 mt-1.5 leading-relaxed">
-                      {cap.description}
-                    </p>
-                  </div>
-                </div>
-              ))}
+            <div className="lg:col-span-7">
+              <UnifiedCore capabilities={CAPABILITIES} />
             </div>
           </div>
 
