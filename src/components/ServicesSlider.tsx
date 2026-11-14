@@ -224,7 +224,7 @@ export function ServicesSlider({ onOpenInquiry }: ServicesSliderProps) {
           <div>
             <ScrollRevealText
               as="h2"
-              text="End-to-end software services built by our senior engineering team."
+              text="Our Services"
               className="text-[clamp(1.6rem,3.8vw,3rem)] text-gray-900 max-w-2xl text-balance"
               start="top 85%"
               end="bottom 55%"
