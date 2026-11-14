@@ -7,6 +7,7 @@ import { Navbar } from './Navbar';
 import { RollButton } from './RollButton';
 import { ShaderBackground } from './ShaderBackground';
 import { ScrollRevealText } from './ScrollRevealText';
+import { Footer } from './Footer';
 
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
@@ -353,10 +354,7 @@ export function ProductPage({
                 </div>
                 <div className="mt-4 flex flex-col sm:flex-row sm:items-baseline justify-between gap-2">
                   <div>
-                    <p className="text-[13px] sm:text-[14px] text-gray-600 leading-relaxed">
-                      {other.description}
-                    </p>
-                    <h3 className="text-[14px] sm:text-[15px] font-semibold text-gray-900 mt-1">
+                    <h3 className="text-[14px] sm:text-[15px] font-semibold text-gray-900">
                       {other.title}
                     </h3>
                   </div>
@@ -393,45 +391,16 @@ export function ProductPage({
               </div>
             </div>
           </div>
-
-          <footer className="mt-16 sm:mt-20 pt-10 border-t border-gray-200 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
-            <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-[13px] text-gray-600">
-              <button
-                type="button"
-                onClick={() => onNavigateHome()}
-                className="overflow-hidden inline-flex items-center mr-1 cursor-pointer"
-                aria-label="Back to Eotra home"
-              >
-                <img
-                  src="/assets/aistudio/Eotra_aef517cd.svg"
-                  alt="Eotra"
-                  className="h-[24px] w-auto max-w-none -ml-3 -mr-6"
-                />
-              </button>
-              <span className="font-semibold text-gray-900">
-                Enterprise Operations &amp; Transaction
-              </span>
-            </div>
-
-            <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-[13px] text-gray-600">
-              <a
-                href="mailto:info@eotra.com"
-                className="text-gray-900 font-medium hover:text-[#0400F5] transition-colors"
-              >
-                info@eotra.com
-              </a>
-              <button
-                type="button"
-                onClick={() => onOpenInquiry('Connect with Eotra')}
-                className="hover:text-gray-900 transition-colors cursor-pointer"
-              >
-                Contact Sales
-              </button>
-              <span>&copy; 2026 Eotra Inc.</span>
-            </div>
-          </footer>
         </div>
       </section>
+
+      {/* Footer with Columns, Information & Sign Up */}
+      <Footer
+        onNavigateHome={() => onNavigateHome()}
+        onOpenInquiry={onOpenInquiry}
+        onNavigateToProduct={(id) => onSelectProduct(id)}
+        onNavigateToTeam={onNavigateToTeam}
+      />
     </div>
   );
 }

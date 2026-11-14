@@ -12,6 +12,7 @@ import { PartnersMarquee } from './components/PartnersMarquee';
 import { TypewriterText } from './components/TypewriterText';
 import { ScrollRevealText } from './components/ScrollRevealText';
 import { EotraBrandSculpture } from './components/EotraBrandSculpture';
+import { Footer } from './components/Footer';
 import retailPosImg from './assets/images/eotra_retail_pos_men_1794584625031.jpg';
 import globalOpsImg from './assets/images/eotra_global_ops_men_1794584624835.jpg';
 import {
@@ -562,9 +563,6 @@ export default function App() {
                     <h3 className="text-[16px] sm:text-[17px] font-semibold text-gray-900 group-hover:text-[#0400F5] transition-colors flex items-center gap-2">
                       <span>{product.title}</span>
                     </h3>
-                    <p className="text-[13px] sm:text-[14px] text-gray-500 mt-1 leading-relaxed">
-                      {product.description}
-                    </p>
                   </div>
                   {product.liveUrl && (
                     <a
@@ -582,38 +580,20 @@ export default function App() {
               </article>
             ))}
           </div>
-
-          {/* Footer */}
-          <footer className="mt-16 sm:mt-20 pt-10 border-t border-gray-300 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
-            <div className="flex items-center">
-              <span className="overflow-hidden inline-flex items-center">
-                <img
-                  src="/assets/aistudio/Eotra_aef517cd.svg"
-                  alt="Eotra"
-                  className="h-[24px] w-auto max-w-none -ml-3 -mr-6"
-                />
-              </span>
-            </div>
-
-            <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-[13px] text-gray-600">
-              <a
-                href="mailto:info@eotra.com"
-                className="text-gray-900 font-medium hover:text-[#0400F5] transition-colors"
-              >
-                info@eotra.com
-              </a>
-              <button
-                type="button"
-                onClick={() => openInquiry('Connect with Eotra')}
-                className="hover:text-gray-900 transition-colors cursor-pointer"
-              >
-                Contact Sales
-              </button>
-              <span>&copy; 2026 Eotra Inc.</span>
-            </div>
-          </footer>
         </div>
       </section>
+
+      {/* Full-Width Footer with Columns, Information & Sign Up */}
+      <Footer
+        onNavigateHome={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+        onOpenInquiry={openInquiry}
+        onNavigateToProduct={navigateToProduct}
+        onNavigateToTeam={() => {
+          setView('team');
+          window.scrollTo({ top: 0, behavior: 'instant' });
+        }}
+        onOpenInfoModal={(mode) => setInfoModal(mode)}
+      />
         </div>
       )}
 
