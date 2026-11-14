@@ -326,16 +326,6 @@ export default function App() {
         className="bg-white pt-16 sm:pt-20 lg:pt-28 pb-16 sm:pb-20 lg:pb-28 overflow-hidden"
       >
         <div className="max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-12">
-          {/* Badge Row */}
-          <div className="gsap-fade-up flex items-center gap-3 mb-6 sm:mb-8">
-            <span className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-gray-900 text-white text-[11px] sm:text-[12px] font-semibold flex items-center justify-center shrink-0">
-              1
-            </span>
-            <span className="text-[12px] sm:text-[13px] font-medium text-gray-900 border border-gray-200 rounded-full px-3 sm:px-4 py-1 sm:py-1.5">
-              Introducing Eotra
-            </span>
-          </div>
-
           {/* Editorial Header + Summary & CTA Row */}
           <div className="gsap-fade-up grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-end mb-12 sm:mb-16">
             <div className="lg:col-span-7">
@@ -373,16 +363,6 @@ export default function App() {
         className="bg-[#F5F5F5] pt-16 sm:pt-20 lg:pt-28 pb-16 sm:pb-20 lg:pb-28"
       >
         <div className="max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-12">
-          {/* Badge Row */}
-          <div className="gsap-fade-up flex items-center gap-3 mb-6 sm:mb-8">
-            <span className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-gray-900 text-white text-[11px] sm:text-[12px] font-semibold flex items-center justify-center shrink-0">
-              2
-            </span>
-            <span className="text-[12px] sm:text-[13px] font-medium text-gray-900 border border-gray-300 rounded-full px-3 sm:px-4 py-1 sm:py-1.5">
-              The Eotra Advantage
-            </span>
-          </div>
-
           {/* Editorial header + summary */}
           <div className="gsap-fade-up grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-end mb-12 sm:mb-16">
             <div className="lg:col-span-7">
@@ -410,16 +390,6 @@ export default function App() {
         className="bg-[#F5F5F5] pt-16 sm:pt-20 lg:pt-28 pb-16 sm:pb-20 lg:pb-24"
       >
         <div className="max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-12">
-          {/* Badge Row */}
-          <div className="gsap-fade-up flex items-center gap-3 mb-6 sm:mb-8">
-            <span className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-gray-900 text-white text-[11px] sm:text-[12px] font-semibold flex items-center justify-center shrink-0">
-              4
-            </span>
-            <span className="text-[12px] sm:text-[13px] font-medium text-gray-900 border border-gray-300 rounded-full px-3 sm:px-4 py-1 sm:py-1.5">
-              Featured products &amp; client work
-            </span>
-          </div>
-
           {/* Heading with ScrollRevealText */}
           <ScrollRevealText
             as="h2"
