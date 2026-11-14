@@ -41,7 +41,7 @@ const TINTS: Record<string, string> = {
 const DARK = new Set(['tradespilot']);
 
 // Products whose picture is a photo: add a soft white fade behind the logo
-const PHOTO = new Set(['eotra-menu']);
+const PHOTO = new Set(['eotra-menu', 'ibosh']);
 
 export function ProductsGrid({ products, onOpenProduct }: Props) {
   return (
