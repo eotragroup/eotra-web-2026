@@ -356,10 +356,13 @@ export default function App() {
         </div>
       </section>
 
-      {/* SECTION 3: PLATFORM & EDITIONS (Light gray background) */}
+      {/* SECTION 2: SERVICES SLIDER (Light gray background) */}
+      <ServicesSlider onOpenInquiry={openInquiry} />
+
+      {/* SECTION 3: THE EOTRA ADVANTAGE — stacking cards (White background) */}
       <section
         id="solutions"
-        className="bg-[#F5F5F5] pt-16 sm:pt-20 lg:pt-28 pb-16 sm:pb-20 lg:pb-28"
+        className="bg-white pt-16 sm:pt-20 lg:pt-28 pb-16 sm:pb-20 lg:pb-28"
       >
         <div className="max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-12">
           {/* Editorial header + summary */}
@@ -379,9 +382,6 @@ export default function App() {
           <AdvantageStack capabilities={CAPABILITIES} onOpenInquiry={openInquiry} />
         </div>
       </section>
-
-      {/* SECTION 3: SERVICES SLIDER (White background) */}
-      <ServicesSlider onOpenInquiry={openInquiry} />
 
       {/* SECTION 4: CASE STUDIES & CLIENT IMPACT (Light gray background) */}
       <section

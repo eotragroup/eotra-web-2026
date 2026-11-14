@@ -216,7 +216,7 @@ export function ServicesSlider({ onOpenInquiry }: ServicesSliderProps) {
   return (
     <section
       id="services"
-      className="bg-white pt-16 sm:pt-20 lg:pt-28 pb-16 sm:pb-20 lg:pb-28 overflow-hidden"
+      className="bg-[#F5F5F5] pt-16 sm:pt-20 lg:pt-28 pb-16 sm:pb-20 lg:pb-28 overflow-hidden"
     >
       <div className="max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-12">
         {/* Header + Controls */}
