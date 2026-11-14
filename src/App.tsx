@@ -304,7 +304,7 @@ export default function App() {
             <div className="lg:col-span-7">
               <ScrollRevealText
                 as="h2"
-                text="Accompanies you in your overseas expansion and global retail growth."
+                text="Our Company"
                 className="text-[clamp(1.75rem,4vw,3.25rem)] text-gray-900 max-w-2xl"
                 start="top 85%"
                 end="bottom 55%"
@@ -343,7 +343,7 @@ export default function App() {
             <div className="lg:col-span-7">
               <ScrollRevealText
                 as="h2"
-                text="Replacing five disconnected systems with one unified operational core."
+                text="Our Solutions"
                 className="text-[clamp(1.75rem,4vw,3.25rem)] text-gray-900 max-w-2xl"
                 start="top 85%"
                 end="bottom 55%"
@@ -365,7 +365,7 @@ export default function App() {
           {/* Heading with ScrollRevealText */}
           <ScrollRevealText
             as="h2"
-            text="Featured products and client platforms engineered for global scale."
+            text="Our Products"
             className="text-[clamp(1.75rem,5.5vw,3.75rem)] text-gray-900 mb-10 sm:mb-14 lg:mb-16"
             start="top 85%"
             end="bottom 55%"
