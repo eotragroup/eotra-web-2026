@@ -43,7 +43,7 @@ export function PartnersMarquee({ className = '' }: PartnersMarqueeProps) {
                 aria-hidden={dupIndex === 1}
                 className="flex items-center gap-8 sm:gap-14 shrink-0"
               >
-                {/* Alternating: Eotra Menu → Jamjoom → Dosur → NEOSHE, repeated 2× */}
+                {/* Alternating partner brand logos, repeated 2× per track */}
                 {[0, 1].map((i) => (
                   <React.Fragment key={`pair-${dupIndex}-${i}`}>
                     <div title="Eotra Menu" className="group px-4 py-2 flex items-center justify-center opacity-65 hover:opacity-100 transition-opacity duration-300 cursor-pointer">
@@ -57,6 +57,12 @@ export function PartnersMarquee({ className = '' }: PartnersMarqueeProps) {
                     </div>
                     <div title="NEOSHE" className="group px-4 py-2 flex items-center justify-center opacity-65 hover:opacity-100 transition-opacity duration-300 cursor-pointer">
                       <img src="/assets/neoshe-logo.png" alt="NEOSHE" className="h-5 sm:h-6 w-auto object-contain grayscale group-hover:grayscale-0 transition-all duration-300 group-hover:scale-105" />
+                    </div>
+                    <div title="IBOSH STORE" className="group px-4 py-2 flex items-center justify-center opacity-65 hover:opacity-100 transition-opacity duration-300 cursor-pointer">
+                      <img src="/assets/ibosh-logo.png" alt="IBOSH STORE" className="h-6 sm:h-7 w-auto object-contain grayscale group-hover:grayscale-0 transition-all duration-300 group-hover:scale-105" />
+                    </div>
+                    <div title="Lidya&Co" className="group px-4 py-2 flex items-center justify-center opacity-65 hover:opacity-100 transition-opacity duration-300 cursor-pointer">
+                      <img src="/assets/lidya-logo.svg" alt="Lidya&Co" className="h-6 sm:h-7 w-auto object-contain grayscale group-hover:grayscale-0 transition-all duration-300 group-hover:scale-105" />
                     </div>
                   </React.Fragment>
                 ))}

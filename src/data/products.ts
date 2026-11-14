@@ -290,10 +290,184 @@ export const NEOSHE_PRODUCT: ProductPageData = {
   inquirySubject: 'Inquiry: NEOSHE E-Commerce Platform Architecture',
 };
 
+export const IBOSH_PRODUCT: ProductPageData = {
+  id: 'ibosh',
+  title: 'IBOSH STORE',
+  tagline: 'Curated luxury designer fashion and leather goods commerce with global shipping.',
+  description:
+    'High-end luxury fashion and designer accessories e-commerce storefront with multi-language Arabic, English, and Turkish localization and worldwide delivery',
+  logoUrl: '/assets/ibosh-logo.png',
+  liveUrl: 'https://ibosh.store/ar',
+  domainLabel: 'ibosh.store',
+  client: 'IBOSH STORE',
+  year: '2026',
+  deliverables: [
+    'Luxury E-Commerce Platform',
+    'Trilingual Localization (AR / EN / TR)',
+    'Global Courier & Payment Rails',
+  ],
+  summary:
+    'Crafted for IBOSH STORE to power their luxury designer fashion boutique online—showcasing curated collections with trilingual localization, high-security transaction processing, dynamic currency switching, and international courier tracking.',
+  overviewParagraphs: [
+    'IBOSH STORE curates high-end luxury designer bags and accessories, catering to an international clientele demanding an authentic, ultra-smooth shopping journey across Arabic, English, and Turkish.',
+    'Eotra architected a bespoke modern e-commerce storefront designed for speed, visual elegance, and effortless global transactions across Middle Eastern and European markets.',
+  ],
+  quote:
+    'An elite digital luxury boutique bridging Istanbul fashion curation with discerning shoppers worldwide.',
+  quoteAuthor: 'IBOSH STORE · ibosh.store',
+  metrics: [
+    { label: 'Localization', value: 'Arabic · English · Turkish' },
+    { label: 'Fulfillment', value: 'Worldwide Express' },
+    { label: 'Architecture', value: 'Modern Web Commerce' },
+    { label: 'Payment Options', value: 'Cards, Wallets & Bank Rails' },
+  ],
+  capabilities: [
+    {
+      index: '01.',
+      title: 'Trilingual RTL & LTR Architecture',
+      description:
+        'Complete native support for Arabic right-to-left layout along with English and Turkish, delivering cultural and visual fluency to every shopper.',
+    },
+    {
+      index: '02.',
+      title: 'Luxury Merchandising & Product Curation',
+      description:
+        'High-resolution multi-angle product photography, authentication badges, real-time availability counters, and tailored size/spec guides.',
+    },
+    {
+      index: '03.',
+      title: 'Global Checkout & Multi-Currency Settlement',
+      description:
+        'Unified payment processing supporting regional and international payment methods with transparent currency conversion and tax calculation.',
+    },
+    {
+      index: '04.',
+      title: 'Automated Global Shipping Integration',
+      description:
+        'Direct connection to international express carriers with real-time rate calculation, customs documentation, and live doorstep tracking.',
+    },
+  ],
+  workflows: [
+    {
+      label: 'Curation',
+      title: 'Exclusive Drops & Pre-Orders',
+      summary:
+        'Manage high-demand luxury inventory drops, waitlists, and VIP private collections with instant stock synchronization.',
+    },
+    {
+      label: 'Checkout',
+      title: 'Seamless Global Payment',
+      summary:
+        'One-click digital wallet and card checkout optimized to eliminate friction across international buyers.',
+    },
+    {
+      label: 'Logistics',
+      title: 'Cross-Border Dispatch',
+      summary:
+        'Automated order routing, customs clearance manifest generation, and real-time shipment milestone notifications.',
+    },
+  ],
+  specifications: [
+    { label: 'Primary Domain', value: 'ibosh.store' },
+    { label: 'Supported Locales', value: 'Arabic (RTL) · English · Turkish' },
+    { label: 'Product Focus', value: 'Luxury Designer Bags & Accessories' },
+    { label: 'Fulfillment Scope', value: 'Door-to-Door Worldwide Delivery' },
+  ],
+  inquirySubject: 'Inquiry: IBOSH STORE Luxury E-Commerce Architecture',
+};
+
+export const LIDYA_PRODUCT: ProductPageData = {
+  id: 'lidya',
+  title: 'Lidya&Co',
+  tagline: 'Ingredient-led hair, skin, and body care formulations made in Istanbul.',
+  description:
+    'Clean beauty and personal care digital flagship featuring scientific formulation showcases, routine builders, and direct-to-consumer e-commerce',
+  logoUrl: '/assets/lidya-logo.svg',
+  liveUrl: 'https://www.lidyaco.tr/en',
+  domainLabel: 'lidyaco.tr',
+  client: 'Lidya&Co',
+  year: '2026',
+  deliverables: [
+    'Clean Beauty Digital Flagship',
+    'Scientific Routine Builder',
+    'Bilingual TR / EN Storefront',
+  ],
+  summary:
+    'Developed for Lidya&Co to showcase their ingredient-led cosmetics and wellness formulations crafted in Istanbul—unifying clean Scandinavian/Mediterranean aesthetic design, active ingredient education, and high-speed direct-to-consumer shopping.',
+  overviewParagraphs: [
+    'Lidya&Co combines pure botanical extracts with dermatological science (biotin, keratin, niacinamide). They required a digital brand flagship that communicates scientific credibility while making skincare and haircare routines intuitive to discover.',
+    'Eotra designed and engineered a fresh, high-performance storefront featuring routine-guided shopping, ingredient transparency drawers, and frictionless mobile checkout.',
+  ],
+  quote:
+    'Natural ingredients. Scientific formulation. Simple routines—crafted in Istanbul for modern skin and hair wellness.',
+  quoteAuthor: 'Lidya&Co · lidyaco.tr',
+  metrics: [
+    { label: 'Formulation Hub', value: 'Made in Istanbul' },
+    { label: 'Languages', value: 'English & Turkish' },
+    { label: 'Category Reach', value: 'Hair, Skin & Body Care' },
+    { label: 'Shopping Flow', value: 'Routine & Ingredient Guided' },
+  ],
+  capabilities: [
+    {
+      index: '01.',
+      title: 'Ingredient-Led Product Merchandising',
+      description:
+        'Dedicated breakdowns for active compounds like niacinamide, keratin, and biotin, giving consumers scientific transparency before purchase.',
+    },
+    {
+      index: '02.',
+      title: 'Interactive Routine Guidance',
+      description:
+        'Guided discovery helping customers bundle complementary cleanser, serum, and moisturizer steps into effective daily regimens.',
+    },
+    {
+      index: '03.',
+      title: 'Bilingual TR/EN Commerce Experience',
+      description:
+        'Synchronized localization between Turkish domestic market shoppers and expanding international English-speaking audiences.',
+    },
+    {
+      index: '04.',
+      title: 'Sub-Second Mobile Storefront Speed',
+      description:
+        'Optimized bundle size, responsive imagery, and instant slide cart ensuring zero-friction mobile browsing.',
+    },
+  ],
+  workflows: [
+    {
+      label: 'Education',
+      title: 'Active Formula Deep-Dives',
+      summary:
+        'Transparent ingredient panels detailing clinical benefits, skin compatibility, and usage instructions.',
+    },
+    {
+      label: 'Bundling',
+      title: 'Routine Builder Checkouts',
+      summary:
+        'One-click complete routine additions with smart volume discounts and travel-size add-on recommendations.',
+    },
+    {
+      label: 'Fulfillment',
+      title: 'Domestic & Regional Dispatch',
+      summary:
+        'Instant integration with Turkish courier networks and cross-border regional postal fulfillment.',
+    },
+  ],
+  specifications: [
+    { label: 'Primary Domain', value: 'lidyaco.tr' },
+    { label: 'Operating Markets', value: 'Türkiye & Global Export' },
+    { label: 'Product Focus', value: 'Ingredient-Led Cosmetics & Care' },
+    { label: 'Language Options', value: 'Turkish · English' },
+  ],
+  inquirySubject: 'Inquiry: Lidya&Co Cosmetics Digital Flagship',
+};
+
 export const PRODUCTS: ProductPageData[] = [
   JAMJOOM_PRODUCT,
   EOTRA_MENU_PRODUCT,
   NEOSHE_PRODUCT,
+  IBOSH_PRODUCT,
+  LIDYA_PRODUCT,
 ];
 
 export const CASE_STUDIES: CaseStudyData[] = [
