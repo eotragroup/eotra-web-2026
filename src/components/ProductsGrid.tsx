@@ -40,6 +40,9 @@ const TINTS: Record<string, string> = {
 // Products whose picture is dark: show their logo in white
 const DARK = new Set(['tradespilot']);
 
+// Products whose picture is a photo: add a soft white fade behind the logo
+const PHOTO = new Set(['eotra-menu']);
+
 export function ProductsGrid({ products, onOpenProduct }: Props) {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-6 lg:gap-8">
@@ -72,6 +75,13 @@ export function ProductsGrid({ products, onOpenProduct }: Props) {
                       'radial-gradient(circle, rgba(0,0,0,0.12) 1px, transparent 1px)',
                     backgroundSize: '20px 20px',
                   }}
+                />
+              )}
+
+              {cover && PHOTO.has(product.id) && (
+                <div
+                  className="absolute inset-x-0 top-0 h-[34%] bg-gradient-to-b from-white/90 via-white/55 to-transparent pointer-events-none"
+                  aria-hidden="true"
                 />
               )}
 
