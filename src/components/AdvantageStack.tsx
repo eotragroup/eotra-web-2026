@@ -1,3 +1,6 @@
+import posImg from '../assets/advantage/pos.jpg';
+import wmsImg from '../assets/advantage/wms.jpg';
+import crmImg from '../assets/advantage/crm.jpg';
 import {
   ShoppingCart,
   Warehouse,
@@ -23,6 +26,8 @@ interface CardStyle {
   Icon: LucideIcon;
   btn: string;
   btnIcon: string;
+  image: string;
+  imageAlt: string;
 }
 
 // One quiet visual per capability: a big icon tile + the systems it connects
@@ -36,6 +41,8 @@ const STYLES: CardStyle[] = [
     Icon: ShoppingCart,
     btn: 'bg-[#0400F5] text-white hover:bg-[#0300cc]',
     btnIcon: 'bg-white text-[#0400F5]',
+    image: posImg,
+    imageAlt: 'Cashier using a point of sale terminal in a store',
     items: [{ label: 'POS', Icon: ShoppingCart }],
   },
   {
@@ -47,6 +54,8 @@ const STYLES: CardStyle[] = [
     Icon: Warehouse,
     btn: 'bg-white text-gray-900 hover:bg-gray-100',
     btnIcon: 'bg-[#0400F5] text-white',
+    image: wmsImg,
+    imageAlt: 'Warehouse aisles with live inventory scanning',
     items: [
       { label: 'WMS', Icon: Warehouse },
       { label: 'ERP', Icon: Receipt },
@@ -61,6 +70,8 @@ const STYLES: CardStyle[] = [
     Icon: Users,
     btn: 'bg-gray-950 text-white hover:bg-gray-800',
     btnIcon: 'bg-white text-gray-950',
+    image: crmImg,
+    imageAlt: 'Store team meeting a loyalty customer',
     items: [
       { label: 'CRM', Icon: Users },
       { label: 'Analytics', Icon: BarChart3 },
@@ -85,26 +96,28 @@ export function AdvantageStack({
             className={`sticky rounded-2xl overflow-hidden mb-6 sm:mb-10 last:mb-0 shadow-[0_-10px_40px_rgba(0,0,0,0.12)] ${st.card}`}
             style={{ top: `calc(88px + ${i} * 18px)` }}
           >
-            {/* Mobile: icon, systems, number, title + button. Desktop: number / systems on top, title / icon below */}
+            {/* Mobile: picture, systems, number, title + button. Desktop: number / systems on the left top, title on the left bottom, picture on the right */}
             <div className="grid grid-cols-1 md:grid-cols-12 md:grid-rows-[auto_1fr] gap-y-6 md:gap-y-10 md:gap-x-8 p-6 sm:p-10 lg:p-14 min-h-[360px] sm:min-h-[420px] lg:min-h-[460px]">
-              {/* Big icon tile (top on phones, bottom-right on desktop) */}
-              <div
-                className={`order-1 md:order-none md:col-span-5 md:col-start-8 md:row-start-2 md:self-end md:justify-self-end w-20 h-20 sm:w-32 sm:h-32 lg:w-40 lg:h-40 rounded-[24px] lg:rounded-[36px] flex items-center justify-center shadow-xl ${st.tile}`}
-              >
-                <st.Icon
-                  strokeWidth={1.5}
-                  color={st.tileIcon}
-                  className="w-9 h-9 sm:w-14 sm:h-14 lg:w-16 lg:h-16"
+              {/* Picture (top on phones, right side on desktop) */}
+              <div className="order-1 md:order-none md:col-span-5 md:col-start-8 md:row-start-1 md:row-span-2 relative rounded-2xl overflow-hidden aspect-[16/10] md:aspect-auto md:min-h-[320px]">
+                <img
+                  src={st.image}
+                  alt={st.imageAlt}
+                  loading="lazy"
+                  className="absolute inset-0 w-full h-full object-cover"
                 />
+                <div className={`absolute left-4 bottom-4 w-12 h-12 sm:w-14 sm:h-14 rounded-2xl flex items-center justify-center shadow-xl ${st.tile}`}>
+                  <st.Icon strokeWidth={1.6} color={st.tileIcon} className="w-6 h-6 sm:w-7 sm:h-7" />
+                </div>
               </div>
 
               {/* Number */}
-              <span className={`order-3 md:order-none md:col-span-7 md:row-start-1 text-[13px] sm:text-[14px] font-semibold tabular-nums ${st.index}`}>
+              <span className={`order-3 md:order-none md:col-start-1 md:col-span-7 md:row-start-1 text-[13px] sm:text-[14px] font-semibold tabular-nums ${st.index}`}>
                 {cap.index} <span className="opacity-60">/ 0{capabilities.length}</span>
               </span>
 
               {/* Title + button */}
-              <div className="order-4 md:order-none md:col-span-7 md:row-start-2 md:self-end">
+              <div className="order-4 md:order-none md:col-start-1 md:col-span-7 md:row-start-2 md:self-end">
                 <h3 className="text-[clamp(1.75rem,4.2vw,3.5rem)] font-medium leading-[1.05] tracking-[-0.03em] max-w-xl">
                   {cap.title}
                 </h3>
@@ -121,7 +134,7 @@ export function AdvantageStack({
               </div>
 
               {/* Connected systems */}
-              <div className="order-2 md:order-none md:col-span-5 md:col-start-8 md:row-start-1 flex flex-wrap gap-2 md:justify-end md:content-start">
+              <div className="order-2 md:order-none md:col-start-1 md:col-span-7 md:row-start-1 flex flex-wrap gap-2 md:justify-end md:content-start">
                 {st.items.map(({ label, Icon }) => (
                   <span
                     key={label}
