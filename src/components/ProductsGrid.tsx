@@ -72,17 +72,17 @@ export function ProductsGrid({ products, onOpenProduct }: Props) {
                 />
               )}
 
-              {/* Logo badge inside the image */}
-              <div className="absolute top-4 left-4 right-4 flex items-start justify-between gap-3">
-                <div className="bg-white rounded-xl px-4 py-3 shadow-[0_6px_20px_rgba(0,0,0,0.08)] flex items-center">
+              {/* Logo badge, centered inside the image */}
+              <div className="absolute inset-0 flex items-center justify-center p-6 pointer-events-none">
+                <div className="bg-white rounded-2xl px-6 py-5 shadow-[0_10px_30px_rgba(0,0,0,0.10)] flex items-center transition-transform duration-500 ease-out group-hover:scale-[1.04]">
                   {product.logoUrl ? (
                     <img
                       src={product.logoUrl}
                       alt={`${product.title} logo`}
-                      className="h-7 sm:h-8 w-auto max-w-[150px] object-contain"
+                      className="h-9 sm:h-10 w-auto max-w-[180px] object-contain"
                     />
                   ) : (
-                    <span className="text-[15px] font-semibold text-gray-900">{product.title}</span>
+                    <span className="text-[17px] font-semibold text-gray-900">{product.title}</span>
                   )}
                 </div>
               </div>
