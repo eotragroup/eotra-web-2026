@@ -8,9 +8,9 @@ interface NavbarProps {
   onNavigateToTeam?: () => void;
 }
 
-function getLondonTime(): string {
+function getIstanbulTime(): string {
   return new Intl.DateTimeFormat('en-GB', {
-    timeZone: 'Europe/London',
+    timeZone: 'Europe/Istanbul',
     hour: '2-digit',
     minute: '2-digit',
     hour12: false,
@@ -18,12 +18,12 @@ function getLondonTime(): string {
 }
 
 export function Navbar({ onOpenInquiry, onNavigateHome, onNavigateToTeam }: NavbarProps) {
-  const [londonTime, setLondonTime] = useState<string>(() => getLondonTime());
+  const [istanbulTime, setIstanbulTime] = useState<string>(() => getIstanbulTime());
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setLondonTime(getLondonTime());
+      setIstanbulTime(getIstanbulTime());
     }, 1000);
     return () => clearInterval(interval);
   }, []);
@@ -158,7 +158,7 @@ export function Navbar({ onOpenInquiry, onNavigateHome, onNavigateToTeam }: Navb
             </span>
             <div className="flex items-center gap-1.5 text-[13px] text-gray-600 whitespace-nowrap tabular-nums">
               <Clock size={14} className="shrink-0" />
-              <span>{londonTime} in London</span>
+              <span>{istanbulTime} in Istanbul</span>
             </div>
             <RollButton
               label="Book a demo"
@@ -203,7 +203,7 @@ export function Navbar({ onOpenInquiry, onNavigateHome, onNavigateToTeam }: Navb
           <div className="flex items-center justify-between">
             <div className="inline-flex items-center gap-1.5 text-[13px] text-gray-600 bg-gray-100 px-3 py-1.5 rounded-full tabular-nums">
               <Clock size={14} />
-              <span>{londonTime} in London</span>
+              <span>{istanbulTime} in Istanbul</span>
             </div>
             <button
               type="button"
