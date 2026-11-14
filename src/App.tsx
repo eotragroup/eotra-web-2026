@@ -13,8 +13,7 @@ import { TypewriterText } from './components/TypewriterText';
 import { ScrollRevealText } from './components/ScrollRevealText';
 import { EotraBrandSculpture } from './components/EotraBrandSculpture';
 import { Footer } from './components/Footer';
-import retailPosImg from './assets/images/eotra_retail_pos_men_1794584625031.jpg';
-import globalOpsImg from './assets/images/eotra_global_ops_men_1794584624835.jpg';
+import { AppRain } from './components/AppRain';
 import {
   CASE_STUDIES,
   CaseStudyData,
@@ -381,22 +380,9 @@ export default function App() {
             </div>
           </div>
 
-          {/* Balanced Asymmetric Image Row */}
-          <div className="gsap-fade-up grid grid-cols-1 md:grid-cols-12 gap-5 sm:gap-6 items-stretch">
-            <div className="md:col-span-5 aspect-[4/3] md:aspect-auto md:h-[400px] lg:h-[460px] rounded-2xl overflow-hidden bg-gray-100">
-              <img
-                src={retailPosImg}
-                alt="Flagship retail checkout with Eotra POS"
-                className="w-full h-full object-cover"
-              />
-            </div>
-            <div className="md:col-span-7 aspect-[3/2] md:aspect-auto md:h-[400px] lg:h-[460px] rounded-2xl overflow-hidden bg-gray-100">
-              <img
-                src={globalOpsImg}
-                alt="Eotra global operations headquarters"
-                className="w-full h-full object-cover"
-              />
-            </div>
+          {/* Raining apps panel */}
+          <div className="gsap-fade-up">
+            <AppRain />
           </div>
         </div>
       </section>
