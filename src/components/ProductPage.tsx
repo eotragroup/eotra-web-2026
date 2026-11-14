@@ -6,9 +6,8 @@ import { PRODUCTS, ProductPageData } from '../data/products';
 import { Navbar } from './Navbar';
 import { RollButton } from './RollButton';
 import { ShaderBackground } from './ShaderBackground';
-import { ScrollRevealText } from './ScrollRevealText';
 import { Footer } from './Footer';
-import { ProductCard } from './ProductsGrid';
+import { ProductCard, ProductCover, screensFor } from './ProductsGrid';
 
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
@@ -22,6 +21,45 @@ interface ProductPageProps {
   onNavigateToTeam?: () => void;
 }
 
+
+function BrowserShot({
+  src,
+  alt,
+  domain,
+  className = '',
+}: {
+  src: string;
+  alt: string;
+  domain?: string;
+  className?: string;
+}) {
+  return (
+    <div className={`rounded-2xl overflow-hidden bg-white border border-gray-200 shadow-[0_20px_60px_rgba(0,0,0,0.08)] ${className}`}>
+      <div className="h-10 sm:h-11 bg-[#F3F3F5] border-b border-gray-200 flex items-center gap-2 px-4">
+        <span className="w-2.5 h-2.5 rounded-full bg-[#ff5f57]" />
+        <span className="w-2.5 h-2.5 rounded-full bg-[#febc2e]" />
+        <span className="w-2.5 h-2.5 rounded-full bg-[#28c840]" />
+        {domain && (
+          <span className="ml-3 flex-1 max-w-[320px] h-6 rounded-md bg-white text-[11px] text-gray-500 flex items-center px-3 truncate">
+            {domain}
+          </span>
+        )}
+      </div>
+      <img src={src} alt={alt} loading="lazy" className="w-full aspect-[16/10] object-cover object-top block" />
+    </div>
+  );
+}
+
+function PhoneShot({ src, alt, className = '' }: { src: string; alt: string; className?: string }) {
+  return (
+    <div className={`rounded-2xl bg-[#EFEFEF] border border-gray-200 flex items-center justify-center p-6 sm:p-10 ${className}`}>
+      <div className="w-[230px] sm:w-[260px] rounded-[38px] bg-gray-950 p-2.5 shadow-[0_30px_70px_rgba(0,0,0,0.25)]">
+        <img src={src} alt={alt} loading="lazy" className="w-full aspect-[9/19] object-cover object-top rounded-[30px] block" />
+      </div>
+    </div>
+  );
+}
+
 export function ProductPage({
   product,
   onNavigateHome,
@@ -30,6 +68,7 @@ export function ProductPage({
   onNavigateToTeam,
 }: ProductPageProps) {
   const otherProducts = PRODUCTS.filter((p) => p.id !== product.id);
+  const screens = screensFor(product.id);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -128,177 +167,97 @@ export function ProductPage({
               </div>
             </div>
 
-            {/* Right: Clean Logo Showcase Card */}
+            {/* Right: product picture with logo */}
             <div className="product-hero-anim lg:col-span-5">
-              <div className="bg-white rounded-2xl border border-gray-200 aspect-[16/10] flex items-center justify-center p-10 sm:p-14 shadow-none">
-                {product.logoUrl ? (
-                  <img
-                    src={product.logoUrl}
-                    alt={`${product.title} logo`}
-                    className="max-h-[82px] sm:max-h-[100px] w-auto max-w-[82%] object-contain"
-                  />
-                ) : (
-                  <span className="text-2xl font-semibold text-gray-900">
-                    {product.title}
-                  </span>
-                )}
-              </div>
+              <ProductCover product={product} className="aspect-[4/5] w-full max-w-[460px] lg:max-w-none lg:max-h-[560px]" />
             </div>
           </div>
         </div>
       </section>
 
-      {/* SECTION 1: METRICS & OVERVIEW */}
+      {/* SECTION 1: SCREENS */}
       <section className="bg-white py-16 sm:py-20 lg:py-24">
         <div className="max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-12">
-          {/* Quantitative Metrics Strip */}
+          {/* Metrics strip */}
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 py-8 border-y border-gray-200 mb-14 sm:mb-16">
             {product.metrics.map((metric) => (
               <div key={metric.label}>
-                <div className="text-[20px] sm:text-[26px] font-semibold text-gray-900 tracking-tight tabular-nums">
+                <div className="text-[22px] sm:text-[30px] font-semibold text-gray-900 tracking-tight tabular-nums">
                   {metric.value}
                 </div>
-                <div className="text-[13px] text-gray-500 mt-1">
-                  {metric.label}
-                </div>
+                <div className="text-[13px] text-gray-500 mt-1">{metric.label}</div>
               </div>
             ))}
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14">
-            {/* Overview Prose + Quote */}
-            <div className="lg:col-span-7">
-              <p className="text-[13px] font-semibold text-[#0400F5] mb-3 tabular-nums">
-                01. Product Overview
-              </p>
-              <h2 className="text-[clamp(1.5rem,3vw,2.25rem)] font-medium leading-[1.15] tracking-[-0.02em] text-gray-900 mb-6 text-balance">
-                Purpose-built operational architecture.
-              </h2>
+          <h2 className="text-[clamp(1.75rem,4vw,3.25rem)] font-medium leading-[1.08] tracking-[-0.03em] text-gray-900 mb-8 sm:mb-12">
+            In action
+          </h2>
 
-              <div className="space-y-4 text-[15px] sm:text-[16px] text-gray-600 leading-[1.7] max-w-2xl">
-                {product.overviewParagraphs.map((paragraph, idx) => (
-                  <p key={idx}>{paragraph}</p>
-                ))}
-              </div>
-
-              <div className="mt-8 rounded-2xl bg-[#F8F8FA] border border-gray-200 p-6 sm:p-7">
-                <p className="text-[15px] sm:text-[16px] text-gray-900 font-medium leading-relaxed">
-                  &ldquo;{product.quote}&rdquo;
-                </p>
-                <p className="text-[13px] text-gray-500 mt-2.5">
-                  {product.quoteAuthor}
-                </p>
-              </div>
+          {screens.desktop.length > 0 && (
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-6">
+              <BrowserShot
+                className="product-gsap-fade lg:col-span-8"
+                src={screens.desktop[0]}
+                domain={product.domainLabel}
+                alt={`${product.title} home page`}
+              />
+              {screens.mobile && (
+                <PhoneShot
+                  className="product-gsap-fade lg:col-span-4"
+                  src={screens.mobile}
+                  alt={`${product.title} on a phone`}
+                />
+              )}
+              {screens.desktop.slice(1).map((src, i) => (
+                <BrowserShot
+                  key={src}
+                  className="product-gsap-fade lg:col-span-6"
+                  src={src}
+                  domain={product.domainLabel}
+                  alt={`${product.title} screen ${i + 2}`}
+                />
+              ))}
             </div>
-
-            {/* Specifications & Scope */}
-            <div className="lg:col-span-5">
-              <div className="rounded-2xl border border-gray-200 bg-white p-6 sm:p-8">
-                <h3 className="text-[17px] font-semibold text-gray-900 mb-5">
-                  Product Specifications
-                </h3>
-
-                <div className="divide-y divide-gray-200 border-y border-gray-200">
-                  {product.specifications.map((spec) => (
-                    <div
-                      key={spec.label}
-                      className="py-3.5 flex items-baseline justify-between gap-4"
-                    >
-                      <span className="text-[13px] text-gray-500 shrink-0">
-                        {spec.label}
-                      </span>
-                      <span className="text-[14px] font-medium text-gray-900 text-right">
-                        {spec.value}
-                      </span>
-                    </div>
-                  ))}
-                  <div className="py-3.5 flex items-baseline justify-between gap-4">
-                    <span className="text-[13px] text-gray-500 shrink-0">
-                      Deliverables
-                    </span>
-                    <span className="text-[14px] font-medium text-gray-900 text-right">
-                      {product.deliverables.join(' · ')}
-                    </span>
-                  </div>
-                </div>
-
-                {product.liveUrl && (
-                  <a
-                    href={product.liveUrl}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="mt-6 w-full bg-gray-900 hover:bg-[#0400F5] text-white text-[13px] font-medium rounded-full px-5 py-3 inline-flex items-center justify-center gap-2 transition-colors"
-                  >
-                    <span>Open live product</span>
-                    <ExternalLink size={14} />
-                  </a>
-                )}
-              </div>
-            </div>
-          </div>
+          )}
         </div>
       </section>
 
-      {/* SECTION 2: CAPABILITIES & WORKFLOWS */}
+      {/* SECTION 2: HIGHLIGHTS */}
       <section className="bg-[#F5F5F5] py-16 sm:py-20 lg:py-24">
         <div className="max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-12">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 mb-14 sm:mb-16">
-            <div className="lg:col-span-5">
-              <p className="text-[13px] font-semibold text-[#0400F5] mb-3 tabular-nums">
-                02. System Capabilities
-              </p>
-              <h2 className="text-[clamp(1.5rem,3.4vw,2.6rem)] font-medium leading-[1.12] tracking-[-0.02em] text-gray-900 mb-5 text-balance">
-                Engineered for continuous daily operations.
-              </h2>
-              <p className="text-[14px] sm:text-[15px] text-gray-600 leading-relaxed max-w-md">
-                Built on Eotra&apos;s unified operations core so teams manage
-                catalogs, branches, languages, and transactions from one place.
-              </p>
-            </div>
+          <h2 className="text-[clamp(1.75rem,4vw,3.25rem)] font-medium leading-[1.08] tracking-[-0.03em] text-gray-900 mb-8 sm:mb-12">
+            Highlights
+          </h2>
 
-            <div className="lg:col-span-7 divide-y divide-gray-300 border-y border-gray-300">
-              {product.capabilities.map((cap) => (
-                <div
-                  key={cap.index}
-                  className="py-5 sm:py-6 flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-6"
-                >
-                  <span className="text-[13px] font-semibold text-[#0400F5] tabular-nums shrink-0">
-                    {cap.index}
-                  </span>
-                  <div className="flex-1">
-                    <h3 className="text-[16px] font-semibold text-gray-900">
-                      {cap.title}
-                    </h3>
-                    <p className="text-[13px] sm:text-[14px] text-gray-600 mt-1.5 leading-relaxed">
-                      {cap.description}
-                    </p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Workflow Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-6">
-            {product.workflows.map((wf) => (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
+            {product.capabilities.map((cap) => (
               <div
-                key={wf.title}
-                className="bg-white rounded-none border border-gray-200 hover:border-gray-900 transition-colors duration-300 p-6 sm:p-7 flex flex-col justify-between"
+                key={cap.index}
+                className="rounded-2xl bg-white border border-gray-200 p-6 sm:p-7 min-h-[140px] flex flex-col justify-between"
               >
-                <div>
-                  <p className="text-[12px] font-medium text-gray-500 mb-1.5">
-                    {wf.label}
-                  </p>
-                  <h3 className="text-[18px] font-semibold text-gray-900 mb-2.5">
-                    {wf.title}
-                  </h3>
-                  <p className="text-[13px] sm:text-[14px] text-gray-600 leading-relaxed">
-                    {wf.summary}
-                  </p>
-                </div>
+                <span className="text-[13px] font-semibold text-[#0400F5] tabular-nums">
+                  {cap.index}
+                </span>
+                <h3 className="text-[18px] sm:text-[20px] font-medium leading-snug tracking-[-0.01em] text-gray-900 mt-6">
+                  {cap.title}
+                </h3>
               </div>
             ))}
           </div>
+
+          {product.deliverables.length > 0 && (
+            <div className="mt-8 flex flex-wrap gap-2">
+              {product.deliverables.map((d) => (
+                <span
+                  key={d}
+                  className="inline-flex items-center px-4 py-2 rounded-full border border-gray-300 bg-white text-[13px] font-medium text-gray-900"
+                >
+                  {d}
+                </span>
+              ))}
+            </div>
+          )}
         </div>
       </section>
 
@@ -306,14 +265,9 @@ export function ProductPage({
       <section className="bg-white pt-16 sm:pt-20 lg:pt-24 pb-16 sm:pb-20">
         <div className="max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-12">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8 sm:mb-10">
-            <div>
-              <p className="text-[13px] font-semibold text-[#0400F5] mb-2">
-                03. Eotra Product Suite
-              </p>
-              <h2 className="text-[clamp(1.5rem,3vw,2.25rem)] font-medium leading-[1.15] tracking-[-0.02em] text-gray-900">
-                Explore other products
-              </h2>
-            </div>
+            <h2 className="text-[clamp(1.75rem,4vw,3.25rem)] font-medium leading-[1.08] tracking-[-0.03em] text-gray-900">
+              More products
+            </h2>
 
             <button
               type="button"
