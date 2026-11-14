@@ -62,7 +62,7 @@ const DROPS = Array.from({ length: COLUMNS * 2 }, (_, i) => {
   };
 });
 
-export function AppRain() {
+export function AppRain({ cta }: { cta?: React.ReactNode }) {
   return (
     <div
       className="app-rain relative w-full overflow-hidden rounded-2xl bg-gray-950"
@@ -94,6 +94,7 @@ export function AppRain() {
         <p className="text-white text-[clamp(1.25rem,2.6vw,2.25rem)] font-medium leading-[1.1] tracking-[-0.02em]">
           Every app your retail runs on. One core.
         </p>
+        {cta && <div className="mt-5 sm:mt-6">{cta}</div>}
       </div>
 
       {/* Falling apps */}

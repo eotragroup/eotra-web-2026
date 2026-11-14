@@ -338,21 +338,20 @@ export default function App() {
               />
             </div>
 
-            <div className="lg:col-span-5 flex flex-col items-start lg:pb-1">
-              <div>
+          </div>
+
+          {/* Raining apps panel */}
+          <div className="gsap-fade-up">
+            <AppRain
+              cta={
                 <RollButton
                   label="About our company"
                   variant="orange"
                   size="hero"
                   onClick={() => setInfoModal('company')}
                 />
-              </div>
-            </div>
-          </div>
-
-          {/* Raining apps panel */}
-          <div className="gsap-fade-up">
-            <AppRain />
+              }
+            />
           </div>
         </div>
       </section>
