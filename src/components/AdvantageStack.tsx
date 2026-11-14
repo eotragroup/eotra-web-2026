@@ -85,7 +85,7 @@ export function AdvantageStack({
             className={`sticky rounded-2xl overflow-hidden mb-6 sm:mb-10 last:mb-0 shadow-[0_-10px_40px_rgba(0,0,0,0.12)] ${st.card}`}
             style={{ top: `calc(88px + ${i} * 18px)` }}
           >
-            {/* Mobile: icon, number, title + button, systems. Desktop: number / systems on top, title / icon below */}
+            {/* Mobile: icon, systems, number, title + button. Desktop: number / systems on top, title / icon below */}
             <div className="grid grid-cols-1 md:grid-cols-12 md:grid-rows-[auto_1fr] gap-y-6 md:gap-y-10 md:gap-x-8 p-6 sm:p-10 lg:p-14 min-h-[360px] sm:min-h-[420px] lg:min-h-[460px]">
               {/* Big icon tile (top on phones, bottom-right on desktop) */}
               <div
@@ -99,12 +99,12 @@ export function AdvantageStack({
               </div>
 
               {/* Number */}
-              <span className={`order-2 md:order-none md:col-span-7 md:row-start-1 text-[13px] sm:text-[14px] font-semibold tabular-nums ${st.index}`}>
+              <span className={`order-3 md:order-none md:col-span-7 md:row-start-1 text-[13px] sm:text-[14px] font-semibold tabular-nums ${st.index}`}>
                 {cap.index} <span className="opacity-60">/ 0{capabilities.length}</span>
               </span>
 
               {/* Title + button */}
-              <div className="order-3 md:order-none md:col-span-7 md:row-start-2 md:self-end">
+              <div className="order-4 md:order-none md:col-span-7 md:row-start-2 md:self-end">
                 <h3 className="text-[clamp(1.75rem,4.2vw,3.5rem)] font-medium leading-[1.05] tracking-[-0.03em] max-w-xl">
                   {cap.title}
                 </h3>
@@ -121,7 +121,7 @@ export function AdvantageStack({
               </div>
 
               {/* Connected systems */}
-              <div className="order-4 md:order-none md:col-span-5 md:col-start-8 md:row-start-1 flex flex-wrap gap-2 md:justify-end md:content-start">
+              <div className="order-2 md:order-none md:col-span-5 md:col-start-8 md:row-start-1 flex flex-wrap gap-2 md:justify-end md:content-start">
                 {st.items.map(({ label, Icon }) => (
                   <span
                     key={label}
