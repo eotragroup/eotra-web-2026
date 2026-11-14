@@ -1,7 +1,7 @@
 # Product card images
 
-Drop a screenshot of each product here, named after the product id, and the
-homepage card picks it up automatically (jpg, jpeg, png or webp):
+Each homepage product card shows `<product-id>.jpg` from this folder
+(jpg, jpeg, png or webp are all picked up automatically):
 
 - `jamjoom-online.jpg`
 - `eotra-menu.jpg`
@@ -10,5 +10,7 @@ homepage card picks it up automatically (jpg, jpeg, png or webp):
 - `lidya.jpg`
 - `tradespilot.jpg`
 
-Recommended: 1200 x 800 (3:2), under ~300 KB. Cards without a file show a
-brand-tinted placeholder.
+The current files are illustrated mockups for each product's sector
+(1200 x 1500, 4:5). To use a real screenshot instead, replace the file with
+the same name. The logo is drawn on top of the image, top-center, so keep the
+top ~120px of any replacement image fairly clean.

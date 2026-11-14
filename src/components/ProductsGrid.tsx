@@ -37,6 +37,9 @@ const TINTS: Record<string, string> = {
   tradespilot: 'from-[#e3f5ef] to-[#cdeee3]',
 };
 
+// Products whose picture is dark: show their logo in white
+const DARK = new Set(['tradespilot']);
+
 export function ProductsGrid({ products, onOpenProduct }: Props) {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6 lg:gap-7">
@@ -72,14 +75,14 @@ export function ProductsGrid({ products, onOpenProduct }: Props) {
                 />
               )}
 
-              {/* Logo badge, top-center inside the image */}
+              {/* Logo, top-center inside the image (no card behind it) */}
               <div className="absolute inset-x-0 top-0 flex items-start justify-center p-5 pointer-events-none">
-                <div className="bg-white rounded-2xl px-6 py-5 shadow-[0_10px_30px_rgba(0,0,0,0.10)] flex items-center transition-transform duration-500 ease-out group-hover:scale-[1.04]">
+                <div className="flex items-center pt-2 transition-transform duration-500 ease-out group-hover:scale-[1.04]">
                   {product.logoUrl ? (
                     <img
                       src={product.logoUrl}
                       alt={`${product.title} logo`}
-                      className="h-9 sm:h-10 w-auto max-w-[180px] object-contain"
+                      className={`h-9 sm:h-10 w-auto max-w-[180px] object-contain ${DARK.has(product.id) ? 'brightness-0 invert' : ''}`}
                     />
                   ) : (
                     <span className="text-[17px] font-semibold text-gray-900">{product.title}</span>
