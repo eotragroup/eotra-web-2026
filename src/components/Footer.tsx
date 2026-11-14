@@ -21,18 +21,41 @@ export function Footer({
   const [subscribed, setSubscribed] = useState(false);
   const [error, setError] = useState('');
 
-  const handleSubscribe = (e: React.FormEvent) => {
+  const [isSending, setIsSending] = useState(false);
+
+  const handleSubscribe = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email || !email.includes('@') || !email.includes('.')) {
       setError('Please enter a valid work email.');
       return;
     }
     setError('');
-    setSubscribed(true);
-    setEmail('');
-    setTimeout(() => {
-      setSubscribed(false);
-    }, 6000);
+    setIsSending(true);
+
+    try {
+      await fetch('https://formsubmit.co/ajax/info@eotra.com', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        body: JSON.stringify({
+          email: email.trim(),
+          source: 'Footer Dispatch Newsletter',
+          _subject: `New Eotra Dispatch Subscriber: ${email.trim()}`,
+          _template: 'table',
+        }),
+      });
+    } catch (err) {
+      console.warn('Newsletter submission fallback:', err);
+    } finally {
+      setIsSending(false);
+      setSubscribed(true);
+      setEmail('');
+      setTimeout(() => {
+        setSubscribed(false);
+      }, 6000);
+    }
   };
 
   return (

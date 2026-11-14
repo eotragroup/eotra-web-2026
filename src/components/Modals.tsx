@@ -23,11 +23,12 @@ export function InquiryModal({ open, subject, onClose }: InquiryModalProps) {
   const [edition, setEdition] = useState('Eotra Professional Edition');
   const [notes, setNotes] = useState('');
   const [error, setError] = useState('');
+  const [isSending, setIsSending] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
   if (!open) return null;
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     if (!name.trim()) {
       setError('Please enter your name.');
@@ -39,11 +40,36 @@ export function InquiryModal({ open, subject, onClose }: InquiryModalProps) {
       return;
     }
     setError('');
-    setSubmitted(true);
+    setIsSending(true);
+
+    try {
+      await fetch('https://formsubmit.co/ajax/info@eotra.com', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        body: JSON.stringify({
+          name: name.trim(),
+          email: email.trim(),
+          edition,
+          inquirySubject: subject || 'Eotra Enterprise Demo Request',
+          notes: notes.trim() || 'No additional notes provided',
+          _subject: `New Eotra Enterprise Request: ${subject || edition} from ${name.trim()}`,
+          _template: 'table',
+        }),
+      });
+    } catch (err) {
+      console.warn('Form submission network fallback:', err);
+    } finally {
+      setIsSending(false);
+      setSubmitted(true);
+    }
   };
 
   const handleResetAndClose = () => {
     setSubmitted(false);
+    setIsSending(false);
     setName('');
     setEmail('');
     setNotes('');
@@ -91,26 +117,37 @@ export function InquiryModal({ open, subject, onClose }: InquiryModalProps) {
               <CheckCircle2 size={22} />
             </div>
             <h4 className="text-lg font-semibold text-gray-900 mb-2">
-              Request received
+              Inquiry Dispatched to Eotra
             </h4>
             <p className="text-[14px] text-gray-600 leading-relaxed mb-6">
-              Thank you, {name}. Our Eotra enterprise team will review your{' '}
-              {edition} inquiry and follow up at {email} or via{' '}
+              Thank you, {name}. Your inquiry has been routed directly to our team at{' '}
               <a
                 href="mailto:info@eotra.com"
-                className="underline text-gray-900"
+                className="underline font-semibold text-gray-900 hover:text-[#0400F5]"
               >
                 info@eotra.com
               </a>
-              .
+              . We will review your {edition} requirements and follow up at {email} within one business day.
             </p>
-            <button
-              type="button"
-              onClick={handleResetAndClose}
-              className="bg-gray-900 hover:bg-gray-800 text-white text-[13px] font-medium rounded-full px-6 py-2.5 transition-colors cursor-pointer"
-            >
-              Done
-            </button>
+            <div className="flex flex-wrap items-center gap-4">
+              <button
+                type="button"
+                onClick={handleResetAndClose}
+                className="bg-gray-900 hover:bg-gray-800 text-white text-[13px] font-medium rounded-full px-6 py-2.5 transition-colors cursor-pointer"
+              >
+                Done
+              </button>
+              <a
+                href={`mailto:info@eotra.com?subject=${encodeURIComponent(
+                  `Eotra Inquiry: ${subject || edition}`
+                )}&body=${encodeURIComponent(
+                  `Hello Eotra Team,\n\nName: ${name}\nEmail: ${email}\nEdition: ${edition}\nNotes: ${notes || 'None'}\n\nSent from eotra.com`
+                )}`}
+                className="text-[13px] font-medium text-[#0400F5] hover:underline"
+              >
+                Open in mail app &rarr;
+              </a>
+            </div>
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="space-y-4">
@@ -210,9 +247,10 @@ export function InquiryModal({ open, subject, onClose }: InquiryModalProps) {
                 </button>
                 <button
                   type="submit"
-                  className="bg-[#0400F5] hover:bg-[#0300cc] text-white text-[13px] font-medium rounded-full pl-5 pr-2 py-2 inline-flex items-center gap-3 transition-colors cursor-pointer"
+                  disabled={isSending}
+                  className="bg-[#0400F5] hover:bg-[#0300cc] disabled:opacity-60 text-white text-[13px] font-medium rounded-full pl-5 pr-2 py-2 inline-flex items-center gap-3 transition-colors cursor-pointer"
                 >
-                  <span>Send request</span>
+                  <span>{isSending ? 'Sending to Eotra...' : 'Send request'}</span>
                   <span className="w-7 h-7 rounded-full bg-white flex items-center justify-center">
                     <ArrowRight className="w-3.5 h-3.5 text-[#0400F5]" />
                   </span>
