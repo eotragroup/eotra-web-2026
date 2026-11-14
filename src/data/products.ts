@@ -204,9 +204,96 @@ export const EOTRA_MENU_PRODUCT: ProductPageData = {
   inquirySubject: 'Inquiry: EOTRA Menu for Hospitality',
 };
 
+export const NEOSHE_PRODUCT: ProductPageData = {
+  id: 'neoshe',
+  title: 'NEOSHE Skincare',
+  tagline: 'Minimalist luxury skincare e-commerce engineered for direct-to-consumer global reach.',
+  description:
+    'Direct-to-consumer skincare platform with responsive catalog, custom storefront architecture, and international multi-currency checkout',
+  logoUrl: '/assets/neoshe-logo.png',
+  liveUrl: 'https://www.neoshe.com/',
+  domainLabel: 'neoshe.com',
+  client: 'NEOSHE',
+  year: '2026',
+  deliverables: [
+    'D2C Storefront',
+    'E-Commerce Architecture',
+    'Global Checkout',
+  ],
+  summary:
+    'Engineered for NEOSHE to power their high-end direct-to-consumer skincare platform—delivering clean aesthetics, high-conversion product showcases, sub-second page transitions, and smooth multi-currency checkout across international markets.',
+  overviewParagraphs: [
+    'NEOSHE required a clean, modern digital flagship that reflects their minimalist skincare formulation while providing a frictionless direct-to-consumer shopping experience globally.',
+    'Eotra designed and engineered a performance-focused storefront architecture featuring rapid product discovery, predictive search, seamless mobile commerce, and integrated global payment rails.',
+  ],
+  quote:
+    'A refined digital flagship that translates luxury skincare into a smooth, frictionless global e-commerce journey.',
+  quoteAuthor: 'NEOSHE · neoshe.com',
+  metrics: [
+    { label: 'Platform Architecture', value: 'D2C Storefront' },
+    { label: 'Checkout Scope', value: 'Global Multi-Currency' },
+    { label: 'Mobile Performance', value: 'Touch-Optimized' },
+    { label: 'Target Markets', value: 'UK & International' },
+  ],
+  capabilities: [
+    {
+      index: '01.',
+      title: 'Minimalist High-Conversion Storefront',
+      description:
+        'Designed around tactile product presentation, high-resolution visual storytelling, and distraction-free checkout flows to maximize customer engagement.',
+    },
+    {
+      index: '02.',
+      title: 'Global Multi-Currency & Payment Rails',
+      description:
+        'Seamless international payments supporting major credit cards, Apple Pay, Google Pay, and localized currency settlement.',
+    },
+    {
+      index: '03.',
+      title: 'Predictive Search & Fast Merchandising',
+      description:
+        'Sub-second predictive search with real-time inventory synchronization, instant cart drawer interactions, and express checkout shortcuts.',
+    },
+    {
+      index: '04.',
+      title: 'Responsive Cross-Device Performance',
+      description:
+        'Lightweight asset optimization and mobile-first architecture ensuring instant load speeds and smooth navigation on any viewport.',
+    },
+  ],
+  workflows: [
+    {
+      label: 'Storefront',
+      title: 'Brand Storytelling & Catalog',
+      summary:
+        'Immersive product detail pages highlighting ingredient purity, application rituals, and verified customer reviews.',
+    },
+    {
+      label: 'Commerce',
+      title: 'Frictionless Quick-Add',
+      summary:
+        'Flyout slide cart with dynamic threshold incentives, one-tap express payment, and gift recipient options.',
+    },
+    {
+      label: 'Logistics',
+      title: 'Automated Order Fulfillment',
+      summary:
+        'Synchronized dispatch workflows, automated tracking updates, and direct courier label generation.',
+    },
+  ],
+  specifications: [
+    { label: 'Primary Domain', value: 'neoshe.com' },
+    { label: 'Platform Type', value: 'Luxury D2C E-Commerce' },
+    { label: 'Market Coverage', value: 'UK & International Shipping' },
+    { label: 'Core Capabilities', value: 'Custom Storefront · Global Checkout · Fast Search' },
+  ],
+  inquirySubject: 'Inquiry: NEOSHE E-Commerce Platform Architecture',
+};
+
 export const PRODUCTS: ProductPageData[] = [
   JAMJOOM_PRODUCT,
   EOTRA_MENU_PRODUCT,
+  NEOSHE_PRODUCT,
 ];
 
 export const CASE_STUDIES: CaseStudyData[] = [

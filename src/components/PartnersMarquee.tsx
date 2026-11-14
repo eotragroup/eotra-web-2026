@@ -43,8 +43,8 @@ export function PartnersMarquee({ className = '' }: PartnersMarqueeProps) {
                 aria-hidden={dupIndex === 1}
                 className="flex items-center gap-8 sm:gap-14 shrink-0"
               >
-                {/* Alternating: Eotra Menu → Jamjoom → Dosur, repeated 3× */}
-                {[0, 1, 2].map((i) => (
+                {/* Alternating: Eotra Menu → Jamjoom → Dosur → NEOSHE, repeated 2× */}
+                {[0, 1].map((i) => (
                   <React.Fragment key={`pair-${dupIndex}-${i}`}>
                     <div title="Eotra Menu" className="group px-4 py-2 flex items-center justify-center opacity-65 hover:opacity-100 transition-opacity duration-300 cursor-pointer">
                       <img src="/assets/eotra-menu-logo.svg" alt="Eotra Menu" className="h-7 sm:h-8 w-auto object-contain grayscale group-hover:grayscale-0 transition-all duration-300 group-hover:scale-105" />
@@ -54,6 +54,9 @@ export function PartnersMarquee({ className = '' }: PartnersMarqueeProps) {
                     </div>
                     <div title="Dosur" className="group px-4 py-2 flex items-center justify-center opacity-65 hover:opacity-100 transition-opacity duration-300 cursor-pointer">
                       <img src="/assets/dosur-logo.svg" alt="Dosur" className="h-7 sm:h-8 w-auto object-contain grayscale group-hover:grayscale-0 transition-all duration-300 group-hover:scale-105" />
+                    </div>
+                    <div title="NEOSHE" className="group px-4 py-2 flex items-center justify-center opacity-65 hover:opacity-100 transition-opacity duration-300 cursor-pointer">
+                      <img src="/assets/neoshe-logo.png" alt="NEOSHE" className="h-5 sm:h-6 w-auto object-contain grayscale group-hover:grayscale-0 transition-all duration-300 group-hover:scale-105" />
                     </div>
                   </React.Fragment>
                 ))}
