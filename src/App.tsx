@@ -14,7 +14,7 @@ import { ScrollRevealText } from './components/ScrollRevealText';
 import { EotraBrandSculpture } from './components/EotraBrandSculpture';
 import { Footer } from './components/Footer';
 import { AppRain } from './components/AppRain';
-import { UnifiedCore } from './components/UnifiedCore';
+import { AdvantagePanel } from './components/AdvantagePanel';
 import {
   CASE_STUDIES,
   CaseStudyData,
@@ -424,36 +424,28 @@ export default function App() {
             </span>
           </div>
 
-          <div className="gsap-fade-up grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 mb-14 sm:mb-16 items-start">
-            <div className="lg:col-span-5">
+          {/* Editorial header + summary */}
+          <div className="gsap-fade-up grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-end mb-12 sm:mb-16">
+            <div className="lg:col-span-7">
               <ScrollRevealText
                 as="h2"
                 text="Replacing five disconnected systems with one unified operational core."
-                className="text-[clamp(1.5rem,3.6vw,2.75rem)] text-gray-900 mb-8"
+                className="text-[clamp(1.75rem,4vw,3.25rem)] text-gray-900 max-w-2xl"
                 start="top 85%"
                 end="bottom 55%"
               />
-              <div className="grid grid-cols-3 gap-3 sm:gap-4 max-w-md">
-                {[
-                  { big: '5→1', small: 'systems unified' },
-                  { big: 'Weeks', small: 'to deploy' },
-                  { big: '50+', small: 'store networks' },
-                ].map((stat) => (
-                  <div key={stat.small} className="border-t-2 border-gray-900 pt-3">
-                    <div className="text-[clamp(1.4rem,2.6vw,2.1rem)] font-semibold tracking-tight text-gray-900 leading-none">
-                      {stat.big}
-                    </div>
-                    <div className="mt-1.5 text-[11px] sm:text-[12px] text-gray-500 font-medium leading-tight">
-                      {stat.small}
-                    </div>
-                  </div>
-                ))}
-              </div>
             </div>
+            <div className="lg:col-span-5 lg:pb-1">
+              <p className="text-[15px] sm:text-[17px] leading-[1.6] font-medium text-gray-600 max-w-md">
+                From single boutiques to 50+ store networks, Eotra deploys in
+                weeks with bank-grade security.
+              </p>
+            </div>
+          </div>
 
-            <div className="lg:col-span-7">
-              <UnifiedCore capabilities={CAPABILITIES} />
-            </div>
+          {/* Clean panel */}
+          <div className="gsap-fade-up mb-14 sm:mb-16">
+            <AdvantagePanel capabilities={CAPABILITIES} />
           </div>
 
           {/* Platform Editions */}
