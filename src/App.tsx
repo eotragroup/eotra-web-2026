@@ -15,7 +15,7 @@ import { EotraBrandSculpture } from './components/EotraBrandSculpture';
 import { Footer } from './components/Footer';
 import { AppRain } from './components/AppRain';
 import { AdvantageStack } from './components/AdvantageStack';
-import { ProductsSlider } from './components/ProductsSlider';
+import { ProductsGrid } from './components/ProductsGrid';
 import {
   CASE_STUDIES,
   CaseStudyData,
@@ -429,8 +429,8 @@ export default function App() {
             end="bottom 55%"
           />
 
-          {/* Products slider */}
-          <ProductsSlider products={PRODUCTS} onOpenProduct={navigateToProduct} />
+          {/* Products grid */}
+          <ProductsGrid products={PRODUCTS} onOpenProduct={navigateToProduct} />
         </div>
       </section>
 
