@@ -3,6 +3,7 @@ import { ArrowRight, Check } from 'lucide-react';
 import { Navbar } from './Navbar';
 import { Footer } from './Footer';
 import { RollButton } from './RollButton';
+import { TechBadge } from './TechBadge';
 import { SERVICES, SERVICE_STEPS, getService } from '../data/services';
 import { goToConnect, goToService } from '../lib/nav';
 
@@ -113,9 +114,7 @@ export function ServicePage({ slug, onNavigateHome, onOpenInquiry, onNavigateToT
           <div className="mt-12 flex flex-wrap items-center gap-2.5">
             <span className="text-[13px] text-gray-500 mr-2">Typical stack</span>
             {service.tech.map((t) => (
-              <span key={t} className="rounded-full bg-white px-4 py-2 text-[13px] font-medium text-gray-900">
-                {t}
-              </span>
+              <TechBadge key={t} name={t} />
             ))}
           </div>
         </div>
