@@ -62,9 +62,11 @@ interface InquiryFormProps {
   doneLabel?: string;
   /** Light-on-dark colours, for use on the dark glass card */
   dark?: boolean;
+  /** Text already in the "anything else" box, for example the summary from the chat assistant */
+  initialNotes?: string;
 }
 
-export function InquiryForm({ subject, onClose, showClose = true, doneLabel = 'Done', dark = false }: InquiryFormProps) {
+export function InquiryForm({ subject, onClose, showClose = true, doneLabel = 'Done', dark = false, initialNotes = '' }: InquiryFormProps) {
   const { t } = useI18n();
   const isProject = !NOT_A_PROJECT.test(subject || '');
 
@@ -73,7 +75,7 @@ export function InquiryForm({ subject, onClose, showClose = true, doneLabel = 'D
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
-  const [notes, setNotes] = useState('');
+  const [notes, setNotes] = useState(initialNotes);
   const [error, setError] = useState('');
   const [isSending, setIsSending] = useState(false);
   const [submitted, setSubmitted] = useState(false);

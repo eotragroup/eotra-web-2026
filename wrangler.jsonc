@@ -12,6 +12,9 @@
     "not_found_handling": "single-page-application",
     "run_worker_first": ["/*", "!/assets/*", "!/*.png", "!/*.jpg", "!/*.jpeg", "!/*.svg", "!/*.webmanifest", "!/*.ico", "!/*.webp"]
   },
+  "ai": {
+    "binding": "AI"
+  },
   "kv_namespaces": [
     {
       "binding": "VIEWS"
