@@ -23,14 +23,7 @@ interface ConnectPageProps {
 export function ConnectPage({ onNavigateHome, onOpenInquiry, onNavigateToTeam, onSelectProduct }: ConnectPageProps) {
   return (
     <div className="min-h-screen bg-white text-gray-900 antialiased">
-      <div className="relative isolate overflow-hidden bg-[#F5F5F7]">
-                <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10">
-          {/* Kept to the left and the far edges, so nothing bright sits behind the form card */}
-          <div className="connect-orb absolute top-[22%] left-[-14%] w-[560px] h-[560px] rounded-full bg-[#0400F5]/15 blur-[120px]" />
-          <div className="connect-orb connect-orb-b absolute bottom-[-6%] left-[12%] w-[440px] h-[440px] rounded-full bg-violet-400/20 blur-[120px]" />
-          <div className="connect-orb absolute top-[4%] right-[-16%] w-[420px] h-[420px] rounded-full bg-sky-300/30 blur-[120px]" />
-          <div className="connect-orb connect-orb-b absolute top-[30%] left-[22%] w-[380px] h-[380px] rounded-full bg-indigo-300/20 blur-[110px]" />
-        </div>
+      <div className="relative isolate overflow-hidden bg-[#F3F3F3]">
 
         <section className="relative flex flex-col">
           <Navbar onOpenInquiry={onOpenInquiry} onNavigateHome={onNavigateHome} onNavigateToTeam={onNavigateToTeam} />
@@ -64,7 +57,7 @@ export function ConnectPage({ onNavigateHome, onOpenInquiry, onNavigateToTeam, o
 
             <div className="lg:col-span-7">
               {/* Frosted-glass card */}
-              <div className="rounded-[32px] bg-white/70 backdrop-blur-2xl backdrop-saturate-150 p-6 sm:p-8 lg:p-10 max-w-2xl">
+              <div className="rounded-[32px] bg-white backdrop-saturate-150 p-6 sm:p-8 lg:p-10 max-w-2xl">
                 <InquiryForm subject="Connect with Eotra" onClose={() => onNavigateHome()} showClose={false} doneLabel="Back to home" />
               </div>
             </div>
