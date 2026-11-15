@@ -60,7 +60,7 @@ function withPageMeta(res: Response, url: URL): Response {
   const enUrl = `${url.origin}${bare === '/' ? '/' : bare}`;
   const arUrl = `${url.origin}/ar${bare === '/' ? '' : bare}`;
   const pageUrl = `${url.origin}${url.pathname}`;
-  const image = `${url.origin}/og.png`;
+  const image = `${url.origin}/og.png?v=2`; // bump the number when the picture changes so WhatsApp and others fetch it again
   const content = (value: string) => ({
     element(e: { setAttribute(n: string, v: string): void }) {
       e.setAttribute('content', value);
@@ -73,6 +73,7 @@ function withPageMeta(res: Response, url: URL): Response {
     .on('meta[property="og:description"]', content(meta.description))
     .on('meta[property="og:url"]', content(pageUrl))
     .on('meta[property="og:image"]', content(image))
+    .on('meta[property="og:image:secure_url"]', content(image))
     .on('meta[name="twitter:title"]', content(title))
     .on('meta[name="twitter:description"]', content(meta.description))
     .on('meta[name="twitter:image"]', content(image))

@@ -23,7 +23,7 @@ const meta = (key: 'name' | 'property', name: string) => () => {
 
 export function applyMeta({ title, description = DEFAULT_DESC, noindex }: Partial<PageMeta> & { title: string }) {
   const url = `${window.location.origin}${window.location.pathname}`;
-  const image = `${window.location.origin}/og.png`;
+  const image = `${window.location.origin}/og.png?v=2`;
   const full = title === SITE ? title : title.includes(SITE) ? title : `${title} — ${SITE}`;
   document.title = full;
   setTag('meta[name="description"]', meta('name', 'description'), 'content', description);
