@@ -74,6 +74,12 @@ export function ConnectPage({ onNavigateHome, onOpenInquiry, onNavigateToTeam, o
               <div className="rounded-[32px] bg-gray-50 p-6 sm:p-8 lg:p-10 max-w-2xl">
                 <InquiryForm key={subjectFromUrl()} subject={subjectFromUrl()} onClose={() => onNavigateHome()} showClose={false} doneLabel="Back to home" />
               </div>
+
+              {/* Phones: globe sits under the form */}
+              <div className="lg:hidden mt-10 mx-auto max-w-[320px]">
+                <Globe />
+                <p className="mt-2 text-center text-[12px] text-gray-400">Istanbul · Working with clients worldwide. Drag to explore.</p>
+              </div>
             </div>
           </div>
         </section>
