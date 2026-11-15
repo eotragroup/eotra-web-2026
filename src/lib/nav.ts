@@ -10,6 +10,12 @@ export function navigateTo(path: string) {
 }
 
 export const goToFaq = () => navigateTo('/faq');
-export const goToConnect = () => navigateTo('/connect');
+// Optional subject pre-selects the matching service on the form (read back from ?s=)
+export const goToConnect = (subject?: string) => {
+  const q = subject ? `?s=${encodeURIComponent(subject)}` : '';
+  window.history.pushState({}, '', `/connect${q}`);
+  window.dispatchEvent(new PopStateEvent('popstate'));
+  smoothScrollTo(0, { immediate: true });
+};
 export const goToBlog = () => navigateTo('/blog');
 export const goToPost = (slug: string) => navigateTo(`/blog/${slug}`);

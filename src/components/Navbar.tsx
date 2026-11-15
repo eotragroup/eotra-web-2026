@@ -201,7 +201,7 @@ export function Navbar({ onOpenInquiry, onNavigateHome, onNavigateToTeam, dark: 
                   label="Book a demo"
                   variant={dark ? 'light' : 'dark'}
                   size="nav"
-                  onClick={() => goToConnect()}
+                  onClick={() => goToConnect('Book an Eotra Demo')}
                 />
               </div>
 
@@ -250,7 +250,7 @@ export function Navbar({ onOpenInquiry, onNavigateHome, onNavigateToTeam, dark: 
                     tabIndex={mobileMenuOpen ? 0 : -1}
                     onClick={() => {
                       setMobileMenuOpen(false);
-                      goToConnect();
+                      goToConnect('Book an Eotra Demo');
                     }}
                     className="mt-1.5 w-full rounded-full bg-[#0400F5] hover:bg-[#0300cc] text-white px-3 py-2 text-[14px] transition-colors cursor-pointer"
                   >

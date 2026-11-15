@@ -151,7 +151,7 @@ export function ProductPage({
                   label="Book a demo"
                   variant="orange"
                   size="hero"
-                  onClick={() => goToConnect()}
+                  onClick={() => goToConnect(product.inquirySubject)}
                 />
 
                 {product.liveUrl && (
@@ -295,7 +295,7 @@ export function ProductPage({
                   label="Request a demo"
                   variant="orange"
                   size="hero"
-                  onClick={() => goToConnect()}
+                  onClick={() => goToConnect(product.inquirySubject)}
                 />
               </div>
             </div>
