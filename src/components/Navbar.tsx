@@ -121,7 +121,7 @@ export function Navbar({ onOpenInquiry, onNavigateHome, onNavigateToTeam, dark: 
       <div aria-hidden="true" className="h-[64px] sm:h-[72px]" />
       <header ref={headerRef} className="fixed top-0 inset-x-0 z-40 pointer-events-none">
         <div className="w-full max-w-[1440px] mx-auto px-3 sm:px-5 pt-3">
-          <div className="w-full md:max-w-[520px]">
+          <div className="w-full">
             {/* The bar: just the logo and one round button */}
             <nav
               aria-label="Primary navigation"
