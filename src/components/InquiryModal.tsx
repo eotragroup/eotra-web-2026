@@ -20,7 +20,7 @@ import { RollButton } from './RollButton';
 
 // What the customer can ask us for. `match` pre-selects an option from the button they clicked.
 const SERVICES: { label: string; match: RegExp; Icon: LucideIcon }[] = [
-  { label: 'Retail platform (POS, WMS, ERP, CRM)', match: /point of sale|wms|inventory|crm|loyalty|retail platform/i, Icon: Store },
+  { label: 'Retail platform', match: /point of sale|wms|inventory|crm|loyalty|retail platform/i, Icon: Store },
   { label: 'Web app', match: /web app/i, Icon: Code2 },
   { label: 'Mobile app', match: /mobile/i, Icon: Smartphone },
   { label: 'UI / UX design', match: /ui ?\/ ?ux|design/i, Icon: Layers },
