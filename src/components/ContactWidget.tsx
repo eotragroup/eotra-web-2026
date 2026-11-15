@@ -1,11 +1,11 @@
 import { useEffect, useRef, useState, type FormEvent, type ReactNode } from 'react';
-import { ArrowRight, Bot, Check, CheckCircle2, Mail, MessageCircle, MessageSquare, Send, X } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Check, CheckCircle2, Mail, MessageSquare, Send, X } from 'lucide-react';
 import { useI18n } from '../i18n';
-import { CONTACT_EMAIL, PHONE_DISPLAY, WHATSAPP_NUMBER } from '../data/contact';
+import { CONTACT_EMAIL, WHATSAPP_NUMBER } from '../data/contact';
 import { goToConnect } from '../lib/nav';
 import { suggestEmail } from '../lib/emailTypos';
 
-type Tab = 'chat' | 'whatsapp' | 'email';
+type View = 'chat' | 'email';
 interface Lead {
   name: string;
   email: string;
@@ -36,7 +36,7 @@ export function ContactWidget() {
   const { t, lang } = useI18n();
   const hasWhatsApp = WHATSAPP_NUMBER.trim() !== '';
   const [open, setOpen] = useState(false);
-  const [tab, setTab] = useState<Tab>('chat');
+  const [tab, setTab] = useState<View>('chat');
 
   // chat
   const [msgs, setMsgs] = useState<Msg[]>([]);
@@ -183,11 +183,7 @@ export function ContactWidget() {
   const waText = encodeURIComponent(lang === 'ar' ? 'مرحبًا إوترا، أود الاستفسار عن خدماتكم.' : 'Hello Eotra, I would like to ask about your services.');
   const suggestions = [t('I run a retail business'), t('I need a website or app'), t('I want a quote')];
 
-  const tabs: { id: Tab; label: string; icon: ReactNode }[] = [
-    { id: 'chat', label: t('AI assistant'), icon: <Bot size={14} /> },
-    ...(hasWhatsApp ? [{ id: 'whatsapp' as Tab, label: 'WhatsApp', icon: <WhatsAppIcon size={14} /> }] : []),
-    { id: 'email', label: t('Email'), icon: <Mail size={14} /> },
-  ];
+
 
   const field =
     'w-full rounded-full bg-gray-900/[0.06] px-4 py-2.5 text-[14px] text-gray-900 placeholder:text-gray-400 focus:bg-gray-900/10 focus:outline-none transition-colors';
@@ -212,8 +208,8 @@ export function ContactWidget() {
           <div className="px-5 pt-5 pb-3">
             <div className="flex items-start justify-between gap-3">
               <div>
-                <p className="text-[17px] font-medium text-gray-900 tracking-[-0.01em]">{t('How can we help?')}</p>
-                <p className="mt-0.5 text-[13px] text-gray-500">{t('Ask our assistant, message us on WhatsApp, or send an email.')}</p>
+                <p className="text-[17px] font-medium text-gray-900 tracking-[-0.01em]">{tab === 'email' ? t('Email us') : t('How can we help?')}</p>
+                <p className="mt-0.5 text-[13px] text-gray-500">{tab === 'email' ? t('Send us a message and we will reply by email.') : t('Ask our assistant. You can also reach the team on WhatsApp or by email.')}</p>
               </div>
               <button
                 type="button"
@@ -224,23 +220,38 @@ export function ContactWidget() {
                 <X size={15} />
               </button>
             </div>
-            <div className="mt-4 flex gap-1.5" role="tablist">
-              {tabs.map((x) => (
+            {tab === 'chat' ? (
+              <div className="mt-3.5 flex gap-2">
+                {hasWhatsApp && (
+                  <a
+                    href={`https://wa.me/${WHATSAPP_NUMBER}?text=${waText}`}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="flex-1 min-w-0 inline-flex items-center justify-center gap-1.5 whitespace-nowrap rounded-full bg-[#25D366]/12 hover:bg-[#25D366]/20 text-[#128C4A] px-3 py-2 text-[13px] font-medium transition-colors"
+                  >
+                    <WhatsAppIcon size={15} />
+                    WhatsApp
+                  </a>
+                )}
                 <button
-                  key={x.id}
                   type="button"
-                  role="tab"
-                  aria-selected={tab === x.id}
-                  onClick={() => setTab(x.id)}
-                  className={`flex-1 min-w-0 inline-flex items-center justify-center gap-1 whitespace-nowrap rounded-full px-2 py-2 text-[12.5px] font-medium transition-colors cursor-pointer ${
-                    tab === x.id ? 'bg-gray-900 text-white' : 'bg-gray-900/[0.06] text-gray-900 hover:bg-gray-900/10'
-                  }`}
+                  onClick={() => setTab('email')}
+                  className="flex-1 min-w-0 inline-flex items-center justify-center gap-1.5 whitespace-nowrap rounded-full bg-gray-900/[0.06] hover:bg-gray-900/10 text-gray-900 px-3 py-2 text-[13px] font-medium transition-colors cursor-pointer"
                 >
-                  {x.icon}
-                  {x.label}
+                  <Mail size={15} />
+                  {t('Email')}
                 </button>
-              ))}
-            </div>
+              </div>
+            ) : (
+              <button
+                type="button"
+                onClick={() => setTab('chat')}
+                className="mt-3 inline-flex items-center gap-1.5 text-[13px] font-medium text-gray-700 hover:text-gray-900 cursor-pointer transition-colors"
+              >
+                <ArrowLeft size={14} className="rtl:rotate-180" />
+                {t('Back to the assistant')}
+              </button>
+            )}
           </div>
 
           {/* Chat */}
@@ -363,29 +374,6 @@ export function ContactWidget() {
                   <Send size={16} className="rtl:-scale-x-100" />
                 </button>
               </form>
-            </div>
-          )}
-
-          {/* WhatsApp */}
-          {tab === 'whatsapp' && hasWhatsApp && (
-            <div className="px-5 pb-5">
-              <div className="rounded-3xl bg-gray-50 p-5">
-                <span className="w-11 h-11 rounded-full bg-[#25D366] text-white flex items-center justify-center">
-                  <WhatsAppIcon size={22} />
-                </span>
-                <p className="mt-4 text-[15px] font-medium text-gray-900">{t('Chat with our team on WhatsApp')}</p>
-                <p className="mt-1 text-[13px] text-gray-500 leading-relaxed">{t('Message us any time. We usually reply within one business day.')}</p>
-                <p className="mt-2 text-[14px] font-medium text-gray-900" dir="ltr">{PHONE_DISPLAY}</p>
-                <a
-                  href={`https://wa.me/${WHATSAPP_NUMBER}?text=${waText}`}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="mt-5 inline-flex items-center gap-2 rounded-full bg-[#25D366] hover:bg-[#1fb957] text-white px-5 py-2.5 text-[14px] font-medium transition-colors"
-                >
-                  <WhatsAppIcon size={16} />
-                  {t('Open WhatsApp')}
-                </a>
-              </div>
             </div>
           )}
 

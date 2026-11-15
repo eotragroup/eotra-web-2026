@@ -617,5 +617,9 @@ export const AR: Record<string, string> = {
  "Is your email": "هل بريدك الإلكتروني",
  "Try again": "حاول مجددًا",
  "Send by email": "أرسل بالبريد الإلكتروني",
- "We could not send your details.": "تعذّر إرسال بياناتك."
+ "We could not send your details.": "تعذّر إرسال بياناتك.",
+ "Back to the assistant": "العودة إلى المساعد",
+ "Send us a message and we will reply by email.": "أرسل لنا رسالة وسنرد عليك بالبريد الإلكتروني.",
+ "Ask our assistant. You can also reach the team on WhatsApp or by email.": "اسأل مساعدنا. ويمكنك أيضًا التواصل مع الفريق عبر واتساب أو البريد الإلكتروني.",
+ "Email us": "راسلنا بالبريد الإلكتروني"
 };
