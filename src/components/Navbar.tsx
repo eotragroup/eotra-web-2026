@@ -119,14 +119,14 @@ export function Navbar({ onOpenInquiry, onNavigateHome, onNavigateToTeam, dark: 
   return (
     <>
       {/* Keeps the space the floating bar takes up */}
-      <div aria-hidden="true" className="h-[64px] sm:h-[72px]" />
+      <div aria-hidden="true" className="h-[76px] md:h-[88px]" />
       <header ref={headerRef} className="fixed top-0 inset-x-0 z-40 pointer-events-none">
         <div className="w-full max-w-[1440px] mx-auto px-3 sm:px-5 pt-3">
           <div className="w-full">
             {/* The bar: just the logo and one round button */}
             <nav
               aria-label="Primary navigation"
-              className={`pointer-events-auto h-12 rounded-full pl-4 pr-1.5 flex items-center justify-between backdrop-blur-xl backdrop-saturate-150 transition-[background-color] duration-300 ${glass}`}
+              className={`pointer-events-auto h-[60px] md:h-[68px] rounded-full pl-5 md:pl-7 pr-2 md:pr-3 flex items-center justify-between backdrop-blur-xl backdrop-saturate-150 transition-[background-color] duration-300 ${glass}`}
             >
               <div className="flex items-center">
               <a
@@ -145,19 +145,19 @@ export function Navbar({ onOpenInquiry, onNavigateHome, onNavigateToTeam, dark: 
                   <img
                     src="/assets/aistudio/Eotra_aef517cd.svg"
                     alt="Eotra"
-                    className={`h-[28px] w-auto max-w-none -ml-3 -mr-6 ${dark ? 'brightness-0 invert' : ''}`}
+                    className={`h-[32px] md:h-[36px] w-auto max-w-none -ml-3.5 -mr-7 ${dark ? 'brightness-0 invert' : ''}`}
                   />
                 </span>
               </a>
 
                 {/* Desktop: the links sit in the bar */}
-                <div className="hidden md:flex items-center gap-6 ml-8">
+                <div className="hidden md:flex items-center gap-8 ml-10">
                   {menuItems.map((item) => (
                     <a
                       key={item.label}
                       href={item.href}
                       onClick={item.onClick}
-                      className={`text-[14px] transition-colors duration-300 whitespace-nowrap ${
+                      className={`text-[15px] transition-colors duration-300 whitespace-nowrap ${
                         dark ? 'text-white/85 hover:text-white' : 'text-gray-900 hover:text-gray-500'
                       }`}
                     >
@@ -172,7 +172,7 @@ export function Navbar({ onOpenInquiry, onNavigateHome, onNavigateToTeam, dark: 
                 <RollButton
                   label="Book a demo"
                   variant={dark ? 'light' : 'dark'}
-                  size="nav"
+                  size="hero"
                   onClick={() => onOpenInquiry('Book an Eotra Demo')}
                 />
               </div>
@@ -182,7 +182,7 @@ export function Navbar({ onOpenInquiry, onNavigateHome, onNavigateToTeam, dark: 
                 onClick={() => setMobileMenuOpen((o) => !o)}
                 aria-expanded={mobileMenuOpen}
                 aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
-                className={`md:hidden w-9 h-9 rounded-full flex items-center justify-center transition-colors cursor-pointer ${
+                className={`md:hidden w-11 h-11 rounded-full flex items-center justify-center transition-colors cursor-pointer ${
                   dark ? 'bg-white/15 text-white hover:bg-white/25' : 'bg-gray-900/10 text-gray-900 hover:bg-gray-900/15'
                 }`}
               >
@@ -214,7 +214,7 @@ export function Navbar({ onOpenInquiry, onNavigateHome, onNavigateToTeam, dark: 
                         href={item.href}
                         tabIndex={mobileMenuOpen ? 0 : -1}
                         onClick={item.onClick}
-                        className={`flex-1 min-w-[28%] rounded-full px-3 py-2 text-center text-[14px] transition-colors ${
+                        className={`flex-1 min-w-[28%] rounded-full px-3 py-2.5 text-center text-[15px] transition-colors ${
                           dark
                             ? 'bg-white/10 text-white hover:bg-white/20'
                             : 'bg-gray-900/[0.06] text-gray-900 hover:bg-gray-900/10'
