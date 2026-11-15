@@ -26,7 +26,7 @@ export function TypewriterText({
 
     const currentWord = words[wordIndex % words.length];
 
-    let timer: NodeJS.Timeout;
+    let timer: ReturnType<typeof setTimeout> | undefined;
 
     if (!isDeleting && displayText === currentWord) {
       // Finished typing full word, pause before deleting

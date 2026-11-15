@@ -164,6 +164,7 @@ SHORTCUTS
 
 async function chat(request: Request, env: Env): Promise<Response> {
   if (!env.AI) return json({ error: 'assistant not configured' }, 503);
+  if (Number(request.headers.get('content-length') ?? 0) > 20_000) return json({ error: 'too large' }, 413);
   let body: { messages?: { role?: string; content?: string }[]; lang?: string };
   try {
     body = await request.json();
@@ -173,16 +174,25 @@ async function chat(request: Request, env: Env): Promise<Response> {
   const history = (body.messages ?? [])
     .filter((m) => (m.role === 'user' || m.role === 'assistant') && typeof m.content === 'string' && m.content.trim())
     .slice(-10)
-    .map((m) => ({ role: m.role as 'user' | 'assistant', content: String(m.content).slice(0, 500) }));
+    .map((m) => ({
+      role: m.role as 'user' | 'assistant',
+      // visitors cannot fake the assistant's internal markers
+      content: String(m.content).replace(/\[\[|\]\]/g, ' ').slice(0, 500),
+    }));
   if (!history.length || history[history.length - 1].role !== 'user') return json({ error: 'bad request' }, 400);
 
   // simple per-visitor daily limit
+  // (if the storage is unavailable or over its free write quota, the chat still works, just without the limit)
   if (env.VIEWS) {
-    const ip = request.headers.get('cf-connecting-ip') ?? 'unknown';
-    const key = `chat:${ip}:${new Date().toISOString().slice(0, 10)}`;
-    const used = Number((await env.VIEWS.get(key)) ?? 0);
-    if (used >= CHAT_DAILY_LIMIT) return json({ error: 'limit' }, 429);
-    await env.VIEWS.put(key, String(used + 1));
+    try {
+      const ip = request.headers.get('cf-connecting-ip') ?? 'unknown';
+      const key = `chat:${ip}:${new Date().toISOString().slice(0, 10)}`;
+      const used = Number((await env.VIEWS.get(key)) ?? 0);
+      if (used >= CHAT_DAILY_LIMIT) return json({ error: 'limit' }, 429);
+      await env.VIEWS.put(key, String(used + 1), { expirationTtl: 172800 });
+    } catch {
+      /* ignore */
+    }
   }
 
   try {
