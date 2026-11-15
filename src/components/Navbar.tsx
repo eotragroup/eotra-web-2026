@@ -130,7 +130,7 @@ export function Navbar({ onOpenInquiry, onNavigateHome, onNavigateToTeam, dark: 
   ];
 
   // Pure glass: no outline, no highlight edge
-  const glass = dark ? 'bg-white/[0.10]' : 'bg-white/55';
+  const glass = dark ? 'bg-white/[0.10]' : 'bg-gray-100/80';
 
   return (
     <>
