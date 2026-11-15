@@ -264,8 +264,8 @@ export default function App() {
   };
 
   // Every "get started / book a demo / start a project" button goes to the Connect page instead of a pop-up
-  const openInquiry = (_subject?: string) => {
-    goToConnect();
+  const openInquiry = (subject?: string) => {
+    goToConnect(subject);
   };
 
   return (

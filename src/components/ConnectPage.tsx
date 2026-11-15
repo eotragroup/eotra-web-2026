@@ -20,6 +20,14 @@ interface ConnectPageProps {
   onSelectProduct?: (id: string) => void;
 }
 
+function subjectFromUrl() {
+  try {
+    return new URLSearchParams(window.location.search).get('s') || 'Connect with Eotra';
+  } catch {
+    return 'Connect with Eotra';
+  }
+}
+
 export function ConnectPage({ onNavigateHome, onOpenInquiry, onNavigateToTeam, onSelectProduct }: ConnectPageProps) {
   return (
     <div className="min-h-screen bg-white text-gray-900 antialiased">
@@ -58,7 +66,7 @@ export function ConnectPage({ onNavigateHome, onOpenInquiry, onNavigateToTeam, o
             <div className="lg:col-span-7">
               {/* Frosted-glass card */}
               <div className="rounded-[32px] bg-gray-50 p-6 sm:p-8 lg:p-10 max-w-2xl">
-                <InquiryForm subject="Connect with Eotra" onClose={() => onNavigateHome()} showClose={false} doneLabel="Back to home" />
+                <InquiryForm key={subjectFromUrl()} subject={subjectFromUrl()} onClose={() => onNavigateHome()} showClose={false} doneLabel="Back to home" />
               </div>
             </div>
           </div>

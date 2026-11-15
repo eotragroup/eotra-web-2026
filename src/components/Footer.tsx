@@ -292,7 +292,7 @@ export function Footer({
               <li>
                 <button
                   type="button"
-                  onClick={() => goToConnect()}
+                  onClick={() => goToConnect('Book an Enterprise Demo')}
                   className="hover:text-[#0400F5] transition-colors text-left font-medium text-gray-900"
                 >
                   Request a Demo
