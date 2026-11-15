@@ -114,8 +114,8 @@ export function Navbar({ onOpenInquiry, onNavigateHome, onNavigateToTeam, dark: 
           aria-label="Primary navigation"
           className={`pointer-events-auto rounded-full p-[5px] flex items-center justify-between border backdrop-blur-xl backdrop-saturate-150 transition-[background-color,border-color,box-shadow] duration-300 ${
             dark
-              ? 'bg-white/[0.08] border-white/15 shadow-[0_10px_40px_rgba(0,0,0,0.35),inset_0_1px_0_rgba(255,255,255,0.18)]'
-              : 'bg-white/60 border-white/70 shadow-[0_10px_40px_rgba(15,23,42,0.10),inset_0_1px_0_rgba(255,255,255,0.9)]'
+              ? 'bg-white/[0.08] border-white/15 shadow-[inset_0_1px_0_rgba(255,255,255,0.18)]'
+              : 'bg-white/60 border-gray-200/80 shadow-[inset_0_1px_0_rgba(255,255,255,0.9)]'
           }`}
         >
           {/* LEFT: Logo + Desktop Nav Links */}
@@ -253,8 +253,8 @@ export function Navbar({ onOpenInquiry, onNavigateHome, onNavigateToTeam, dark: 
             <div
               className={`rounded-[28px] border backdrop-blur-xl backdrop-saturate-150 p-3 ${
                 dark
-                  ? 'bg-white/[0.10] border-white/15 shadow-[0_20px_60px_rgba(0,0,0,0.45),inset_0_1px_0_rgba(255,255,255,0.18)]'
-                  : 'bg-white/70 border-white/70 shadow-[0_20px_60px_rgba(15,23,42,0.14),inset_0_1px_0_rgba(255,255,255,0.9)]'
+                  ? 'bg-white/[0.10] border-white/15 shadow-[inset_0_1px_0_rgba(255,255,255,0.18)]'
+                  : 'bg-white/70 border-gray-200/80 shadow-[inset_0_1px_0_rgba(255,255,255,0.9)]'
               }`}
             >
               <div className="grid grid-cols-2 gap-2">
