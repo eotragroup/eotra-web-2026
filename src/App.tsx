@@ -9,6 +9,7 @@ import { ServicePage } from './components/ServicePage';
 import { CompanyPage } from './components/CompanyPage';
 import { SolutionsPage } from './components/SolutionsPage';
 import { ReferencesPage } from './components/ReferencesPage';
+import { CareersPage } from './components/CareersPage';
 import { getService } from './data/services';
 import { useEffect, useMemo, useState } from 'react';
 import { MessageSquare } from 'lucide-react';
@@ -105,9 +106,10 @@ function getServiceFromPath(pathname: string): string | null {
 }
 
 // '/company' or '/solutions'
-type InfoPage = 'company' | 'solutions' | 'references' | 'privacy' | 'terms' | 'security';
+type InfoPage = 'company' | 'solutions' | 'references' | 'careers' | 'privacy' | 'terms' | 'security';
 
 function getInfoPageFromPath(pathname: string): InfoPage | null {
+  if (/^\/careers\/?$/.test(pathname)) return 'careers';
   const legal = pathname.match(/^\/(privacy|terms|security)\/?$/);
   if (legal) return legal[1] as InfoPage;
   if (/^\/references\/?$/.test(pathname)) return 'references';
@@ -361,6 +363,13 @@ export default function App() {
       ) : infoPage === 'privacy' || infoPage === 'terms' || infoPage === 'security' ? (
         <LegalPage
           kind={infoPage}
+          onNavigateHome={navigateHome}
+          onOpenInquiry={openInquiry}
+          onNavigateToTeam={navigateToTeam}
+          onSelectProduct={navigateToProduct}
+        />
+      ) : infoPage === 'careers' ? (
+        <CareersPage
           onNavigateHome={navigateHome}
           onOpenInquiry={openInquiry}
           onNavigateToTeam={navigateToTeam}
