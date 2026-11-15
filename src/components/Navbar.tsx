@@ -1,8 +1,10 @@
 import { goToBlog, goToCompany, goToConnect, goToFaq, goToReferences, goToService, goToSolutions } from '../lib/nav';
 import { SERVICES } from '../data/services';
 import { smoothScrollTo } from '../lib/smoothScroll';
+import { appPath, withLang } from '../i18n/lang';
 import { useEffect, useRef, useState } from 'react';
 import { ChevronDown, Minus, Plus } from 'lucide-react';
+import { useI18n } from '../i18n';
 import { RollButton } from './RollButton';
 
 interface NavbarProps {
@@ -14,6 +16,7 @@ interface NavbarProps {
 }
 
 export function Navbar({ onOpenInquiry, onNavigateHome, onNavigateToTeam, dark: forceDark = false }: NavbarProps) {
+  const { t, lang, switchLang } = useI18n();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [onDark, setOnDark] = useState(false);
   const [hidden, setHidden] = useState(false);
@@ -132,10 +135,10 @@ export function Navbar({ onOpenInquiry, onNavigateHome, onNavigateToTeam, dark: 
     setMobileMenuOpen(false);
     if (onNavigateToTeam) {
       onNavigateToTeam();
-    } else if (window.location.pathname === '/team') {
+    } else if (appPath() === '/team') {
       smoothScrollTo(0);
     } else {
-      window.history.pushState({}, '', '/team');
+      window.history.pushState({}, '', withLang('/team'));
       window.dispatchEvent(new PopStateEvent('popstate'));
     }
   };
@@ -175,7 +178,7 @@ export function Navbar({ onOpenInquiry, onNavigateHome, onNavigateToTeam, dark: 
           <div className="w-full relative" ref={wrapRef} onMouseLeave={() => setServicesOpen(false)}>
             {/* The bar: just the logo and one round button */}
             <nav
-              aria-label="Primary navigation"
+              aria-label={t('Primary navigation')}
               className={`pointer-events-auto h-[52px] md:h-[56px] rounded-full pl-4 md:pl-6 pr-1.5 md:pr-2 flex items-center justify-between backdrop-blur-xl backdrop-saturate-150 transition-[background-color] duration-300 ${glass}`}
             >
               <div className="flex items-center">
@@ -189,7 +192,7 @@ export function Navbar({ onOpenInquiry, onNavigateHome, onNavigateToTeam, dark: 
                   }
                 }}
                 className="flex items-center shrink-0"
-                aria-label="Eotra Home"
+                aria-label={t('Eotra Home')}
               >
                 <span className="overflow-hidden inline-flex items-center">
                   <img
@@ -206,7 +209,7 @@ export function Navbar({ onOpenInquiry, onNavigateHome, onNavigateToTeam, dark: 
                     <a
                       key={item.label}
                       ref={item.label === 'Services' ? servicesLinkRef : undefined}
-                      href={item.href}
+                      href={withLang(item.href)}
                       onClick={(e) => {
                         setServicesOpen(false);
                         item.onClick(e);
@@ -217,7 +220,7 @@ export function Navbar({ onOpenInquiry, onNavigateHome, onNavigateToTeam, dark: 
                         dark ? 'text-white/85 hover:text-white' : 'text-gray-900 hover:text-gray-500'
                       }`}
                     >
-                      {item.label}
+                      {t(item.label)}
                       {item.label === 'Services' && (
                         <ChevronDown size={13} strokeWidth={1.8} className={`transition-transform duration-300 ${servicesOpen ? 'rotate-180' : ''}`} />
                       )}
@@ -226,10 +229,20 @@ export function Navbar({ onOpenInquiry, onNavigateHome, onNavigateToTeam, dark: 
                 </div>
               </div>
 
-              {/* Desktop: Book a demo */}
-              <div className="hidden md:block">
+              {/* Desktop: language + Book a demo */}
+              <div className="hidden md:flex items-center gap-3">
+                <button
+                  type="button"
+                  onClick={switchLang}
+                  aria-label={lang === 'ar' ? 'Switch to English' : 'التبديل إلى العربية'}
+                  className={`h-9 px-3.5 rounded-full text-[13px] font-medium transition-colors cursor-pointer ${
+                    dark ? 'bg-white/15 text-white hover:bg-white/25' : 'bg-gray-900/[0.06] text-gray-900 hover:bg-gray-900/10'
+                  }`}
+                >
+                  {lang === 'ar' ? 'EN' : 'العربية'}
+                </button>
                 <RollButton
-                  label="Book a demo"
+                  label={t('Book a demo')}
                   variant={dark ? 'light' : 'dark'}
                   size="nav"
                   onClick={() => goToConnect('Book an Eotra Demo')}
@@ -240,7 +253,7 @@ export function Navbar({ onOpenInquiry, onNavigateHome, onNavigateToTeam, dark: 
                 type="button"
                 onClick={() => setMobileMenuOpen((o) => !o)}
                 aria-expanded={mobileMenuOpen}
-                aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
+                aria-label={mobileMenuOpen ? t('Close menu') : t('Open menu')}
                 className={`md:hidden w-10 h-10 rounded-full flex items-center justify-center transition-colors cursor-pointer ${
                   dark ? 'bg-white/15 text-white hover:bg-white/25' : 'bg-gray-900/10 text-gray-900 hover:bg-gray-900/15'
                 }`}
@@ -268,7 +281,7 @@ export function Navbar({ onOpenInquiry, onNavigateHome, onNavigateToTeam, dark: 
                     return (
                       <a
                         key={sv.slug}
-                        href={`/services/${sv.slug}`}
+                        href={withLang(`/services/${sv.slug}`)}
                         tabIndex={servicesOpen ? 0 : -1}
                         onClick={(e) => {
                           e.preventDefault();
@@ -286,9 +299,9 @@ export function Navbar({ onOpenInquiry, onNavigateHome, onNavigateToTeam, dark: 
                           <SIcon size={16} strokeWidth={1.7} />
                         </span>
                         <span className="min-w-0">
-                          <span className={`block text-[14px] font-medium ${dark ? 'text-white' : 'text-gray-900'}`}>{sv.title}</span>
+                          <span className={`block text-[14px] font-medium ${dark ? 'text-white' : 'text-gray-900'}`}>{t(sv.title)}</span>
                           <span className={`block mt-0.5 text-[12.5px] leading-snug ${dark ? 'text-white/55' : 'text-gray-500'}`}>
-                            {sv.description}
+                            {t(sv.description)}
                           </span>
                         </span>
                       </a>
@@ -311,7 +324,7 @@ export function Navbar({ onOpenInquiry, onNavigateHome, onNavigateToTeam, dark: 
                     {menuItems.map((item) => (
                       <a
                         key={item.label}
-                        href={item.href}
+                        href={withLang(item.href)}
                         tabIndex={mobileMenuOpen ? 0 : -1}
                         onClick={
                           item.label === 'Services'
@@ -327,7 +340,7 @@ export function Navbar({ onOpenInquiry, onNavigateHome, onNavigateToTeam, dark: 
                             : 'bg-gray-900/[0.06] text-gray-900 hover:bg-gray-900/10'
                         }`}
                       >
-                        {item.label}
+                        {t(item.label)}
                         {item.label === 'Services' && (
                           <ChevronDown size={13} strokeWidth={1.8} className={`inline ml-1 -mt-0.5 transition-transform duration-300 ${mobileServicesOpen ? 'rotate-180' : ''}`} />
                         )}
@@ -342,7 +355,7 @@ export function Navbar({ onOpenInquiry, onNavigateHome, onNavigateToTeam, dark: 
                         return (
                           <a
                             key={sv.slug}
-                            href={`/services/${sv.slug}`}
+                            href={withLang(`/services/${sv.slug}`)}
                             onClick={(e) => {
                               e.preventDefault();
                               openService(sv.slug);
@@ -352,7 +365,7 @@ export function Navbar({ onOpenInquiry, onNavigateHome, onNavigateToTeam, dark: 
                             }`}
                           >
                             <SIcon size={15} strokeWidth={1.7} />
-                            {sv.title}
+                            {t(sv.title)}
                           </a>
                         );
                       })}
@@ -368,14 +381,28 @@ export function Navbar({ onOpenInquiry, onNavigateHome, onNavigateToTeam, dark: 
                     }}
                     className="mt-1.5 w-full rounded-full bg-[#0400F5] hover:bg-[#0300cc] text-white px-3 py-2 text-[14px] transition-colors cursor-pointer"
                   >
-                    Book a demo
+                    {t('Book a demo')}
+                  </button>
+
+                  <button
+                    type="button"
+                    tabIndex={mobileMenuOpen ? 0 : -1}
+                    onClick={() => {
+                      setMobileMenuOpen(false);
+                      switchLang();
+                    }}
+                    className={`mt-1.5 w-full rounded-full px-3 py-2 text-[14px] transition-colors cursor-pointer ${
+                      dark ? 'bg-white/10 text-white hover:bg-white/20' : 'bg-gray-900/[0.06] text-gray-900 hover:bg-gray-900/10'
+                    }`}
+                  >
+                    {lang === 'ar' ? 'English' : 'العربية'}
                   </button>
 
                   <div className={`mt-2 px-3 pb-1 flex items-center justify-between text-[12px] ${dark ? 'text-white/55' : 'text-gray-500'}`}>
                     <a href="mailto:info@eotra.com" tabIndex={mobileMenuOpen ? 0 : -1} className="hover:underline">
                       info@eotra.com
                     </a>
-                    <span>&copy; 2026 Eotra Inc.</span>
+                    <span>&copy; 2026 {t('Eotra Inc.')}</span>
                   </div>
                 </div>
               </div>

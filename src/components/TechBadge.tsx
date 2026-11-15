@@ -1,4 +1,5 @@
 import type { LucideIcon } from 'lucide-react';
+import { useI18n } from '../i18n';
 import {
   CalendarCheck,
   Cloud,
@@ -84,6 +85,7 @@ const GENERIC: Record<string, LucideIcon> = {
 
 // Very dark brand colours would disappear on dark backgrounds; the badge sits on white so they are fine.
 export function TechBadge({ name }: { name: string }) {
+  const { t } = useI18n();
   const brand = BRAND[name];
   const Generic = GENERIC[name] ?? Code2;
   return (
@@ -95,7 +97,7 @@ export function TechBadge({ name }: { name: string }) {
       ) : (
         <Generic size={16} strokeWidth={1.7} className="text-gray-500" />
       )}
-      {name === 'Stripe & local gateways' ? 'Stripe' : name === 'REST & GraphQL' ? 'GraphQL & REST' : name}
+      {name === 'Stripe & local gateways' ? 'Stripe' : name === 'REST & GraphQL' ? 'GraphQL & REST' : t(name)}
     </span>
   );
 }

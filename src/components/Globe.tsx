@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
 import createGlobe from 'cobe';
+import { useI18n } from '../i18n';
 
 // Eotra (Istanbul) and a client location (Jeddah)
 const MARKERS = [
@@ -9,6 +10,7 @@ const MARKERS = [
 
 /** Draggable 3D Earth: spin it with the mouse or a finger; it keeps gently rotating when left alone. */
 export function Globe({ className = '' }: { className?: string }) {
+  const { t } = useI18n();
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const pointer = useRef<{ x: number; y: number } | null>(null);
   const state = useRef({ phi: 3.9, theta: 0.3, vPhi: 0, vTheta: 0 });
@@ -98,7 +100,7 @@ export function Globe({ className = '' }: { className?: string }) {
         onPointerMove={onMove}
         onPointerUp={onUp}
         onPointerCancel={onUp}
-        aria-label="Interactive globe: drag to rotate"
+        aria-label={t('Interactive globe: drag to rotate')}
         role="img"
         className="w-full h-full cursor-grab active:cursor-grabbing touch-pan-y select-none"
         style={{ touchAction: 'pan-y' }}

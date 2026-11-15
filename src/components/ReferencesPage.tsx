@@ -5,6 +5,7 @@ import { RollButton } from './RollButton';
 import { ProductsGrid } from './ProductsGrid';
 import { PRODUCTS } from '../data/products';
 import { goToConnect } from '../lib/nav';
+import { useI18n } from '../i18n';
 
 interface PageProps {
   onNavigateHome: (sectionId?: string) => void;
@@ -14,6 +15,7 @@ interface PageProps {
 }
 
 export function ReferencesPage({ onNavigateHome, onOpenInquiry, onNavigateToTeam, onSelectProduct }: PageProps) {
+  const { t } = useI18n();
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -27,13 +29,13 @@ export function ReferencesPage({ onNavigateHome, onOpenInquiry, onNavigateToTeam
       <section className="bg-white pt-10 sm:pt-14 lg:pt-16 pb-12 sm:pb-16">
         <div className="max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-12">
           <span className="inline-flex items-center rounded-full bg-gray-100 px-3.5 py-1.5 text-[12px] sm:text-[13px] font-medium text-gray-900">
-            {PRODUCTS.length} live projects
+            {PRODUCTS.length} {t('live projects')}
           </span>
           <h1 className="mt-6 text-[clamp(2.25rem,6vw,5rem)] font-medium leading-[1.02] tracking-[-0.03em] text-gray-900 max-w-4xl">
-            References
+            {t('References')}
           </h1>
           <p className="mt-6 text-[16px] sm:text-[19px] text-gray-500 leading-relaxed max-w-2xl">
-            Brands that run on what we build. Open any project to see what we made and how it works.
+            {t('Brands that run on what we build. Open any project to see what we made and how it works.')}
           </p>
         </div>
       </section>
@@ -48,9 +50,9 @@ export function ReferencesPage({ onNavigateHome, onOpenInquiry, onNavigateToTeam
         <div className="max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-12">
           <div className="rounded-[32px] bg-gray-50 px-6 sm:px-12 py-12 sm:py-16 flex flex-col sm:flex-row sm:items-center justify-between gap-8">
             <h2 className="text-[clamp(1.6rem,3.4vw,2.6rem)] font-medium tracking-[-0.02em] text-gray-900 max-w-xl leading-[1.1]">
-              Want to be our next reference?
+              {t('Want to be our next reference?')}
             </h2>
-            <RollButton label="Start a project" variant="orange" size="hero" onClick={() => goToConnect('Book an Eotra Demo')} />
+            <RollButton label={t('Start a project')} variant="orange" size="hero" onClick={() => goToConnect('Book an Eotra Demo')} />
           </div>
         </div>
       </section>

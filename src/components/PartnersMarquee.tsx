@@ -1,4 +1,5 @@
 import React from 'react';
+import { useI18n } from '../i18n';
 
 interface PartnerBrand {
   name: string;
@@ -14,6 +15,7 @@ interface PartnersMarqueeProps {
 }
 
 export function PartnersMarquee({ className = '' }: PartnersMarqueeProps) {
+  const { t } = useI18n();
   return (
     <div
       id="partners"
@@ -34,7 +36,7 @@ export function PartnersMarquee({ className = '' }: PartnersMarqueeProps) {
         <div
           className="overflow-hidden"
           role="region"
-          aria-label="Partner brands logo slider"
+          aria-label={t('Partner brands logo slider')}
         >
           <div className="animate-eotra-marquee gap-8 sm:gap-14 px-4 items-center">
             {[0, 1].map((dupIndex) => (

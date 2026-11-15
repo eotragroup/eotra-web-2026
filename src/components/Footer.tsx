@@ -2,6 +2,7 @@ import { goToBlog, goToConnect, goToFaq, goToLegal } from '../lib/nav';
 import React, { useState } from 'react';
 import { ArrowRight, Check, Facebook, Globe, Instagram, Linkedin, Twitter } from 'lucide-react';
 import { PRODUCTS } from '../data/products';
+import { useI18n } from '../i18n';
 
 const SOCIALS = [
   { name: 'Instagram', href: 'https://www.instagram.com/eotraofficial', Icon: Instagram },
@@ -27,6 +28,7 @@ export function Footer({
   onOpenInfoModal,
   dark = false,
 }: FooterProps) {
+  const { t } = useI18n();
   const [email, setEmail] = useState('');
   const [subscribed, setSubscribed] = useState(false);
   const [error, setError] = useState('');
@@ -36,7 +38,7 @@ export function Footer({
   const handleSubscribe = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email || !email.includes('@') || !email.includes('.')) {
-      setError('Please enter a valid work email.');
+      setError(t('Please enter a valid work email.'));
       return;
     }
     setError('');
@@ -77,10 +79,10 @@ export function Footer({
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start lg:items-center">
           <div className="lg:col-span-6">
             <span className="text-[12px] font-semibold uppercase tracking-wider text-white/70 mb-2 block">
-              Stay Informed
+              {t('Stay Informed')}
             </span>
             <h3 className="text-[24px] sm:text-[30px] font-medium tracking-[-0.02em] text-white leading-[1.15]">
-              Subscribe to the Eotra Dispatch.
+              {t('Subscribe to the Eotra Dispatch.')}
             </h3>
           </div>
 
@@ -94,8 +96,8 @@ export function Footer({
                     setEmail(e.target.value);
                     if (error) setError('');
                   }}
-                  placeholder="Enter your work email"
-                  aria-label="Work email address"
+                  placeholder={t('Enter your work email')}
+                  aria-label={t('Work email address')}
                   className={`flex-1 rounded-full px-5 py-3 text-[14px] focus:outline-none transition-colors ${dark ? 'text-white bg-white/[0.08] placeholder:text-white/35 focus:bg-white/[0.14]' : 'text-gray-900 bg-gray-100 placeholder:text-gray-400 focus:bg-gray-200/70'}`}
                 />
                 <button
@@ -105,11 +107,11 @@ export function Footer({
                   {subscribed ? (
                     <>
                       <Check size={16} />
-                      <span>Subscribed</span>
+                      <span>{t('Subscribed')}</span>
                     </>
                   ) : (
                     <>
-                      <span>Sign up</span>
+                      <span>{t('Sign up')}</span>
                       <ArrowRight size={14} />
                     </>
                   )}
@@ -121,7 +123,7 @@ export function Footer({
               )}
               {subscribed && (
                 <p className="text-[12px] text-emerald-200 font-medium">
-                  Thank you for subscribing. We will keep you updated.
+                  {t('Thank you for subscribing. We will keep you updated.')}
                 </p>
               )}
             </form>
@@ -141,7 +143,7 @@ export function Footer({
               type="button"
               onClick={() => onNavigateHome?.()}
               className="overflow-hidden inline-flex items-center -ml-3 -mr-6 mb-4 cursor-pointer"
-              aria-label="Back to home"
+              aria-label={t('Back to home')}
             >
               <img
                 src="/assets/aistudio/Eotra_aef517cd.svg"
@@ -150,17 +152,17 @@ export function Footer({
               />
             </button>
             <p className="text-[13px] font-medium text-gray-900 mb-1">
-              Enterprise Operations &amp; Transaction
+              {t('Enterprise Operations & Transaction')}
             </p>
             <div className="mb-5" />
 
             <div className="space-y-1.5 text-[13px] text-gray-600">
               <p>
-                <span className="font-medium text-gray-900">Headquarters:</span>{' '}
-                Istanbul, Türkiye
+                <span className="font-medium text-gray-900">{t('Headquarters:')}</span>{' '}
+                {t('Istanbul, Türkiye')}
               </p>
               <p>
-                <span className="font-medium text-gray-900">Direct Contact:</span>{' '}
+                <span className="font-medium text-gray-900">{t('Direct Contact:')}</span>{' '}
                 <a
                   href="mailto:info@eotra.com"
                   className="text-gray-900 font-medium hover:text-[#0400F5] transition-colors"
@@ -190,7 +192,7 @@ export function Footer({
           {/* Column: Platform & Suites */}
           <div>
             <h4 className="text-[12px] font-semibold uppercase tracking-wider text-gray-900 mb-4">
-              Platform &amp; Core
+              {t('Platform & Core')}
             </h4>
             <ul className="space-y-2.5 text-[13px] text-gray-600">
               <li>
@@ -199,7 +201,7 @@ export function Footer({
                   onClick={() => onOpenInfoModal?.('suite')}
                   className="hover:text-[#0400F5] transition-colors text-left"
                 >
-                  Enterprise Retail OS
+                  {t('Enterprise Retail OS')}
                 </button>
               </li>
               <li>
@@ -208,7 +210,7 @@ export function Footer({
                   onClick={() => onOpenInfoModal?.('architecture')}
                   className="hover:text-[#0400F5] transition-colors text-left"
                 >
-                  Omnichannel POS Core
+                  {t('Omnichannel POS Core')}
                 </button>
               </li>
               <li>
@@ -217,7 +219,7 @@ export function Footer({
                   onClick={() => onOpenInfoModal?.('architecture')}
                   className="hover:text-[#0400F5] transition-colors text-left"
                 >
-                  Multi-Branch Inventory &amp; WMS
+                  {t('Multi-Branch Inventory & WMS')}
                 </button>
               </li>
               <li>
@@ -226,7 +228,7 @@ export function Footer({
                   onClick={() => onOpenInfoModal?.('suite')}
                   className="hover:text-[#0400F5] transition-colors text-left"
                 >
-                  Global ERP &amp; Settlement
+                  {t('Global ERP & Settlement')}
                 </button>
               </li>
               <li>
@@ -235,7 +237,7 @@ export function Footer({
                   onClick={() => onNavigateToProduct?.('eotra-menu')}
                   className="hover:text-[#0400F5] transition-colors text-left"
                 >
-                  Eotra Menu Suite
+                  {t('Eotra Menu Suite')}
                 </button>
               </li>
             </ul>
@@ -244,7 +246,7 @@ export function Footer({
           {/* Column: Client Work & Case Studies */}
           <div>
             <h4 className="text-[12px] font-semibold uppercase tracking-wider text-gray-900 mb-4">
-              References
+              {t('References')}
             </h4>
             <ul className="space-y-2.5 text-[13px] text-gray-600">
               {PRODUCTS.map((prod) => (
@@ -264,7 +266,7 @@ export function Footer({
           {/* Column: Company & Governance */}
           <div>
             <h4 className="text-[12px] font-semibold uppercase tracking-wider text-gray-900 mb-4">
-              Company
+              {t('Company')}
             </h4>
             <ul className="space-y-2.5 text-[13px] text-gray-600">
               <li>
@@ -273,7 +275,7 @@ export function Footer({
                   onClick={() => onNavigateToTeam?.()}
                   className="hover:text-[#0400F5] transition-colors text-left"
                 >
-                  Meet the Team
+                  {t('Meet the Team')}
                 </button>
               </li>
               <li>
@@ -282,7 +284,7 @@ export function Footer({
                   onClick={() => goToFaq()}
                   className="hover:text-[#0400F5] transition-colors text-left"
                 >
-                  FAQ
+                  {t('FAQ')}
                 </button>
               </li>
               <li>
@@ -291,7 +293,7 @@ export function Footer({
                   onClick={() => goToBlog()}
                   className="hover:text-[#0400F5] transition-colors text-left"
                 >
-                  Blog
+                  {t('Blog')}
                 </button>
               </li>
               <li>
@@ -300,7 +302,7 @@ export function Footer({
                   onClick={() => onOpenInquiry?.('Careers at Eotra')}
                   className="hover:text-[#0400F5] transition-colors text-left"
                 >
-                  Careers
+                  {t('Careers')}
                 </button>
               </li>
               <li>
@@ -309,7 +311,7 @@ export function Footer({
                   onClick={() => onOpenInquiry?.('General Partnership Inquiry')}
                   className="hover:text-[#0400F5] transition-colors text-left"
                 >
-                  Partnership Inquiries
+                  {t('Partnership Inquiries')}
                 </button>
               </li>
               <li>
@@ -318,7 +320,7 @@ export function Footer({
                   onClick={() => goToConnect('Book an Enterprise Demo')}
                   className="hover:text-[#0400F5] transition-colors text-left font-medium text-gray-900"
                 >
-                  Request a Demo
+                  {t('Request a Demo')}
                 </button>
               </li>
               <li>
@@ -326,7 +328,7 @@ export function Footer({
                   href="mailto:info@eotra.com"
                   className="hover:text-[#0400F5] transition-colors text-left"
                 >
-                  Contact Support
+                  {t('Contact Support')}
                 </a>
               </li>
             </ul>
@@ -337,9 +339,9 @@ export function Footer({
       {/* Bottom Legal / Copyright Row */}
       <div className="py-6 border-t border-gray-100 flex flex-col sm:flex-row items-center justify-between gap-4 text-[12px] text-gray-500">
         <div className="flex flex-wrap items-center gap-x-6 gap-y-1">
-          <span>&copy; {new Date().getFullYear()} Eotra Inc. All rights reserved.</span>
+          <span>&copy; {new Date().getFullYear()} {t('Eotra Inc. All rights reserved.')}</span>
           <span className="hidden sm:inline text-gray-300">|</span>
-          <span>Istanbul, Türkiye &amp; Global Operations</span>
+          <span>{t('Istanbul, Türkiye & Global Operations')}</span>
         </div>
 
         <div className="flex flex-wrap items-center gap-6">
@@ -348,21 +350,21 @@ export function Footer({
             onClick={() => goToLegal('privacy')}
             className="hover:text-gray-900 transition-colors"
           >
-            Privacy Policy
+            {t('Privacy Policy')}
           </button>
           <button
             type="button"
             onClick={() => goToLegal('terms')}
             className="hover:text-gray-900 transition-colors"
           >
-            Terms of Service
+            {t('Terms of Service')}
           </button>
           <button
             type="button"
             onClick={() => goToLegal('security')}
             className="hover:text-gray-900 transition-colors"
           >
-            Security
+            {t('Security')}
           </button>
         </div>
       </div>

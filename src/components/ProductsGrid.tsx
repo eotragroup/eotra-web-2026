@@ -1,4 +1,5 @@
 import { ArrowRight, ExternalLink } from 'lucide-react';
+import { useI18n } from '../i18n';
 
 interface GridProduct {
   id: string;
@@ -142,6 +143,7 @@ export function ProductCard({
   product: GridProduct;
   onOpenProduct: (id: string) => void;
 }) {
+  const { t } = useI18n();
   return (
       <article
         key={product.id}
@@ -153,7 +155,7 @@ export function ProductCard({
           {/* Same expanding pill button */}
           <div className="absolute bottom-5 left-5 h-9 w-9 group-hover:w-[158px] bg-gray-900 text-white rounded-full flex items-center pl-4 pr-[11px] overflow-hidden transition-all duration-300 ease-in-out shadow-sm">
             <span className="text-[13px] font-medium text-white whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-300 group-hover:delay-100">
-              Open page
+              {t('Open page')}
             </span>
             <span className="absolute right-[11px] top-1/2 -translate-y-1/2 flex items-center justify-center">
               <ArrowRight
