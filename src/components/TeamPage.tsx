@@ -158,7 +158,7 @@ export function TeamPage({ onNavigateHome, onOpenInquiry, onNavigateToTeam, onSe
 
           {/* Badge Row */}
           <div className="team-anim-header flex items-center gap-3 mb-6 sm:mb-8">
-            <span className="text-[12px] sm:text-[13px] font-medium text-gray-900 border border-gray-200 rounded-full px-3 sm:px-4 py-1 sm:py-1.5">
+            <span className="text-[12px] sm:text-[13px] font-medium text-gray-900 bg-gray-100 rounded-full px-3 sm:px-4 py-1 sm:py-1.5">
               The Founder Team
             </span>
           </div>

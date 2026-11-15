@@ -158,7 +158,7 @@ export function ProductPage({
                     href={product.liveUrl}
                     target="_blank"
                     rel="noreferrer"
-                    className="bg-white hover:bg-gray-50 border border-gray-300 hover:border-gray-900 text-gray-900 text-[14px] font-medium rounded-full px-6 py-3.5 inline-flex items-center gap-2 transition-colors whitespace-nowrap"
+                    className="bg-gray-100 hover:bg-gray-200 text-gray-900 text-[14px] font-medium rounded-full px-6 py-3.5 inline-flex items-center gap-2 transition-colors whitespace-nowrap"
                   >
                     <span>Visit {product.domainLabel}</span>
                     <ExternalLink size={15} />
@@ -225,7 +225,7 @@ export function ProductPage({
             {product.capabilities.map((cap) => (
               <div
                 key={cap.index}
-                className="rounded-2xl bg-white border border-gray-200 p-6 sm:p-7 min-h-[140px] flex flex-col justify-between"
+                className="rounded-3xl bg-gray-50 p-6 sm:p-7 min-h-[140px] flex flex-col justify-between"
               >
                 <span className="text-[13px] font-semibold text-[#0400F5] tabular-nums">
                   {cap.index}
@@ -242,7 +242,7 @@ export function ProductPage({
               {product.deliverables.map((d) => (
                 <span
                   key={d}
-                  className="inline-flex items-center px-4 py-2 rounded-full border border-gray-300 bg-white text-[13px] font-medium text-gray-900"
+                  className="inline-flex items-center px-4 py-2 rounded-full bg-gray-100 text-[13px] font-medium text-gray-900"
                 >
                   {d}
                 </span>
@@ -276,7 +276,7 @@ export function ProductPage({
             ))}
 
             {/* Conversion CTA Card */}
-            <div className="rounded-2xl bg-[#F5F5F5] border border-gray-200/80 p-8 sm:p-10 flex flex-col justify-between">
+            <div className="rounded-3xl bg-[#F5F5F5] p-8 sm:p-10 flex flex-col justify-between">
               <div>
                 <p className="text-[13px] font-medium text-gray-500 mb-2">
                   Deploy with Eotra

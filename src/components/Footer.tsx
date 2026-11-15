@@ -87,11 +87,11 @@ export function Footer({
                   }}
                   placeholder="Enter your work email"
                   aria-label="Work email address"
-                  className="flex-1 px-4 py-3 text-[14px] text-gray-900 bg-[#FBFBFB] border border-gray-300 focus:border-white focus:bg-white focus:outline-none transition-colors"
+                  className="flex-1 rounded-full px-5 py-3 text-[14px] text-gray-900 bg-gray-100 placeholder:text-gray-400 focus:bg-gray-200/70 focus:outline-none transition-colors"
                 />
                 <button
                   type="submit"
-                  className="px-6 py-3 bg-gray-900 hover:bg-white hover:text-[#0400F5] text-white text-[13px] font-medium tracking-wide transition-colors duration-200 flex items-center justify-center gap-2 cursor-pointer shrink-0"
+                  className="rounded-full px-6 py-3 bg-gray-900 hover:bg-[#0400F5] text-white text-[13px] font-medium tracking-wide transition-colors duration-200 flex items-center justify-center gap-2 cursor-pointer shrink-0"
                 >
                   {subscribed ? (
                     <>

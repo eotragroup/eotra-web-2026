@@ -71,11 +71,11 @@ export function FaqPage({ onNavigateHome, onOpenInquiry, onNavigateToTeam, onSel
             </div>
           </div>
 
-          <div className="lg:col-span-7 border-t border-gray-200">
+          <div className="lg:col-span-7 flex flex-col gap-2.5">
             {FAQS.map((item, i) => {
               const isOpen = open === i;
               return (
-                <div key={item.q} className="border-b border-gray-200">
+                <div key={item.q} className={`rounded-3xl px-5 sm:px-7 transition-colors duration-300 ${isOpen ? 'bg-gray-100' : 'bg-gray-50 hover:bg-gray-100'}`}>
                   <button
                     type="button"
                     aria-expanded={isOpen}
@@ -86,8 +86,8 @@ export function FaqPage({ onNavigateHome, onOpenInquiry, onNavigateToTeam, onSel
                       {item.q}
                     </span>
                     <span
-                      className={`shrink-0 w-9 h-9 rounded-full border flex items-center justify-center transition-all duration-300 ${
-                        isOpen ? 'bg-gray-900 border-gray-900 text-white rotate-45' : 'border-gray-300 text-gray-900'
+                      className={`shrink-0 w-9 h-9 rounded-full flex items-center justify-center transition-all duration-300 ${
+                        isOpen ? 'bg-gray-900 text-white rotate-45' : 'bg-white text-gray-900'
                       }`}
                     >
                       <Plus size={16} />
@@ -99,7 +99,7 @@ export function FaqPage({ onNavigateHome, onOpenInquiry, onNavigateToTeam, onSel
                     }`}
                   >
                     <div className="overflow-hidden">
-                      <p className="pb-6 pr-12 text-[15px] sm:text-[16px] text-gray-600 leading-relaxed max-w-2xl">
+                      <p className="pb-6 pr-10 text-[15px] sm:text-[16px] text-gray-600 leading-relaxed max-w-2xl">
                         {item.a}
                       </p>
                     </div>
