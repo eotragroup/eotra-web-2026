@@ -50,7 +50,7 @@ const FOUNDERS: Founder[] = [
 
 const STATS = [
   { value: '7+', label: 'Years Experience' },
-  { value: '12+', label: 'Products Built' },
+  { value: '12+', label: 'Projects Delivered' },
   { value: '30+', label: 'Clients & Partners' },
   { value: '99.9%', label: 'Uptime Reliability' },
 ];

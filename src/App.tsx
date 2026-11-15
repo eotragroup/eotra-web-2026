@@ -1,4 +1,13 @@
-import { goToConnect } from './lib/nav';
+import { goToCompany, goToConnect, goToReferences } from './lib/nav';
+import { applyMeta } from './lib/seo';
+import { metaForPath } from './data/pageMeta';
+import { LegalPage } from './components/LegalPage';
+import { NotFoundPage } from './components/NotFoundPage';
+import { ServicePage } from './components/ServicePage';
+import { CompanyPage } from './components/CompanyPage';
+import { SolutionsPage } from './components/SolutionsPage';
+import { ReferencesPage } from './components/ReferencesPage';
+import { getService } from './data/services';
 import { useEffect, useState } from 'react';
 import { MessageSquare } from 'lucide-react';
 import { gsap } from 'gsap';
@@ -87,6 +96,24 @@ function getProductIdFromPath(pathname: string): string | null {
   return match ? decodeURIComponent(match[1]) : null;
 }
 
+// '/services/<slug>' -> slug
+function getServiceFromPath(pathname: string): string | null {
+  const m = pathname.match(/^\/services\/([a-z0-9-]+)\/?$/);
+  return m ? m[1] : null;
+}
+
+// '/company' or '/solutions'
+type InfoPage = 'company' | 'solutions' | 'references' | 'privacy' | 'terms' | 'security';
+
+function getInfoPageFromPath(pathname: string): InfoPage | null {
+  const legal = pathname.match(/^\/(privacy|terms|security)\/?$/);
+  if (legal) return legal[1] as InfoPage;
+  if (/^\/references\/?$/.test(pathname)) return 'references';
+  if (/^\/company\/?$/.test(pathname)) return 'company';
+  if (/^\/solutions\/?$/.test(pathname)) return 'solutions';
+  return null;
+}
+
 function isTeamPath(pathname: string): boolean {
   return pathname === '/team';
 }
@@ -119,6 +146,12 @@ export default function App() {
   const [isConnectPage, setIsConnectPage] = useState<boolean>(() =>
     isConnectPath(window.location.pathname)
   );
+  const [infoPage, setInfoPage] = useState<InfoPage | null>(() =>
+    getInfoPageFromPath(window.location.pathname)
+  );
+  const [serviceSlug, setServiceSlug] = useState<string | null>(() =>
+    getServiceFromPath(window.location.pathname)
+  );
   const [blogRoute, setBlogRoute] = useState<string | null>(() =>
     getBlogFromPath(window.location.pathname)
   );
@@ -145,30 +178,33 @@ export default function App() {
       setIsFaqPage(isFaqPath(window.location.pathname));
       setIsConnectPage(isConnectPath(window.location.pathname));
       setBlogRoute(getBlogFromPath(window.location.pathname));
+      setServiceSlug(getServiceFromPath(window.location.pathname));
+      setInfoPage(getInfoPageFromPath(window.location.pathname));
     };
     window.addEventListener('popstate', handlePopState);
     return () => window.removeEventListener('popstate', handlePopState);
   }, []);
 
+  const pathname = window.location.pathname;
+  const notFound =
+    pathname !== '/' &&
+    !(
+      activeProduct ||
+      isTeamPage ||
+      isFaqPage ||
+      isConnectPage ||
+      blogRoute !== null ||
+      (serviceSlug && getService(serviceSlug)) ||
+      infoPage
+    );
+
   useEffect(() => {
-    if (activeProduct) {
-      document.title = `${activeProduct.title} — Eotra`;
-    } else if (isTeamPage) {
-      document.title = 'The Founder Team — Eotra';
-    } else if (isFaqPage) {
-      document.title = 'FAQ — Eotra';
-    } else if (isConnectPage) {
-      document.title = 'Connect — Eotra';
-    } else if (blogRoute !== null) {
-      document.title = blogRoute ? `${POSTS.find((p) => p.slug === blogRoute)?.title ?? 'Blog'} — Eotra` : 'Blog — Eotra';
-    } else {
-      document.title = 'Eotra — Enterprise Operations & Transaction';
-    }
-  }, [activeProduct, isTeamPage, isFaqPage, isConnectPage, blogRoute]);
+    applyMeta(metaForPath(window.location.pathname));
+  }, [activeProduct, isTeamPage, isFaqPage, isConnectPage, blogRoute, serviceSlug, infoPage, notFound]);
 
   // GSAP Animations
   useEffect(() => {
-    if (activeProduct || isTeamPage || isFaqPage || isConnectPage || blogRoute !== null) return;
+    if (activeProduct || isTeamPage || isFaqPage || isConnectPage || blogRoute !== null || serviceSlug || infoPage || notFound) return;
 
     const ctx = gsap.context(() => {
       // Hero entrance animation
@@ -215,7 +251,7 @@ export default function App() {
     });
 
     return () => ctx.revert();
-  }, [activeProduct, isTeamPage, isFaqPage, isConnectPage, blogRoute]);
+  }, [activeProduct, isTeamPage, isFaqPage, isConnectPage, blogRoute, serviceSlug, infoPage, notFound]);
 
   const navigateToProduct = (productId: string) => {
     const targetPath = `/products/${encodeURIComponent(productId)}`;
@@ -227,6 +263,8 @@ export default function App() {
     setIsFaqPage(false);
     setBlogRoute(null);
     setIsConnectPage(false);
+    setServiceSlug(null);
+    setInfoPage(null);
     smoothScrollTo(0, { immediate: true });
   };
 
@@ -237,6 +275,8 @@ export default function App() {
     setIsFaqPage(false);
     setBlogRoute(null);
     setIsConnectPage(false);
+    setServiceSlug(null);
+    setInfoPage(null);
     smoothScrollTo(0, { immediate: true });
   };
 
@@ -248,6 +288,8 @@ export default function App() {
     setIsFaqPage(false);
     setBlogRoute(null);
     setIsConnectPage(false);
+    setServiceSlug(null);
+    setInfoPage(null);
 
     if (sectionId) {
       requestAnimationFrame(() => {
@@ -295,6 +337,50 @@ export default function App() {
             onSelectProduct={navigateToProduct}
           />
         )
+      ) : infoPage === 'company' ? (
+        <CompanyPage
+          onNavigateHome={navigateHome}
+          onOpenInquiry={openInquiry}
+          onNavigateToTeam={navigateToTeam}
+          onSelectProduct={navigateToProduct}
+        />
+      ) : notFound ? (
+        <NotFoundPage
+          onNavigateHome={navigateHome}
+          onOpenInquiry={openInquiry}
+          onNavigateToTeam={navigateToTeam}
+          onSelectProduct={navigateToProduct}
+        />
+      ) : infoPage === 'privacy' || infoPage === 'terms' || infoPage === 'security' ? (
+        <LegalPage
+          kind={infoPage}
+          onNavigateHome={navigateHome}
+          onOpenInquiry={openInquiry}
+          onNavigateToTeam={navigateToTeam}
+          onSelectProduct={navigateToProduct}
+        />
+      ) : infoPage === 'references' ? (
+        <ReferencesPage
+          onNavigateHome={navigateHome}
+          onOpenInquiry={openInquiry}
+          onNavigateToTeam={navigateToTeam}
+          onSelectProduct={navigateToProduct}
+        />
+      ) : infoPage === 'solutions' ? (
+        <SolutionsPage
+          onNavigateHome={navigateHome}
+          onOpenInquiry={openInquiry}
+          onNavigateToTeam={navigateToTeam}
+          onSelectProduct={navigateToProduct}
+        />
+      ) : serviceSlug ? (
+        <ServicePage
+          slug={serviceSlug}
+          onNavigateHome={navigateHome}
+          onOpenInquiry={openInquiry}
+          onNavigateToTeam={navigateToTeam}
+          onSelectProduct={navigateToProduct}
+        />
       ) : isConnectPage ? (
         <ConnectPage
           onNavigateHome={navigateHome}
@@ -403,7 +489,7 @@ export default function App() {
                   label="About our company"
                   variant="orange"
                   size="hero"
-                  onClick={() => setInfoModal('company')}
+                  onClick={() => goToCompany()}
                 />
               }
             />
@@ -447,7 +533,7 @@ export default function App() {
           {/* Heading with ScrollRevealText */}
           <ScrollRevealText
             as="h2"
-            text="Our Products"
+            text="Our References"
             className="text-[clamp(1.75rem,5.5vw,3.75rem)] text-gray-900 mb-10 sm:mb-14 lg:mb-16"
             start="top 85%"
             end="bottom 55%"
@@ -455,6 +541,10 @@ export default function App() {
 
           {/* Products grid */}
           <ProductsGrid products={PRODUCTS} onOpenProduct={navigateToProduct} />
+
+          <div className="mt-10 flex justify-center">
+            <RollButton label="All references" variant="dark" size="hero" onClick={() => goToReferences()} />
+          </div>
         </div>
       </section>
 
@@ -463,10 +553,7 @@ export default function App() {
         onNavigateHome={() => smoothScrollTo(0)}
         onOpenInquiry={openInquiry}
         onNavigateToProduct={navigateToProduct}
-        onNavigateToTeam={() => {
-          setView('team');
-          smoothScrollTo(0, { immediate: true });
-        }}
+        onNavigateToTeam={navigateToTeam}
         onOpenInfoModal={(mode) => setInfoModal(mode)}
       />
         </div>

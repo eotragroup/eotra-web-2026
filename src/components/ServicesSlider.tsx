@@ -1,120 +1,9 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import {
-  ArrowLeft,
-  ArrowRight,
-  Cloud,
-  Code2,
-  Database,
-  Layers,
-  LayoutDashboard,
-  ShieldCheck,
-  ShoppingBag,
-  Smartphone,
-} from 'lucide-react';
-import { TypewriterText } from './TypewriterText';
+import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { ScrollRevealText } from './ScrollRevealText';
-import webAppsImg from '../assets/images/agency_web_apps_1794584483920.jpg';
-import mobileDevImg from '../assets/images/agency_mobile_dev_1794584483437.jpg';
-import uiUxImg from '../assets/images/agency_ui_ux_design_men_1794584626063.jpg';
-import ecommerceImg from '../assets/images/agency_ecommerce_dev_1794584484166.jpg';
-import backendApiImg from '../assets/images/agency_backend_api_1794584484837.jpg';
-import cloudDevopsImg from '../assets/images/agency_cloud_devops_men_1794584626260.jpg';
-import dashboardsImg from '../assets/images/agency_enterprise_dashboards_1794584485278.jpg';
-import qaSupportImg from '../assets/images/agency_qa_maintenance_men_1794584627021.jpg';
-
-interface ServiceItem {
-  index: string;
-  category: string;
-  title: string;
-  description: string;
-  deliverables: string;
-  image: string;
-  imageAlt: string;
-  icon: typeof Code2;
-}
-
-const EOTRA_SERVICES: ServiceItem[] = [
-  {
-    index: '01.',
-    category: 'Web Engineering',
-    title: 'Custom Web Apps',
-    description: 'Full-stack SaaS, portals, and modern frontends.',
-    deliverables: 'Web Apps',
-    image: webAppsImg,
-    imageAlt: 'Laptop displaying modern web application UI and code editor',
-    icon: Code2,
-  },
-  {
-    index: '02.',
-    category: 'Mobile',
-    title: 'Mobile Development',
-    description: 'Native and cross-platform iOS & Android apps.',
-    deliverables: 'iOS & Android',
-    image: mobileDevImg,
-    imageAlt: 'Smartphone showing clean minimalist mobile application UI',
-    icon: Smartphone,
-  },
-  {
-    index: '03.',
-    category: 'Design',
-    title: 'UI / UX & Product Design',
-    description: 'Design systems, prototypes, and user flows.',
-    deliverables: 'Product Design',
-    image: uiUxImg,
-    imageAlt: 'Product designer crafting interface components and typography grids',
-    icon: Layers,
-  },
-  {
-    index: '04.',
-    category: 'Commerce',
-    title: 'E-Commerce Builds',
-    description: 'Custom storefronts, carts, and local wallets.',
-    deliverables: 'E-Commerce',
-    image: ecommerceImg,
-    imageAlt: 'Digital commerce storefront tablet next to curated retail goods',
-    icon: ShoppingBag,
-  },
-  {
-    index: '05.',
-    category: 'Backend',
-    title: 'Backend & APIs',
-    description: 'Scalable REST APIs, databases, and integrations.',
-    deliverables: 'API Architecture',
-    image: backendApiImg,
-    imageAlt: 'Developer workspace showing backend code and database schemas',
-    icon: Database,
-  },
-  {
-    index: '06.',
-    category: 'Infrastructure',
-    title: 'Cloud & DevOps',
-    description: 'CI/CD pipelines, containers, and global scaling.',
-    deliverables: 'Cloud & DevOps',
-    image: cloudDevopsImg,
-    imageAlt: 'Software engineering team monitoring live cloud deployment pipeline',
-    icon: Cloud,
-  },
-  {
-    index: '07.',
-    category: 'Systems',
-    title: 'Internal Tools & ERP',
-    description: 'Custom dashboards, POS, CRM, and workflows.',
-    deliverables: 'Business Systems',
-    image: dashboardsImg,
-    imageAlt: 'Widescreen display presenting operational analytics and KPI charts',
-    icon: LayoutDashboard,
-  },
-  {
-    index: '08.',
-    category: 'Lifecycle',
-    title: 'QA & Dedicated Teams',
-    description: 'Automated testing, monitoring, and long-term support.',
-    deliverables: 'QA & Retainers',
-    image: qaSupportImg,
-    imageAlt: 'Engineers reviewing automated test results together on a laptop',
-    icon: ShieldCheck,
-  },
-];
+import { SERVICES as EOTRA_SERVICES } from '../data/services';
+import { goToService } from '../lib/nav';
+import type { Code2 } from 'lucide-react';
 
 function ServiceCardImage({
   src,
@@ -266,6 +155,11 @@ export function ServicesSlider({ onOpenInquiry }: ServicesSliderProps) {
             <article
               key={service.index}
               tabIndex={0}
+              role="link"
+              onClick={() => goToService(service.slug)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') goToService(service.slug);
+              }}
               aria-label={service.title}
               className="group relative snap-start shrink-0 w-[78vw] sm:w-[320px] md:w-[330px] lg:w-[340px] xl:w-[355px] aspect-[4/5] rounded-3xl overflow-hidden bg-gray-900 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0400F5]"
             >
@@ -287,10 +181,10 @@ export function ServicesSlider({ onOpenInquiry }: ServicesSliderProps) {
 
                   <button
                     type="button"
-                    aria-label={`Request ${service.title}`}
+                    aria-label={`Open ${service.title}`}
                     onClick={(e) => {
                       e.stopPropagation();
-                      onOpenInquiry(`Service Inquiry: ${service.title}`);
+                      goToService(service.slug);
                     }}
                     className="w-10 h-10 rounded-full bg-[#0400F5] hover:bg-[#0300cc] text-white inline-flex items-center justify-center shrink-0 transition-colors cursor-pointer"
                   >

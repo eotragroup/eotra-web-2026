@@ -1,7 +1,8 @@
-import { goToBlog, goToConnect, goToFaq } from '../lib/nav';
+import { goToBlog, goToCompany, goToConnect, goToFaq, goToReferences, goToService, goToSolutions } from '../lib/nav';
+import { SERVICES } from '../data/services';
 import { smoothScrollTo } from '../lib/smoothScroll';
 import { useEffect, useRef, useState } from 'react';
-import { Minus, Plus } from 'lucide-react';
+import { ChevronDown, Minus, Plus } from 'lucide-react';
 import { RollButton } from './RollButton';
 
 interface NavbarProps {
@@ -16,6 +17,11 @@ export function Navbar({ onOpenInquiry, onNavigateHome, onNavigateToTeam, dark: 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [onDark, setOnDark] = useState(false);
   const [hidden, setHidden] = useState(false);
+  const [servicesOpen, setServicesOpen] = useState(false);
+  const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
+  const [menuLeft, setMenuLeft] = useState(0);
+  const wrapRef = useRef<HTMLDivElement>(null);
+  const servicesLinkRef = useRef<HTMLAnchorElement>(null);
   const lastY = useRef(0);
   const headerRef = useRef<HTMLElement>(null);
   const dark = forceDark || onDark;
@@ -93,6 +99,22 @@ export function Navbar({ onOpenInquiry, onNavigateHome, onNavigateToTeam, dark: 
     }
   };
 
+  const openServices = () => {
+    const link = servicesLinkRef.current;
+    const wrap = wrapRef.current;
+    if (link && wrap) {
+      const l = link.getBoundingClientRect().left - wrap.getBoundingClientRect().left;
+      setMenuLeft(Math.max(0, Math.min(l - 16, wrap.clientWidth - 600)));
+    }
+    setServicesOpen(true);
+  };
+
+  const openService = (slug: string) => {
+    setServicesOpen(false);
+    setMobileMenuOpen(false);
+    goToService(slug);
+  };
+
   const handleBlogClick = (e: React.MouseEvent) => {
     e.preventDefault();
     setMobileMenuOpen(false);
@@ -119,10 +141,10 @@ export function Navbar({ onOpenInquiry, onNavigateHome, onNavigateToTeam, dark: 
   };
 
   const menuItems: { label: string; href: string; onClick: (e: React.MouseEvent) => void }[] = [
-    { label: 'Projects', href: '#projects', onClick: (e) => { e.preventDefault(); scrollToSection('projects'); } },
+    { label: 'References', href: '/references', onClick: (e) => { e.preventDefault(); setMobileMenuOpen(false); goToReferences(); } },
     { label: 'Services', href: '#services', onClick: (e) => { e.preventDefault(); scrollToSection('services'); } },
-    { label: 'Company', href: '#company', onClick: (e) => { e.preventDefault(); scrollToSection('company'); } },
-    { label: 'Solutions', href: '#solutions', onClick: (e) => { e.preventDefault(); scrollToSection('solutions'); } },
+    { label: 'Company', href: '/company', onClick: (e) => { e.preventDefault(); setMobileMenuOpen(false); goToCompany(); } },
+    { label: 'Solutions', href: '/solutions', onClick: (e) => { e.preventDefault(); setMobileMenuOpen(false); goToSolutions(); } },
     { label: 'Team', href: '/team', onClick: handleTeamClick },
     { label: 'FAQ', href: '/faq', onClick: handleFaqClick },
     { label: 'Blog', href: '/blog', onClick: handleBlogClick },
@@ -150,7 +172,7 @@ export function Navbar({ onOpenInquiry, onNavigateHome, onNavigateToTeam, dark: 
         }`}
       >
         <div className="w-full max-w-[1440px] mx-auto px-3 sm:px-5 pt-3">
-          <div className="w-full">
+          <div className="w-full relative" ref={wrapRef} onMouseLeave={() => setServicesOpen(false)}>
             {/* The bar: just the logo and one round button */}
             <nav
               aria-label="Primary navigation"
@@ -183,13 +205,22 @@ export function Navbar({ onOpenInquiry, onNavigateHome, onNavigateToTeam, dark: 
                   {menuItems.map((item) => (
                     <a
                       key={item.label}
+                      ref={item.label === 'Services' ? servicesLinkRef : undefined}
                       href={item.href}
-                      onClick={item.onClick}
-                      className={`text-[14px] transition-colors duration-300 whitespace-nowrap ${
+                      onClick={(e) => {
+                        setServicesOpen(false);
+                        item.onClick(e);
+                      }}
+                      onMouseEnter={item.label === 'Services' ? openServices : () => setServicesOpen(false)}
+                      onFocus={item.label === 'Services' ? openServices : undefined}
+                      className={`text-[14px] transition-colors duration-300 whitespace-nowrap inline-flex items-center gap-1 ${
                         dark ? 'text-white/85 hover:text-white' : 'text-gray-900 hover:text-gray-500'
                       }`}
                     >
                       {item.label}
+                      {item.label === 'Services' && (
+                        <ChevronDown size={13} strokeWidth={1.8} className={`transition-transform duration-300 ${servicesOpen ? 'rotate-180' : ''}`} />
+                      )}
                     </a>
                   ))}
                 </div>
@@ -218,6 +249,55 @@ export function Navbar({ onOpenInquiry, onNavigateHome, onNavigateToTeam, dark: 
               </button>
             </nav>
 
+            {/* Desktop: services menu */}
+            <div
+              className={`hidden md:block absolute top-full pt-2 z-10 transition-all duration-200 ease-out ${
+                servicesOpen ? 'opacity-100 translate-y-0 pointer-events-auto' : 'opacity-0 -translate-y-1 pointer-events-none'
+              }`}
+              style={{ left: menuLeft }}
+              aria-hidden={!servicesOpen}
+            >
+              <div
+                className={`w-[600px] rounded-[28px] backdrop-blur-xl backdrop-saturate-150 p-2.5 ${
+                  dark ? 'bg-[#0b0d1a]/80' : 'bg-white/90'
+                }`}
+              >
+                <div className="grid grid-cols-2 gap-1">
+                  {SERVICES.map((sv) => {
+                    const SIcon = sv.icon;
+                    return (
+                      <a
+                        key={sv.slug}
+                        href={`/services/${sv.slug}`}
+                        tabIndex={servicesOpen ? 0 : -1}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          openService(sv.slug);
+                        }}
+                        className={`flex items-start gap-3 rounded-2xl p-3 transition-colors ${
+                          dark ? 'hover:bg-white/10' : 'hover:bg-gray-900/[0.05]'
+                        }`}
+                      >
+                        <span
+                          className={`w-9 h-9 shrink-0 rounded-full flex items-center justify-center ${
+                            dark ? 'bg-white/10 text-white' : 'bg-gray-900/[0.06] text-gray-900'
+                          }`}
+                        >
+                          <SIcon size={16} strokeWidth={1.7} />
+                        </span>
+                        <span className="min-w-0">
+                          <span className={`block text-[14px] font-medium ${dark ? 'text-white' : 'text-gray-900'}`}>{sv.title}</span>
+                          <span className={`block mt-0.5 text-[12.5px] leading-snug ${dark ? 'text-white/55' : 'text-gray-500'}`}>
+                            {sv.description}
+                          </span>
+                        </span>
+                      </a>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+
             {/* The panel: the bar opens downwards into thin pill links */}
             <div
               className={`md:hidden pointer-events-auto grid transition-[grid-template-rows,margin] duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] ${
@@ -233,7 +313,14 @@ export function Navbar({ onOpenInquiry, onNavigateHome, onNavigateToTeam, dark: 
                         key={item.label}
                         href={item.href}
                         tabIndex={mobileMenuOpen ? 0 : -1}
-                        onClick={item.onClick}
+                        onClick={
+                          item.label === 'Services'
+                            ? (e) => {
+                                e.preventDefault();
+                                setMobileServicesOpen((o) => !o);
+                              }
+                            : item.onClick
+                        }
                         className={`flex-1 min-w-[28%] rounded-full px-3 py-2 text-center text-[14px] transition-colors ${
                           dark
                             ? 'bg-white/10 text-white hover:bg-white/20'
@@ -241,9 +328,36 @@ export function Navbar({ onOpenInquiry, onNavigateHome, onNavigateToTeam, dark: 
                         }`}
                       >
                         {item.label}
+                        {item.label === 'Services' && (
+                          <ChevronDown size={13} strokeWidth={1.8} className={`inline ml-1 -mt-0.5 transition-transform duration-300 ${mobileServicesOpen ? 'rotate-180' : ''}`} />
+                        )}
                       </a>
                     ))}
                   </div>
+
+                  {mobileServicesOpen && (
+                    <div className="mt-1.5 grid grid-cols-1 gap-1">
+                      {SERVICES.map((sv) => {
+                        const SIcon = sv.icon;
+                        return (
+                          <a
+                            key={sv.slug}
+                            href={`/services/${sv.slug}`}
+                            onClick={(e) => {
+                              e.preventDefault();
+                              openService(sv.slug);
+                            }}
+                            className={`flex items-center gap-3 rounded-full px-3 py-2 text-[14px] transition-colors ${
+                              dark ? 'bg-white/10 text-white hover:bg-white/20' : 'bg-white/70 text-gray-900 hover:bg-white'
+                            }`}
+                          >
+                            <SIcon size={15} strokeWidth={1.7} />
+                            {sv.title}
+                          </a>
+                        );
+                      })}
+                    </div>
+                  )}
 
                   <button
                     type="button"
