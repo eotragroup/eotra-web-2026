@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { Navbar } from './Navbar';
 import { Footer } from './Footer';
+import { useI18n } from '../i18n';
 
 export type LegalKind = 'privacy' | 'terms' | 'security';
 
@@ -127,6 +128,7 @@ const DOCS: Record<LegalKind, { title: string; intro: string; sections: { h: str
 };
 
 export function LegalPage({ kind, onNavigateHome, onOpenInquiry, onNavigateToTeam, onSelectProduct }: PageProps) {
+  const { t } = useI18n();
   const doc = DOCS[kind];
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -142,21 +144,21 @@ export function LegalPage({ kind, onNavigateHome, onOpenInquiry, onNavigateToTea
         <div className="max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-12 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14">
           <div className="lg:col-span-5">
             <span className="inline-flex items-center rounded-full bg-gray-100 px-3.5 py-1.5 text-[12px] sm:text-[13px] font-medium text-gray-900">
-              Updated {UPDATED}
+              {t('Updated')} {t(UPDATED)}
             </span>
             <h1 className="mt-6 text-[clamp(2.25rem,5.5vw,4.25rem)] font-medium leading-[1.03] tracking-[-0.03em] text-gray-900">
-              {doc.title}
+              {t(doc.title)}
             </h1>
-            <p className="mt-5 text-[16px] sm:text-[18px] text-gray-500 leading-relaxed max-w-md">{doc.intro}</p>
+            <p className="mt-5 text-[16px] sm:text-[18px] text-gray-500 leading-relaxed max-w-md">{t(doc.intro)}</p>
           </div>
 
           <div className="lg:col-span-7 flex flex-col gap-2.5">
             {doc.sections.map((s) => (
               <div key={s.h} className="rounded-3xl bg-gray-50 px-6 sm:px-8 py-6 sm:py-7">
-                <h2 className="text-[18px] sm:text-[20px] font-medium tracking-[-0.01em] text-gray-900">{s.h}</h2>
+                <h2 className="text-[18px] sm:text-[20px] font-medium tracking-[-0.01em] text-gray-900">{t(s.h)}</h2>
                 <div className="mt-3 space-y-3 text-[15px] sm:text-[16px] text-gray-600 leading-relaxed">
-                  {s.p.map((t) => (
-                    <p key={t}>{t}</p>
+                  {s.p.map((x) => (
+                    <p key={x}>{t(x)}</p>
                   ))}
                 </div>
               </div>

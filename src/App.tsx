@@ -1,5 +1,7 @@
 import { goToCompany, goToConnect, goToReferences } from './lib/nav';
 import { applyMeta } from './lib/seo';
+import { appPath, withLang } from './i18n/lang';
+import { useI18n } from './i18n';
 import { metaForPath } from './data/pageMeta';
 import { LegalPage } from './components/LegalPage';
 import { NotFoundPage } from './components/NotFoundPage';
@@ -8,7 +10,7 @@ import { CompanyPage } from './components/CompanyPage';
 import { SolutionsPage } from './components/SolutionsPage';
 import { ReferencesPage } from './components/ReferencesPage';
 import { getService } from './data/services';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { MessageSquare } from 'lucide-react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -134,26 +136,31 @@ function getBlogFromPath(pathname: string): string | null {
 }
 
 export default function App() {
+  const { t, lang } = useI18n();
+  const typedWords = useMemo(
+    () => ['your global operations.', 'omnichannel stores.', 'international retail.', 'enterprise supply chains.', 'unified commerce.'].map(t),
+    [t],
+  );
   const [activeProductId, setActiveProductId] = useState<string | null>(() =>
-    getProductIdFromPath(window.location.pathname)
+    getProductIdFromPath(appPath())
   );
   const [isTeamPage, setIsTeamPage] = useState<boolean>(() =>
-    isTeamPath(window.location.pathname)
+    isTeamPath(appPath())
   );
   const [isFaqPage, setIsFaqPage] = useState<boolean>(() =>
-    isFaqPath(window.location.pathname)
+    isFaqPath(appPath())
   );
   const [isConnectPage, setIsConnectPage] = useState<boolean>(() =>
-    isConnectPath(window.location.pathname)
+    isConnectPath(appPath())
   );
   const [infoPage, setInfoPage] = useState<InfoPage | null>(() =>
-    getInfoPageFromPath(window.location.pathname)
+    getInfoPageFromPath(appPath())
   );
   const [serviceSlug, setServiceSlug] = useState<string | null>(() =>
-    getServiceFromPath(window.location.pathname)
+    getServiceFromPath(appPath())
   );
   const [blogRoute, setBlogRoute] = useState<string | null>(() =>
-    getBlogFromPath(window.location.pathname)
+    getBlogFromPath(appPath())
   );
   const [inquiryState, setInquiryState] = useState<{
     open: boolean;
@@ -173,19 +180,19 @@ export default function App() {
 
   useEffect(() => {
     const handlePopState = () => {
-      setActiveProductId(getProductIdFromPath(window.location.pathname));
-      setIsTeamPage(isTeamPath(window.location.pathname));
-      setIsFaqPage(isFaqPath(window.location.pathname));
-      setIsConnectPage(isConnectPath(window.location.pathname));
-      setBlogRoute(getBlogFromPath(window.location.pathname));
-      setServiceSlug(getServiceFromPath(window.location.pathname));
-      setInfoPage(getInfoPageFromPath(window.location.pathname));
+      setActiveProductId(getProductIdFromPath(appPath()));
+      setIsTeamPage(isTeamPath(appPath()));
+      setIsFaqPage(isFaqPath(appPath()));
+      setIsConnectPage(isConnectPath(appPath()));
+      setBlogRoute(getBlogFromPath(appPath()));
+      setServiceSlug(getServiceFromPath(appPath()));
+      setInfoPage(getInfoPageFromPath(appPath()));
     };
     window.addEventListener('popstate', handlePopState);
     return () => window.removeEventListener('popstate', handlePopState);
   }, []);
 
-  const pathname = window.location.pathname;
+  const pathname = appPath();
   const notFound =
     pathname !== '/' &&
     !(
@@ -199,8 +206,8 @@ export default function App() {
     );
 
   useEffect(() => {
-    applyMeta(metaForPath(window.location.pathname));
-  }, [activeProduct, isTeamPage, isFaqPage, isConnectPage, blogRoute, serviceSlug, infoPage, notFound]);
+    applyMeta(metaForPath(appPath(), lang));
+  }, [activeProduct, isTeamPage, isFaqPage, isConnectPage, blogRoute, serviceSlug, infoPage, notFound, lang]);
 
   // GSAP Animations
   useEffect(() => {
@@ -255,8 +262,8 @@ export default function App() {
 
   const navigateToProduct = (productId: string) => {
     const targetPath = `/products/${encodeURIComponent(productId)}`;
-    if (window.location.pathname !== targetPath) {
-      window.history.pushState({}, '', targetPath);
+    if (appPath() !== targetPath) {
+      window.history.pushState({}, '', withLang(targetPath));
     }
     setActiveProductId(productId);
     setIsTeamPage(false);
@@ -269,7 +276,7 @@ export default function App() {
   };
 
   const navigateToTeam = () => {
-    window.history.pushState({}, '', '/team');
+    window.history.pushState({}, '', withLang('/team'));
     setActiveProductId(null);
     setIsTeamPage(true);
     setIsFaqPage(false);
@@ -282,7 +289,7 @@ export default function App() {
 
   const navigateHome = (sectionId?: string) => {
     const targetUrl = sectionId ? `/#${sectionId}` : '/';
-    window.history.pushState({}, '', targetUrl);
+    window.history.pushState({}, '', withLang(targetUrl));
     setActiveProductId(null);
     setIsTeamPage(false);
     setIsFaqPage(false);
@@ -418,31 +425,25 @@ export default function App() {
             {/* Left Column: Heading, Subtitle & CTAs */}
             <div className="lg:col-span-7">
               <p className="hero-anim text-[13px] sm:text-[14px] text-gray-900 tracking-wide mb-5 sm:mb-8">
-                Eotra · Enterprise Operations &amp; Transaction
+                {t('Eotra · Enterprise Operations & Transaction')}
               </p>
 
               <h1 className="hero-anim text-[clamp(1.75rem,5.5vw,3.75rem)] xl:text-[clamp(2.4rem,4.6vw,4.1rem)] font-medium leading-[1.08] tracking-[-0.03em] text-gray-900">
-                Powering modern retail,
+                {t('Powering modern retail,')}
                 <br className="hidden sm:block" />
                 <span className="sm:hidden"> </span>
-                from source to sale across
+                {t('from source to sale across')}
                 <br className="hidden sm:block" />
                 <span className="sm:hidden"> </span>
                 <TypewriterText
-                  words={[
-                    'your global operations.',
-                    'omnichannel stores.',
-                    'international retail.',
-                    'enterprise supply chains.',
-                    'unified commerce.',
-                  ]}
+                  words={typedWords}
                 />
               </h1>
 
               {/* CTA Row */}
               <div className="hero-anim mt-8 sm:mt-10 flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-5">
                 <RollButton
-                  label="Get started now"
+                  label={t('Get started now')}
                   variant="orange"
                   size="hero"
                   onClick={() => openInquiry('Get Started with Eotra')}
@@ -472,7 +473,7 @@ export default function App() {
             <div className="lg:col-span-7">
               <ScrollRevealText
                 as="h2"
-                text="Our Company"
+                text={t('Our Company')}
                 className="text-[clamp(1.75rem,4vw,3.25rem)] text-gray-900 max-w-2xl"
                 start="top 85%"
                 end="bottom 55%"
@@ -486,7 +487,7 @@ export default function App() {
             <AppRain
               cta={
                 <RollButton
-                  label="About our company"
+                  label={t('About our company')}
                   variant="orange"
                   size="hero"
                   onClick={() => goToCompany()}
@@ -511,7 +512,7 @@ export default function App() {
             <div className="lg:col-span-7">
               <ScrollRevealText
                 as="h2"
-                text="Our Solutions"
+                text={t('Our Solutions')}
                 className="text-[clamp(1.75rem,4vw,3.25rem)] text-gray-900 max-w-2xl"
                 start="top 85%"
                 end="bottom 55%"
@@ -533,7 +534,7 @@ export default function App() {
           {/* Heading with ScrollRevealText */}
           <ScrollRevealText
             as="h2"
-            text="Our References"
+            text={t('Our References')}
             className="text-[clamp(1.75rem,5.5vw,3.75rem)] text-gray-900 mb-10 sm:mb-14 lg:mb-16"
             start="top 85%"
             end="bottom 55%"
@@ -543,7 +544,7 @@ export default function App() {
           <ProductsGrid products={PRODUCTS} onOpenProduct={navigateToProduct} />
 
           <div className="mt-10 flex justify-center">
-            <RollButton label="All references" variant="dark" size="hero" onClick={() => goToReferences()} />
+            <RollButton label={t('All references')} variant="dark" size="hero" onClick={() => goToReferences()} />
           </div>
         </div>
       </section>
@@ -560,12 +561,12 @@ export default function App() {
       )}
 
       {/* Floating Bottom-Right Chat Icon Button */}
-      <aside aria-label="Quick contact" className="fixed bottom-5 right-5 sm:bottom-6 sm:right-6 z-40">
+      <aside aria-label={t('Quick contact')} className="fixed bottom-5 right-5 sm:bottom-6 sm:right-6 z-40">
         <button
           type="button"
           onClick={() => openInquiry('Quick Contact')}
-          aria-label="Open contact chat"
-          title="Contact Eotra"
+          aria-label={t('Open contact chat')}
+          title={t('Contact Eotra')}
           className="group relative flex items-center justify-center w-[52px] h-[52px] sm:w-[56px] sm:h-[56px] bg-gray-950 hover:bg-black text-white rounded-full shadow-2xl hover:shadow-black/40 transition-all duration-200 ease-out hover:scale-105 active:scale-95 cursor-pointer border border-white/15"
         >
           <MessageSquare

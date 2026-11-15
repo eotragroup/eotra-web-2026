@@ -1,6 +1,7 @@
 // Keeps <title>, description, canonical and share tags in step with the page being shown.
 const SITE = 'Eotra';
 import { HOME_META, type PageMeta } from '../data/pageMeta';
+import { stripLang, withLang } from '../i18n/lang';
 
 export type { PageMeta };
 export const DEFAULT_DESC = HOME_META.description;
@@ -43,6 +44,24 @@ export function applyMeta({ title, description = DEFAULT_DESC, noindex }: Partia
     'href',
     url,
   );
+  // Language alternates
+  const base = stripLang(window.location.pathname);
+  const alt = (hreflang: string, href: string) =>
+    setTag(
+      `link[rel="alternate"][hreflang="${hreflang}"]`,
+      () => {
+        const l = document.createElement('link');
+        l.setAttribute('rel', 'alternate');
+        l.setAttribute('hreflang', hreflang);
+        return l;
+      },
+      'href',
+      href,
+    );
+  alt('en', `${window.location.origin}${base}`);
+  alt('ar', `${window.location.origin}${withLang(base, 'ar')}`);
+  alt('x-default', `${window.location.origin}${base}`);
+  setTag('meta[property="og:locale"]', meta('property', 'og:locale'), 'content', document.documentElement.lang === 'ar' ? 'ar_AR' : 'en_US');
   setTag('meta[name="robots"]', meta('name', 'robots'), 'content', noindex ? 'noindex' : 'index, follow');
 }
 

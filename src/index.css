@@ -230,3 +230,27 @@ html.lenis body {
 .footer-dark .border-gray-200 { border-color: rgba(255, 255, 255, 0.10); }
 .footer-dark img[alt="Eotra"] { filter: brightness(0) invert(1); }
 .footer-dark a[aria-label^="Eotra on"] { background: rgba(255, 255, 255, 0.1); color: #fff; }
+
+/* ---------- Arabic / right-to-left ---------- */
+html[lang="ar"] body {
+  font-family: 'IBM Plex Sans Arabic', 'Segoe UI', Tahoma, 'Noto Sans Arabic', system-ui, sans-serif;
+}
+/* Tight Latin letter-spacing breaks Arabic joining */
+html[lang="ar"] * {
+  letter-spacing: 0 !important;
+}
+/* Direction arrows point the other way */
+[dir="rtl"] svg.lucide-arrow-right,
+[dir="rtl"] svg.lucide-arrow-left,
+[dir="rtl"] svg.lucide-chevron-right,
+[dir="rtl"] svg.lucide-chevron-left,
+[dir="rtl"] svg.lucide-arrow-up-right {
+  transform: scaleX(-1);
+}
+/* Phone numbers, emails and URLs stay left-to-right inside Arabic text */
+[dir="rtl"] a[href^="mailto:"],
+[dir="rtl"] input[type="email"],
+[dir="rtl"] input[type="tel"] {
+  direction: ltr;
+  unicode-bidi: plaintext;
+}

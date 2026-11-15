@@ -16,6 +16,7 @@ import {
   Tags,
   Barcode,
 } from 'lucide-react';
+import { useI18n } from '../i18n';
 
 const APPS = [
   { Icon: ShoppingCart, label: 'POS', color: '#0400F5' },
@@ -63,11 +64,12 @@ const DROPS = Array.from({ length: COLUMNS * 2 }, (_, i) => {
 });
 
 export function AppRain({ cta }: { cta?: React.ReactNode }) {
+  const { t, isRtl } = useI18n();
   return (
     <div
       className="app-rain relative w-full overflow-hidden rounded-2xl bg-gray-950"
       role="img"
-      aria-label="Eotra apps — POS, WMS, ERP, CRM and more — falling like rain"
+      aria-label={t('Eotra apps — POS, WMS, ERP, CRM and more — falling like rain')}
     >
       <style>{`
         .app-rain { --h: 340px; --rain-start: 62%; --rain-span: 32%; height: var(--h); }
@@ -102,7 +104,7 @@ export function AppRain({ cta }: { cta?: React.ReactNode }) {
           ))}
         </div>
         <p className="text-white text-[clamp(1.25rem,2.6vw,2.25rem)] font-medium leading-[1.1] tracking-[-0.02em]">
-          Every app your retail runs on. One core.
+          {t('Every app your retail runs on. One core.')}
         </p>
         {cta && <div className="mt-5 sm:mt-6">{cta}</div>}
       </div>
@@ -111,10 +113,10 @@ export function AppRain({ cta }: { cta?: React.ReactNode }) {
       {DROPS.map(({ key, col, app, pos, duration, delay, tilt }) => (
         <div
           key={key}
-          className={`app-rain-drop absolute top-0 -translate-x-1/2 flex-col items-center gap-1.5 ${col % 2 ? 'hidden sm:flex' : 'flex'}`}
+          className={`app-rain-drop absolute top-0 ${isRtl ? 'translate-x-1/2' : '-translate-x-1/2'} flex-col items-center gap-1.5 ${col % 2 ? 'hidden sm:flex' : 'flex'}`}
           style={
             {
-              left: `calc(var(--rain-start) + ${pos} * var(--rain-span))`,
+              [isRtl ? 'right' : 'left']: `calc(var(--rain-start) + ${pos} * var(--rain-span))`,
               animationDuration: `${duration}s`,
               animationDelay: `${delay}s`,
               '--tilt': `${tilt}deg`,
@@ -128,7 +130,7 @@ export function AppRain({ cta }: { cta?: React.ReactNode }) {
             <app.Icon size={28} strokeWidth={1.8} color={app.color} />
           </div>
           <span className="text-[10px] sm:text-[11px] font-medium text-white/80 tracking-wide">
-            {app.label}
+            {t(app.label)}
           </span>
         </div>
       ))}

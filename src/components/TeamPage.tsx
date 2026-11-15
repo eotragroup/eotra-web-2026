@@ -4,6 +4,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Navbar } from './Navbar';
 import { ScrollRevealText } from './ScrollRevealText';
 import { Footer } from './Footer';
+import { useI18n } from '../i18n';
 
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
@@ -92,6 +93,7 @@ interface TeamPageProps {
 }
 
 export function TeamPage({ onNavigateHome, onOpenInquiry, onNavigateToTeam, onSelectProduct }: TeamPageProps) {
+  const { t } = useI18n();
   useEffect(() => {
     const ctx = gsap.context(() => {
       // Header entrance animation
@@ -159,14 +161,14 @@ export function TeamPage({ onNavigateHome, onOpenInquiry, onNavigateToTeam, onSe
           {/* Badge Row */}
           <div className="team-anim-header flex items-center gap-3 mb-6 sm:mb-8">
             <span className="text-[12px] sm:text-[13px] font-medium text-gray-900 bg-gray-100 rounded-full px-3 sm:px-4 py-1 sm:py-1.5">
-              The Founder Team
+              {t('The Founder Team')}
             </span>
           </div>
 
           {/* Heading + subtext */}
           <div className="team-anim-header flex flex-col lg:flex-row lg:items-end justify-between gap-4 mb-12 sm:mb-16">
             <h1 className="text-[clamp(1.75rem,4vw,3.25rem)] font-medium leading-[1.1] tracking-[-0.025em] text-gray-900">
-              {[['The', 'core', 'engineers'], ['building', 'unified', 'commerce.']].map((line, li) => (
+              {[t('The core engineers').split(' '), t('building unified commerce.').split(' ')].map((line, li) => (
                 <span key={li} className="block">
                   {line.map((word, wi) => (
                     <span key={wi} className="team-title-word inline-block mr-[0.26em] text-gray-900">
@@ -192,10 +194,10 @@ export function TeamPage({ onNavigateHome, onOpenInquiry, onNavigateToTeam, onSe
                   />
                 </div>
                 <h3 className="text-[14px] sm:text-[15px] font-semibold text-gray-900">
-                  {founder.name}
+                  {t(founder.name)}
                 </h3>
                 <p className="text-[12px] sm:text-[13px] text-gray-600 mt-0.5">
-                  {founder.role}
+                  {t(founder.role)}
                 </p>
               </div>
             ))}
@@ -224,7 +226,7 @@ export function TeamPage({ onNavigateHome, onOpenInquiry, onNavigateToTeam, onSe
                   {stat.value}
                 </div>
                 <div className="text-[13px] sm:text-[14px] text-gray-500 font-medium mt-1 transition-colors duration-300 group-hover:text-gray-900">
-                  {stat.label}
+                  {t(stat.label)}
                 </div>
               </div>
             ))}
@@ -233,10 +235,10 @@ export function TeamPage({ onNavigateHome, onOpenInquiry, onNavigateToTeam, onSe
           {/* Divider & Manifesto (Scroll Reveal style like pentograf.com) */}
           <div className="border-t border-gray-100 pt-16 sm:pt-20 mb-20 max-w-4xl">
             <span className="text-[12px] sm:text-[13px] font-semibold text-[#0400F5] uppercase tracking-wider mb-5 block">
-              Engineering Manifesto
+              {t('Engineering Manifesto')}
             </span>
             <ScrollRevealText
-              text="Eotra is built by engineers with deep roots in enterprise retail technology. We combine domain expertise with modern engineering to deliver software that actually works at scale."
+              text={t('Eotra is built by engineers with deep roots in enterprise retail technology. We combine domain expertise with modern engineering to deliver software that actually works at scale.')}
               className="text-[clamp(1.5rem,3.2vw,2.5rem)] text-gray-900"
               start="top 82%"
               end="bottom 50%"

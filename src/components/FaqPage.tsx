@@ -3,6 +3,7 @@ import { Plus } from 'lucide-react';
 import { Navbar } from './Navbar';
 import { Footer } from './Footer';
 import { RollButton } from './RollButton';
+import { useI18n } from '../i18n';
 
 const FAQS: { q: string; a: string }[] = [
   {
@@ -47,6 +48,7 @@ interface FaqPageProps {
 }
 
 export function FaqPage({ onNavigateHome, onOpenInquiry, onNavigateToTeam, onSelectProduct }: FaqPageProps) {
+  const { t } = useI18n();
   const [open, setOpen] = useState<number | null>(0);
 
   return (
@@ -59,11 +61,11 @@ export function FaqPage({ onNavigateHome, onOpenInquiry, onNavigateToTeam, onSel
         <div className="max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-12 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14">
           <div className="lg:col-span-5">
             <h1 className="text-[clamp(2.25rem,6vw,4.5rem)] font-medium leading-[1.02] tracking-[-0.03em] text-gray-900">
-              FAQ
+              {t('FAQ')}
             </h1>
             <div className="mt-8">
               <RollButton
-                label="Ask us anything"
+                label={t('Ask us anything')}
                 variant="orange"
                 size="hero"
                 onClick={() => onOpenInquiry('Question for Eotra')}
@@ -83,7 +85,7 @@ export function FaqPage({ onNavigateHome, onOpenInquiry, onNavigateToTeam, onSel
                     className="w-full flex items-center justify-between gap-6 py-5 sm:py-6 text-left cursor-pointer group"
                   >
                     <span className="text-[17px] sm:text-[20px] font-medium tracking-[-0.01em] text-gray-900 group-hover:text-[#0400F5] transition-colors">
-                      {item.q}
+                      {t(item.q)}
                     </span>
                     <span
                       className={`shrink-0 w-9 h-9 rounded-full flex items-center justify-center transition-all duration-300 ${
@@ -100,7 +102,7 @@ export function FaqPage({ onNavigateHome, onOpenInquiry, onNavigateToTeam, onSel
                   >
                     <div className="overflow-hidden">
                       <p className="pb-6 pr-10 text-[15px] sm:text-[16px] text-gray-600 leading-relaxed max-w-2xl">
-                        {item.a}
+                        {t(item.a)}
                       </p>
                     </div>
                   </div>

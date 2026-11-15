@@ -17,6 +17,7 @@ import {
   type LucideIcon,
 } from 'lucide-react';
 import { RollButton } from './RollButton';
+import { useI18n } from '../i18n';
 
 // What the customer can ask us for. `match` pre-selects an option from the button they clicked.
 const SERVICES: { label: string; match: RegExp; Icon: LucideIcon }[] = [
@@ -64,6 +65,7 @@ interface InquiryFormProps {
 }
 
 export function InquiryForm({ subject, onClose, showClose = true, doneLabel = 'Done', dark = false }: InquiryFormProps) {
+  const { t } = useI18n();
   const isProject = !NOT_A_PROJECT.test(subject || '');
 
   const [services, setServices] = useState<string[]>(() => preselect(subject));
@@ -86,10 +88,10 @@ export function InquiryForm({ subject, onClose, showClose = true, doneLabel = 'D
   };
 
   const submit = async () => {
-    if (!name.trim()) return setError('Please enter your name.');
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) return setError('Please enter a valid email address.');
-    if (isProject && services.length === 0) return setError('Please choose at least one service.');
-    if (isProject && !budget) return setError('Please choose a budget range.');
+    if (!name.trim()) return setError(t('Please enter your name.'));
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) return setError(t('Please enter a valid email address.'));
+    if (isProject && services.length === 0) return setError(t('Please choose at least one service.'));
+    if (isProject && !budget) return setError(t('Please choose a budget range.'));
     setError('');
     setIsSending(true);
     const chosen = services.length ? services.join(', ') : 'Not specified';
@@ -113,7 +115,7 @@ export function InquiryForm({ subject, onClose, showClose = true, doneLabel = 'D
       if (!res.ok || data?.success === 'false' || data?.success === false) throw new Error('send failed');
       setSubmitted(true);
     } catch {
-      setError('Sorry, we could not send your request. Please try again or email us at info@eotra.com.');
+      setError(t('Sorry, we could not send your request. Please try again or email us at info@eotra.com.'));
     } finally {
       setIsSending(false);
     }
@@ -124,9 +126,9 @@ export function InquiryForm({ subject, onClose, showClose = true, doneLabel = 'D
     if (!isSending) void submit();
   };
 
-  const title = isProject ? 'Tell us about your project' : subject || 'Contact Eotra';
+  const title = isProject ? t('Tell us about your project') : t(subject || 'Contact Eotra');
 
-  const t = dark
+  const c = dark
     ? {
         title: 'text-white',
         body: 'text-white/70',
@@ -163,35 +165,35 @@ export function InquiryForm({ subject, onClose, showClose = true, doneLabel = 'D
       };
 
   const tile = (selected: boolean) =>
-    `text-left rounded-2xl px-4 py-2.5 text-[14px] transition-colors cursor-pointer ${selected ? t.tileSel : t.tileIdle}`;
+    `text-left rounded-2xl px-4 py-2.5 text-[14px] transition-colors cursor-pointer ${selected ? c.tileSel : c.tileIdle}`;
 
   const pill = (selected: boolean) =>
-    `rounded-full px-4 py-2 text-[13px] transition-colors cursor-pointer ${selected ? t.tileSel : t.tileIdle}`;
+    `rounded-full px-4 py-2 text-[13px] transition-colors cursor-pointer ${selected ? c.tileSel : c.tileIdle}`;
 
-  const fieldBase = `w-full text-[14px] focus:outline-none transition-colors ${t.field}`;
+  const fieldBase = `w-full text-[14px] focus:outline-none transition-colors ${c.field}`;
   const field = `${fieldBase} rounded-full px-5 py-3`;
   const area = `${fieldBase} rounded-3xl px-5 py-3 resize-none`;
-  const sectionLabel = `block text-[12px] font-medium tracking-wide mb-3 ${t.label}`;
+  const sectionLabel = `block text-[12px] font-medium tracking-wide mb-3 ${c.label}`;
 
   return (
     <>
       {submitted ? (
         <div className="py-4">
-          <div className={`w-11 h-11 rounded-full flex items-center justify-center mb-4 ${t.iconOk}`}>
+          <div className={`w-11 h-11 rounded-full flex items-center justify-center mb-4 ${c.iconOk}`}>
             <CheckCircle2 size={22} />
           </div>
-          <h3 id="inquiry-modal-title" className={`text-2xl font-medium tracking-tight mb-2 ${t.title}`}>
-            Thank you, {name.trim().split(' ')[0]}.
+          <h3 id="inquiry-modal-title" className={`text-2xl font-medium tracking-tight mb-2 ${c.title}`}>
+            {t('Thank you,')} {name.trim().split(' ')[0]}.
           </h3>
-          <p className={`text-[14px] leading-relaxed mb-6 ${t.body}`}>
-            We received your request{isProject && services.length ? ` for ${services.join(', ')}` : ''}. We will reply to {email.trim()} within one business day.
+          <p className={`text-[14px] leading-relaxed mb-6 ${c.body}`}>
+            {t('We received your request.')} {t('We will reply to')} <span dir="ltr">{email.trim()}</span> {t('within one business day.')}
           </p>
-          <RollButton label={doneLabel} variant={t.done} size="hero" onClick={onClose} />
+          <RollButton label={doneLabel} variant={c.done} size="hero" onClick={onClose} />
         </div>
       ) : (
         <form onSubmit={onFormSubmit} noValidate>
           <div className="flex items-start justify-between gap-4 mb-6">
-            <h3 id="inquiry-modal-title" className={`text-2xl font-normal tracking-tight ${t.title}`}>
+            <h3 id="inquiry-modal-title" className={`text-2xl font-normal tracking-tight ${c.title}`}>
               {title}
             </h3>
             {showClose && (
@@ -199,7 +201,7 @@ export function InquiryForm({ subject, onClose, showClose = true, doneLabel = 'D
                 type="button"
                 onClick={onClose}
                 className="w-9 h-9 shrink-0 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center text-gray-700 transition-colors cursor-pointer"
-                aria-label="Close modal"
+                aria-label={t('Close modal')}
               >
                 <X size={16} />
               </button>
@@ -209,24 +211,24 @@ export function InquiryForm({ subject, onClose, showClose = true, doneLabel = 'D
           <div className="space-y-7">
             {/* 1. Contact details first */}
             <div>
-              {isProject && <span className={sectionLabel}>How can we reach you?</span>}
+              {isProject && <span className={sectionLabel}>{t('How can we reach you?')}</span>}
               <div className="space-y-4">
                 <div>
-                  <label htmlFor="inquiry-name" className={`block text-[13px] font-medium mb-1.5 ${t.label}`}>
-                    Your name
+                  <label htmlFor="inquiry-name" className={`block text-[13px] font-medium mb-1.5 ${c.label}`}>
+                    {t('Your name')}
                   </label>
-                  <input id="inquiry-name" type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="Alex Morgan" autoComplete="name" className={field} />
+                  <input id="inquiry-name" type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder={t('Alex Morgan')} autoComplete="name" className={field} />
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label htmlFor="inquiry-email" className={`block text-[13px] font-medium mb-1.5 ${t.label}`}>
-                      Email
+                    <label htmlFor="inquiry-email" className={`block text-[13px] font-medium mb-1.5 ${c.label}`}>
+                      {t('Email')}
                     </label>
                     <input id="inquiry-email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="alex@company.com" autoComplete="email" className={field} />
                   </div>
                   <div>
-                    <label htmlFor="inquiry-phone" className={`block text-[13px] font-medium mb-1.5 ${t.label}`}>
-                      Phone / WhatsApp <span className={`font-normal ${t.muted}`}>(optional)</span>
+                    <label htmlFor="inquiry-phone" className={`block text-[13px] font-medium mb-1.5 ${c.label}`}>
+                      {t('Phone / WhatsApp')} <span className={`font-normal ${c.muted}`}>({t('optional')})</span>
                     </label>
                     <input id="inquiry-phone" type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="+90 …" autoComplete="tel" className={field} />
                   </div>
@@ -238,8 +240,8 @@ export function InquiryForm({ subject, onClose, showClose = true, doneLabel = 'D
             {isProject && (
               <>
                 <div>
-                  <span className={sectionLabel}>What do you need? <span className={`font-normal ${t.muted}`}>Choose one or more</span></span>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5" role="group" aria-label="Services">
+                  <span className={sectionLabel}>{t('What do you need?')} <span className={`font-normal ${c.muted}`}>{t('Choose one or more')}</span></span>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5" role="group" aria-label={t('Services')}>
                     {SERVICES.map((s) => {
                       const on = services.includes(s.label);
                       return (
@@ -253,16 +255,16 @@ export function InquiryForm({ subject, onClose, showClose = true, doneLabel = 'D
                         >
                           <span
                             className={`w-8 h-8 shrink-0 rounded-full flex items-center justify-center transition-colors ${
-                              on ? t.chipSel : t.chipIdle
+                              on ? c.chipSel : c.chipIdle
                             }`}
                           >
                             <s.Icon size={16} strokeWidth={1.8} />
                           </span>
-                          <span className="flex-1">{s.label}</span>
+                          <span className="flex-1">{t(s.label)}</span>
                           <span
                             aria-hidden="true"
                             className={`w-5 h-5 shrink-0 rounded-full flex items-center justify-center transition-colors ${
-                              on ? t.boxSel : t.boxIdle
+                              on ? c.boxSel : c.boxIdle
                             }`}
                           >
                             <Check size={13} strokeWidth={3} />
@@ -274,8 +276,8 @@ export function InquiryForm({ subject, onClose, showClose = true, doneLabel = 'D
                 </div>
 
                 <div>
-                  <span className={sectionLabel}>What is your budget?</span>
-                  <div className="flex flex-wrap gap-2" role="radiogroup" aria-label="Budget">
+                  <span className={sectionLabel}>{t('What is your budget?')}</span>
+                  <div className="flex flex-wrap gap-2" role="radiogroup" aria-label={t('Budget')}>
                     {BUDGETS.map((b) => (
                       <button
                         key={b}
@@ -288,7 +290,7 @@ export function InquiryForm({ subject, onClose, showClose = true, doneLabel = 'D
                         }}
                         className={pill(budget === b)}
                       >
-                        {b}
+                        {t(b)}
                       </button>
                     ))}
                   </div>
@@ -298,25 +300,25 @@ export function InquiryForm({ subject, onClose, showClose = true, doneLabel = 'D
 
             {/* 3. Optional note, right above Send */}
             <div>
-              <label htmlFor="inquiry-notes" className={`block text-[13px] font-medium mb-1.5 ${t.label}`}>
-                Anything else? <span className={`font-normal ${t.muted}`}>(optional)</span>
+              <label htmlFor="inquiry-notes" className={`block text-[13px] font-medium mb-1.5 ${c.label}`}>
+                {t('Anything else?')} <span className={`font-normal ${c.muted}`}>({t('optional')})</span>
               </label>
-              <textarea id="inquiry-notes" rows={3} value={notes} onChange={(e) => setNotes(e.target.value)} placeholder="Tell us a little about your project" className={area} />
+              <textarea id="inquiry-notes" rows={3} value={notes} onChange={(e) => setNotes(e.target.value)} placeholder={t('Tell us a little about your project')} className={area} />
             </div>
           </div>
 
           {error && (
-            <p className={`mt-5 text-[13px] ${t.err}`} role="alert">
+            <p className={`mt-5 text-[13px] ${c.err}`} role="alert">
               {error}
             </p>
           )}
 
           <div className="mt-7 flex items-center justify-between gap-3">
-            <a href="mailto:info@eotra.com" className={`inline-flex items-center gap-1.5 text-[13px] ${t.mail}`}>
+            <a href="mailto:info@eotra.com" className={`inline-flex items-center gap-1.5 text-[13px] ${c.mail}`}>
               <Mail size={14} />
               <span>info@eotra.com</span>
             </a>
-            <RollButton label={isSending ? 'Sending…' : 'Send request'} variant="orange" size="hero" onClick={() => !isSending && void submit()} />
+            <RollButton label={isSending ? t('Sending…') : t('Send request')} variant="orange" size="hero" onClick={() => !isSending && void submit()} />
           </div>
           {/* lets the Enter key send the form */}
           <button type="submit" className="hidden" aria-hidden="true" tabIndex={-1} />

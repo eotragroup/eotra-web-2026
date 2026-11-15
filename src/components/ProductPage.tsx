@@ -9,6 +9,7 @@ import { RollButton } from './RollButton';
 import { ShaderBackground } from './ShaderBackground';
 import { Footer } from './Footer';
 import { ProductCard, ProductCover, screensFor } from './ProductsGrid';
+import { useI18n } from '../i18n';
 
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
@@ -68,6 +69,7 @@ export function ProductPage({
   onOpenInquiry,
   onNavigateToTeam,
 }: ProductPageProps) {
+  const { t } = useI18n();
   const otherProducts = PRODUCTS.filter((p) => p.id !== product.id);
   const screens = screensFor(product.id);
 
@@ -118,14 +120,14 @@ export function ProductPage({
             className="inline-flex items-center gap-2 text-[13px] font-medium text-gray-700 hover:text-[#0400F5] transition-colors mb-8 sm:mb-10 cursor-pointer min-h-[40px]"
           >
             <ArrowLeft size={15} />
-            <span>Back to references</span>
+            <span>{t('Back to references')}</span>
           </button>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
             {/* Left: Title, Metadata & CTAs */}
             <div className="lg:col-span-7">
               <div className="product-hero-anim flex flex-wrap items-center gap-2 text-[13px] text-gray-600 mb-4">
-                <span>{product.client}</span>
+                <span>{t(product.client)}</span>
                 <span aria-hidden="true">·</span>
                 <span>{product.year}</span>
                 {product.domainLabel && (
@@ -143,12 +145,12 @@ export function ProductPage({
               </h1>
 
               <p className="product-hero-anim text-[15px] sm:text-[18px] leading-[1.6] font-medium text-gray-600 max-w-2xl">
-                {product.tagline}
+                {t(product.tagline)}
               </p>
 
               <div className="product-hero-anim mt-8 sm:mt-10 flex flex-wrap items-center gap-4">
                 <RollButton
-                  label="Book a demo"
+                  label={t('Book a demo')}
                   variant="orange"
                   size="hero"
                   onClick={() => goToConnect(product.inquirySubject)}
@@ -161,7 +163,7 @@ export function ProductPage({
                     rel="noreferrer"
                     className="bg-gray-100 hover:bg-gray-200 text-gray-900 text-[14px] font-medium rounded-full px-6 py-3.5 inline-flex items-center gap-2 transition-colors whitespace-nowrap"
                   >
-                    <span>Visit {product.domainLabel}</span>
+                    <span>{t('Visit')} {product.domainLabel}</span>
                     <ExternalLink size={15} />
                   </a>
                 )}
@@ -184,15 +186,15 @@ export function ProductPage({
             {product.metrics.map((metric) => (
               <div key={metric.label}>
                 <div className="text-[22px] sm:text-[30px] font-semibold text-gray-900 tracking-tight tabular-nums">
-                  {metric.value}
+                  {t(metric.value)}
                 </div>
-                <div className="text-[13px] text-gray-500 mt-1">{metric.label}</div>
+                <div className="text-[13px] text-gray-500 mt-1">{t(metric.label)}</div>
               </div>
             ))}
           </div>
 
           <h2 className="text-[clamp(1.75rem,4vw,3.25rem)] font-medium leading-[1.08] tracking-[-0.03em] text-gray-900 mb-8 sm:mb-12">
-            In action
+            {t('In action')}
           </h2>
 
           {screens.desktop.length > 0 && (
@@ -201,13 +203,13 @@ export function ProductPage({
                 className="product-gsap-fade lg:col-span-8"
                 src={screens.desktop[0]}
                 domain={product.domainLabel}
-                alt={`${product.title} home page`}
+                alt={`${product.title} ${t('home page')}`}
               />
               {screens.mobile && (
                 <PhoneShot
                   className="product-gsap-fade lg:col-span-4"
                   src={screens.mobile}
-                  alt={`${product.title} on a phone`}
+                  alt={`${product.title} ${t('on a phone')}`}
                 />
               )}
             </div>
@@ -219,7 +221,7 @@ export function ProductPage({
       <section className="bg-[#F5F5F5] py-16 sm:py-20 lg:py-24">
         <div className="max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-12">
           <h2 className="text-[clamp(1.75rem,4vw,3.25rem)] font-medium leading-[1.08] tracking-[-0.03em] text-gray-900 mb-8 sm:mb-12">
-            Highlights
+            {t('Highlights')}
           </h2>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
@@ -232,7 +234,7 @@ export function ProductPage({
                   {cap.index}
                 </span>
                 <h3 className="text-[18px] sm:text-[20px] font-medium leading-snug tracking-[-0.01em] text-gray-900 mt-6">
-                  {cap.title}
+                  {t(cap.title)}
                 </h3>
               </div>
             ))}
@@ -245,7 +247,7 @@ export function ProductPage({
                   key={d}
                   className="inline-flex items-center px-4 py-2 rounded-full bg-gray-100 text-[13px] font-medium text-gray-900"
                 >
-                  {d}
+                  {t(d)}
                 </span>
               ))}
             </div>
@@ -258,7 +260,7 @@ export function ProductPage({
         <div className="max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-12">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8 sm:mb-10">
             <h2 className="text-[clamp(1.75rem,4vw,3.25rem)] font-medium leading-[1.08] tracking-[-0.03em] text-gray-900">
-              More references
+              {t('More references')}
             </h2>
 
             <button
@@ -266,7 +268,7 @@ export function ProductPage({
               onClick={() => goToReferences()}
               className="inline-flex items-center gap-2 text-[14px] font-medium text-gray-900 hover:text-[#0400F5] transition-colors cursor-pointer self-start sm:self-auto"
             >
-              <span>All references</span>
+              <span>{t('All references')}</span>
               <ArrowRight size={15} />
             </button>
           </div>
@@ -280,19 +282,18 @@ export function ProductPage({
             <div className="rounded-3xl bg-[#F5F5F5] p-8 sm:p-10 flex flex-col justify-between">
               <div>
                 <p className="text-[13px] font-medium text-gray-500 mb-2">
-                  Deploy with Eotra
+                  {t('Deploy with Eotra')}
                 </p>
                 <h3 className="text-[22px] sm:text-[26px] font-medium leading-[1.2] tracking-[-0.02em] text-gray-900 mb-3">
-                  Ready to launch your retail or hospitality platform?
+                  {t('Ready to launch your retail or hospitality platform?')}
                 </h3>
                 <p className="text-[14px] sm:text-[15px] text-gray-600 leading-relaxed max-w-md">
-                  Connect POS, inventory, multi-branch storefronts, or QR menus
-                  under one architecture.
+                  {t('Connect POS, inventory, multi-branch storefronts, or QR menus under one architecture.')}
                 </p>
               </div>
               <div className="mt-8">
                 <RollButton
-                  label="Request a demo"
+                  label={t('Request a demo')}
                   variant="orange"
                   size="hero"
                   onClick={() => goToConnect(product.inquirySubject)}

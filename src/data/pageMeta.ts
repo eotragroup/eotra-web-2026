@@ -3,6 +3,8 @@
 import { POSTS } from './posts';
 import { PRODUCTS } from './products';
 import { SERVICE_DATA } from './serviceData';
+import { translate } from '../i18n/translate';
+import type { Lang } from '../i18n/lang';
 
 export interface PageMeta {
   title: string;
@@ -42,26 +44,33 @@ const STATIC: Record<string, PageMeta> = {
 
 export const trim = (s: string, n = 158) => (s.length > n ? `${s.slice(0, n - 1).trimEnd()}…` : s);
 
-export function metaForPath(rawPath: string): PageMeta {
+export function metaForPath(rawPath: string, lang: Lang = 'en'): PageMeta {
+  const m = metaForPathEn(rawPath, lang);
+  const tr = (x: string) => translate(lang, x);
+  return lang === 'en' ? m : { ...m, title: tr(m.title), description: m.description };
+}
+
+function metaForPathEn(rawPath: string, lang: Lang): PageMeta {
+  const tr = (x: string) => translate(lang, x);
   const path = rawPath.length > 1 ? rawPath.replace(/\/+$/, '') : rawPath;
-  if (path === '/') return HOME_META;
-  if (STATIC[path]) return STATIC[path];
+  if (path === '/') return { ...HOME_META, description: tr(HOME_META.description) };
+  if (STATIC[path]) return { ...STATIC[path], description: tr(STATIC[path].description) };
 
   let m = path.match(/^\/services\/([a-z0-9-]+)$/);
   if (m) {
     const s = SERVICE_DATA.find((x) => x.slug === m![1]);
-    if (s) return { title: s.title, description: trim(`${s.tagline} ${s.intro}`) };
+    if (s) return { title: s.title, description: trim(`${tr(s.tagline)} ${tr(s.intro)}`) };
   }
   m = path.match(/^\/products\/([^/]+)$/);
   if (m) {
     const id = decodeURIComponent(m[1]);
     const p = PRODUCTS.find((x) => x.id === id);
-    if (p) return { title: p.title, description: trim(p.tagline || p.description) };
+    if (p) return { title: p.title, description: trim(tr(p.tagline || p.description)) };
   }
   m = path.match(/^\/blog\/([a-z0-9-]+)$/);
   if (m) {
     const post = POSTS.find((x) => x.slug === m![1]);
-    if (post) return { title: post.title, description: trim(post.excerpt) };
+    if (post) return { title: post.title, description: trim(tr(post.excerpt)) };
   }
-  return { title: 'Page not found', description: HOME_META.description, noindex: true };
+  return { title: 'Page not found', description: tr(HOME_META.description), noindex: true };
 }

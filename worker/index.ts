@@ -4,6 +4,7 @@
 import { POSTS } from '../src/data/posts';
 import { PRODUCTS } from '../src/data/products';
 import { metaForPath } from '../src/data/pageMeta';
+import { langFromPath, stripLang } from '../src/i18n/lang';
 
 interface KV {
   get(key: string): Promise<string | null>;
@@ -37,9 +38,10 @@ function sitemap(origin: string): Response {
     ...SERVICE_SLUGS.map((s) => ({ path: `/services/${s}` })),
     ...POSTS.map((p) => ({ path: `/blog/${p.slug}`, lastmod: p.date })),
   ];
+  const all = urls.flatMap((u) => [u, { ...u, path: `/ar${u.path === '/' ? '' : u.path}` }]);
   const body =
     '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' +
-    urls
+    all
       .map((u) => `  <url><loc>${origin}${u.path}</loc>${u.lastmod ? `<lastmod>${u.lastmod}</lastmod>` : ''}</url>`)
       .join('\n') +
     '\n</urlset>\n';
@@ -47,8 +49,12 @@ function sitemap(origin: string): Response {
 }
 // Fills the tags crawlers and link-preview bots read (they do not run JavaScript), per page, with absolute addresses.
 function withPageMeta(res: Response, url: URL): Response {
-  const meta = metaForPath(url.pathname);
-  const title = meta.title.includes('Eotra') ? meta.title : `${meta.title} — Eotra`;
+  const lang = langFromPath(url.pathname);
+  const bare = stripLang(url.pathname);
+  const meta = metaForPath(bare, lang);
+  const title = meta.title.includes('Eotra') || meta.title.includes('إوترا') ? meta.title : `${meta.title} — Eotra`;
+  const enUrl = `${url.origin}${bare === '/' ? '/' : bare}`;
+  const arUrl = `${url.origin}/ar${bare === '/' ? '' : bare}`;
   const pageUrl = `${url.origin}${url.pathname}`;
   const image = `${url.origin}/og.png`;
   const content = (value: string) => ({
@@ -68,6 +74,21 @@ function withPageMeta(res: Response, url: URL): Response {
     .on('meta[name="twitter:image"]', content(image))
     .on('meta[name="robots"]', content(meta.noindex ? 'noindex' : 'index, follow'))
     .on('link[rel="canonical"]', { element(e) { e.setAttribute('href', pageUrl); } })
+    .on('html', {
+      element(e) {
+        e.setAttribute('lang', lang);
+        e.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+      },
+    })
+    .on('head', {
+      element(e) {
+        if (meta.noindex) return;
+        e.append(
+          `<link rel="alternate" hreflang="en" href="${enUrl}" /><link rel="alternate" hreflang="ar" href="${arUrl}" /><link rel="alternate" hreflang="x-default" href="${enUrl}" /><meta property="og:locale" content="${lang === 'ar' ? 'ar_AR' : 'en_US'}" />`,
+          { html: true },
+        );
+      },
+    })
     .transform(res);
   // A wrong address gets a real 404 status (the page itself still shows the friendly "Page not found" screen)
   return new Response(rewritten.body, { status: meta.noindex ? 404 : res.status, headers: res.headers });

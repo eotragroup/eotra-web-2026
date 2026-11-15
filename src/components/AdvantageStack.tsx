@@ -2,6 +2,7 @@ import posImg from '../assets/advantage/pos.jpg';
 import wmsImg from '../assets/advantage/wms.jpg';
 import crmImg from '../assets/advantage/crm.jpg';
 import { RollButton } from './RollButton';
+import { useI18n } from '../i18n';
 
 interface Capability {
   index: string;
@@ -56,6 +57,7 @@ export function AdvantageStack({
   capabilities: Capability[];
   onOpenInquiry: (subject?: string) => void;
 }) {
+  const { t } = useI18n();
   return (
     <div className="relative">
       {capabilities.map((cap, i) => {
@@ -72,7 +74,7 @@ export function AdvantageStack({
               <div className="order-1 md:order-none md:col-span-5 md:col-start-8 md:row-start-1 md:row-span-2 relative rounded-2xl overflow-hidden aspect-[16/10] md:aspect-auto md:min-h-[320px]">
                 <img
                   src={st.image}
-                  alt={st.imageAlt}
+                  alt={t(st.imageAlt)}
                   loading="lazy"
                   className="absolute inset-0 w-full h-full object-cover"
                 />
@@ -91,16 +93,16 @@ export function AdvantageStack({
                       key={label}
                       className={`inline-flex items-center px-4 py-1.5 rounded-full text-[12px] sm:text-[13px] font-medium ${st.chip}`}
                     >
-                      {label}
+                      {t(label)}
                     </span>
                   ))}
                 </div>
                 <h3 className="text-[clamp(1.75rem,4.2vw,3.5rem)] font-medium leading-[1.05] tracking-[-0.03em] max-w-xl">
-                  {cap.title}
+                  {t(cap.title)}
                 </h3>
                 <div className="mt-6">
                   <RollButton
-                    label="Request quote"
+                    label={t('Request quote')}
                     variant={st.button}
                     size="hero"
                     onClick={() => onOpenInquiry(`Inquiry: ${cap.title}`)}

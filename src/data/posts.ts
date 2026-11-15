@@ -64,8 +64,8 @@ export const POSTS: BlogPost[] = [
   },
 ];
 
-export function formatPostDate(date: string): string {
-  return new Date(`${date}T00:00:00Z`).toLocaleDateString('en-GB', {
+export function formatPostDate(date: string, lang: 'en' | 'ar' = 'en'): string {
+  return new Date(`${date}T00:00:00Z`).toLocaleDateString(lang === 'ar' ? 'ar-u-nu-latn' : 'en-GB', {
     day: 'numeric',
     month: 'short',
     year: 'numeric',
