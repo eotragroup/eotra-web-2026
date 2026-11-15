@@ -1,5 +1,6 @@
 import { useState, FormEvent } from 'react';
 import {
+  Check,
   CheckCircle2,
   Cloud,
   CircleHelp,
@@ -221,7 +222,15 @@ export function InquiryForm({ subject, onClose, showClose = true, doneLabel = 'D
                           >
                             <s.Icon size={16} strokeWidth={1.8} />
                           </span>
-                          <span>{s.label}</span>
+                          <span className="flex-1">{s.label}</span>
+                          <span
+                            aria-hidden="true"
+                            className={`w-5 h-5 shrink-0 rounded-md border flex items-center justify-center transition-colors ${
+                              on ? 'border-white bg-white text-gray-900' : 'border-gray-300 bg-white text-transparent'
+                            }`}
+                          >
+                            <Check size={13} strokeWidth={3} />
+                          </span>
                         </button>
                       );
                     })}
