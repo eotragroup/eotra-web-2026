@@ -1,6 +1,7 @@
 import { Navbar } from './Navbar';
 import { Footer } from './Footer';
 import { InquiryForm } from './InquiryModal';
+import { Globe } from './Globe';
 
 // Same brand logos as the homepage strip
 const BRANDS = [
@@ -60,6 +61,11 @@ export function ConnectPage({ onNavigateHome, onOpenInquiry, onNavigateToTeam, o
                     className={`${b.h} w-auto object-contain grayscale opacity-60 hover:opacity-100 transition-opacity duration-300`}
                   />
                 ))}
+              </div>
+
+              <div className="hidden lg:block mt-12 max-w-[380px]">
+                <Globe />
+                <p className="mt-2 text-[12px] text-gray-400">Istanbul · Working with clients worldwide. Drag to explore.</p>
               </div>
             </div>
 
