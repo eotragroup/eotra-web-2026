@@ -34,8 +34,8 @@ function BrowserShot({
   className?: string;
 }) {
   return (
-    <div className={`rounded-2xl overflow-hidden bg-white border border-gray-200 shadow-[0_20px_60px_rgba(0,0,0,0.08)] ${className}`}>
-      <div className="h-10 sm:h-11 bg-[#F3F3F5] border-b border-gray-200 flex items-center gap-2 px-4">
+    <div className={`rounded-2xl overflow-hidden bg-white shadow-[0_20px_60px_rgba(0,0,0,0.08)] ${className}`}>
+      <div className="h-10 sm:h-11 bg-[#F3F3F5] flex items-center gap-2 px-4">
         <span className="w-2.5 h-2.5 rounded-full bg-[#ff5f57]" />
         <span className="w-2.5 h-2.5 rounded-full bg-[#febc2e]" />
         <span className="w-2.5 h-2.5 rounded-full bg-[#28c840]" />
@@ -52,7 +52,7 @@ function BrowserShot({
 
 function PhoneShot({ src, alt, className = '' }: { src: string; alt: string; className?: string }) {
   return (
-    <div className={`rounded-2xl bg-[#EFEFEF] border border-gray-200 flex items-center justify-center p-6 sm:p-10 ${className}`}>
+    <div className={`rounded-2xl bg-[#EFEFEF] flex items-center justify-center p-6 sm:p-10 ${className}`}>
       <div className="w-[230px] sm:w-[260px] rounded-[38px] bg-gray-950 p-2.5 shadow-[0_30px_70px_rgba(0,0,0,0.25)]">
         <img src={src} alt={alt} loading="lazy" className="w-full aspect-[9/19] object-cover object-top rounded-[30px] block" />
       </div>

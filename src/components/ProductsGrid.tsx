@@ -64,7 +64,7 @@ export function ProductCover({
   const zoom = hoverZoom ? 'transition-transform duration-700 ease-out group-hover:scale-[1.04]' : '';
   return (
     <div
-      className={`relative rounded-2xl overflow-hidden ring-1 ring-black/5 bg-gradient-to-br ${
+      className={`relative rounded-3xl overflow-hidden bg-gradient-to-br ${
         TINTS[product.id] ?? 'from-gray-100 to-gray-200'
       } ${className}`}
     >
