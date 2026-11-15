@@ -30,6 +30,7 @@ const DOCS: Record<LegalKind, { title: string; intro: string; sections: { h: str
         h: 'What we collect',
         p: [
           'Contact and quote forms: your name, email address, optional phone number, the services you are interested in, your budget range and anything you write in the message.',
+          'Chat assistant: the messages you type in the chat are processed by an AI service to answer you. If you share your name and email in the chat, they are sent to our team together with the conversation.',
           'Newsletter: your email address.',
           'Blog: we count how many times each article is opened. This count is anonymous and is not linked to you.',
         ],

@@ -34,6 +34,8 @@ export function ContactWidget() {
   const [draft, setDraft] = useState('');
   const [busy, setBusy] = useState(false);
   const [chatError, setChatError] = useState('');
+  const [leadStatus, setLeadStatus] = useState<'idle' | 'sent' | 'failed'>('idle');
+  const leadSentRef = useRef(false);
   const listRef = useRef<HTMLDivElement>(null);
 
   // email
@@ -57,6 +59,37 @@ export function ContactWidget() {
 
   const userCount = msgs.filter((m) => m.role === 'user').length;
 
+  // The assistant collected the visitor's details: send them to the team (with the whole conversation)
+  const sendLead = async (lead: { name: string; email: string; phone: string; service: string; summary: string }, convo: Msg[]) => {
+    if (leadSentRef.current) return;
+    leadSentRef.current = true;
+    const transcript = convo.map((m) => `${m.role === 'user' ? 'Visitor' : 'Assistant'}: ${m.content}`).join('\n');
+    try {
+      const res = await fetch(`https://formsubmit.co/ajax/${CONTACT_EMAIL}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({
+          name: lead.name,
+          email: lead.email,
+          phone: lead.phone || 'Not provided',
+          services: lead.service,
+          summary: lead.summary || 'Not provided',
+          conversation: transcript.slice(0, 3500),
+          language: lang,
+          inquirySubject: `Website chat lead: ${lead.service}`,
+          _subject: `New chat lead: ${lead.name} (${lead.service})`,
+          _template: 'table',
+        }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok || data?.success === 'false' || data?.success === false) throw new Error('send failed');
+      setLeadStatus('sent');
+    } catch {
+      leadSentRef.current = false;
+      setLeadStatus('failed');
+    }
+  };
+
   const send = async (text: string) => {
     const content = text.trim().slice(0, 500);
     if (!content || busy) return;
@@ -77,7 +110,9 @@ export function ContactWidget() {
       });
       const data = await res.json().catch(() => ({}));
       if (!res.ok || !data?.reply) throw new Error('chat failed');
-      setMsgs([...next, { role: 'assistant', content: String(data.reply), handoff: data.handoff ?? null }]);
+      const full: Msg[] = [...next, { role: 'assistant', content: String(data.reply), handoff: data.handoff ?? null }];
+      setMsgs(full);
+      if (data.lead) void sendLead(data.lead, full);
     } catch {
       setChatError(t('Sorry, the assistant is not available right now. Please use email or WhatsApp.'));
     } finally {
@@ -228,6 +263,16 @@ export function ContactWidget() {
                   </div>
                 )}
               </div>
+              {leadStatus === 'sent' && (
+                <p className="mt-2 inline-flex items-center gap-1.5 text-[12.5px] text-emerald-700">
+                  <CheckCircle2 size={14} /> {t('Your details were sent to the Eotra team.')}
+                </p>
+              )}
+              {leadStatus === 'failed' && (
+                <p className="mt-2 text-[12.5px] text-red-600" role="alert">
+                  {t('We could not send your details. Please use the Email tab or write to info@eotra.com.')}
+                </p>
+              )}
               {chatError && <p className="mt-2 text-[12.5px] text-red-600" role="alert">{chatError}</p>}
               <form
                 className="mt-3 flex items-center gap-2"

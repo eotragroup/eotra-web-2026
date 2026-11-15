@@ -607,5 +607,8 @@ export const AR: Record<string, string> = {
  "Hi! I am the Eotra assistant. Tell me about your business and what you need, and I will point you to the right solution.": "مرحبًا! أنا مساعد إوترا. أخبرني عن نشاطك وما تحتاجه، وسأرشدك إلى الحل المناسب.",
  "I run a retail business": "أدير نشاط تجزئة",
  "I need a website or app": "أحتاج موقعًا أو تطبيقًا",
- "I want a quote": "أريد عرض سعر"
+ "I want a quote": "أريد عرض سعر",
+ "Your details were sent to the Eotra team.": "تم إرسال بياناتك إلى فريق إوترا.",
+ "We could not send your details. Please use the Email tab or write to info@eotra.com.": "تعذّر إرسال بياناتك. يرجى استخدام تبويب البريد الإلكتروني أو مراسلتنا على info@eotra.com.",
+ "Chat assistant: the messages you type in the chat are processed by an AI service to answer you. If you share your name and email in the chat, they are sent to our team together with the conversation.": "المساعد الذكي: تُعالَج الرسائل التي تكتبها في المحادثة بواسطة خدمة ذكاء اصطناعي للرد عليك. وإذا شاركت اسمك وبريدك الإلكتروني في المحادثة، فإنهما يُرسلان إلى فريقنا مع نص المحادثة."
 };
