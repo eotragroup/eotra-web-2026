@@ -229,3 +229,4 @@ html.lenis body {
 .footer-dark .border-gray-100,
 .footer-dark .border-gray-200 { border-color: rgba(255, 255, 255, 0.10); }
 .footer-dark img[alt="Eotra"] { filter: brightness(0) invert(1); }
+.footer-dark a[aria-label^="Eotra on"] { background: rgba(255, 255, 255, 0.1); color: #fff; }

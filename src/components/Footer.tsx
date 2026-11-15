@@ -1,7 +1,14 @@
 import { goToBlog, goToConnect, goToFaq } from '../lib/nav';
 import React, { useState } from 'react';
-import { ArrowRight, Check, Globe } from 'lucide-react';
+import { ArrowRight, Check, Facebook, Globe, Instagram, Linkedin, Twitter } from 'lucide-react';
 import { PRODUCTS } from '../data/products';
+
+const SOCIALS = [
+  { name: 'Instagram', href: 'https://www.instagram.com/eotraofficial', Icon: Instagram },
+  { name: 'X', href: 'https://x.com/eotraofficial', Icon: Twitter },
+  { name: 'LinkedIn', href: 'https://www.linkedin.com/company/eotraofficial', Icon: Linkedin },
+  { name: 'Facebook', href: 'https://www.facebook.com/eotraofficial', Icon: Facebook },
+];
 
 interface FooterProps {
   onNavigateHome?: (sectionId?: string) => void;
@@ -161,6 +168,22 @@ export function Footer({
                   info@eotra.com
                 </a>
               </p>
+            </div>
+
+            {/* Social media */}
+            <div className="mt-6 flex items-center gap-2.5">
+              {SOCIALS.map(({ name, href, Icon }) => (
+                <a
+                  key={name}
+                  href={href}
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label={`Eotra on ${name}`}
+                  className="w-10 h-10 rounded-full bg-gray-100 text-gray-900 hover:bg-gray-900 hover:text-white transition-colors flex items-center justify-center"
+                >
+                  <Icon size={17} />
+                </a>
+              ))}
             </div>
           </div>
 
