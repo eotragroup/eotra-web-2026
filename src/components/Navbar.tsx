@@ -15,8 +15,25 @@ interface NavbarProps {
 export function Navbar({ onOpenInquiry, onNavigateHome, onNavigateToTeam, dark: forceDark = false }: NavbarProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [onDark, setOnDark] = useState(false);
+  const [hidden, setHidden] = useState(false);
+  const lastY = useRef(0);
   const headerRef = useRef<HTMLElement>(null);
   const dark = forceDark || onDark;
+
+  // Hides while scrolling down, comes back as soon as you scroll up
+  useEffect(() => {
+    lastY.current = window.scrollY;
+    const onScroll = () => {
+      const y = Math.max(0, window.scrollY);
+      const delta = y - lastY.current;
+      if (y < 80) setHidden(false);
+      else if (delta > 6) setHidden(true);
+      else if (delta < -6) setHidden(false);
+      if (Math.abs(delta) > 6 || y < 80) lastY.current = y;
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
   // Glass follows the page: dark glass over sections marked data-nav-theme="dark", light glass elsewhere
   useEffect(() => {
@@ -25,8 +42,7 @@ export function Navbar({ onOpenInquiry, onNavigateHome, onNavigateToTeam, dark: 
       raf = 0;
       const header = headerRef.current;
       if (!header) return;
-      const r = header.getBoundingClientRect();
-      const stack = document.elementsFromPoint(window.innerWidth / 2, r.top + r.height / 2);
+      const stack = document.elementsFromPoint(window.innerWidth / 2, 36);
       const behind = stack.find((el) => !header.contains(el));
       setOnDark(behind?.closest('[data-nav-theme]')?.getAttribute('data-nav-theme') === 'dark');
     };
@@ -119,14 +135,26 @@ export function Navbar({ onOpenInquiry, onNavigateHome, onNavigateToTeam, dark: 
   return (
     <>
       {/* Keeps the space the floating bar takes up */}
-      <div aria-hidden="true" className="h-[76px] md:h-[88px]" />
-      <header ref={headerRef} className="fixed top-0 inset-x-0 z-40 pointer-events-none">
+      <div aria-hidden="true" className="h-[68px] md:h-[72px]" />
+      {mobileMenuOpen && (
+        <div
+          aria-hidden="true"
+          className="fixed inset-0 z-30 md:hidden bg-black/20 backdrop-blur-[2px]"
+          onClick={() => setMobileMenuOpen(false)}
+        />
+      )}
+      <header
+        ref={headerRef}
+        className={`fixed top-0 inset-x-0 z-40 pointer-events-none transition-transform duration-300 ease-out ${
+          hidden && !mobileMenuOpen ? '-translate-y-[130%]' : 'translate-y-0'
+        }`}
+      >
         <div className="w-full max-w-[1440px] mx-auto px-3 sm:px-5 pt-3">
           <div className="w-full">
             {/* The bar: just the logo and one round button */}
             <nav
               aria-label="Primary navigation"
-              className={`pointer-events-auto h-[60px] md:h-[68px] rounded-full pl-5 md:pl-7 pr-2 md:pr-3 flex items-center justify-between backdrop-blur-xl backdrop-saturate-150 transition-[background-color] duration-300 ${glass}`}
+              className={`pointer-events-auto h-[52px] md:h-[56px] rounded-full pl-4 md:pl-6 pr-1.5 md:pr-2 flex items-center justify-between backdrop-blur-xl backdrop-saturate-150 transition-[background-color] duration-300 ${glass}`}
             >
               <div className="flex items-center">
               <a
@@ -145,19 +173,19 @@ export function Navbar({ onOpenInquiry, onNavigateHome, onNavigateToTeam, dark: 
                   <img
                     src="/assets/aistudio/Eotra_aef517cd.svg"
                     alt="Eotra"
-                    className={`h-[32px] md:h-[36px] w-auto max-w-none -ml-3.5 -mr-7 ${dark ? 'brightness-0 invert' : ''}`}
+                    className={`h-[28px] md:h-[32px] w-auto max-w-none -ml-3 -mr-6 ${dark ? 'brightness-0 invert' : ''}`}
                   />
                 </span>
               </a>
 
                 {/* Desktop: the links sit in the bar */}
-                <div className="hidden md:flex items-center gap-8 ml-10">
+                <div className="hidden md:flex items-center gap-7 ml-8">
                   {menuItems.map((item) => (
                     <a
                       key={item.label}
                       href={item.href}
                       onClick={item.onClick}
-                      className={`text-[15px] transition-colors duration-300 whitespace-nowrap ${
+                      className={`text-[14px] transition-colors duration-300 whitespace-nowrap ${
                         dark ? 'text-white/85 hover:text-white' : 'text-gray-900 hover:text-gray-500'
                       }`}
                     >
@@ -172,7 +200,7 @@ export function Navbar({ onOpenInquiry, onNavigateHome, onNavigateToTeam, dark: 
                 <RollButton
                   label="Book a demo"
                   variant={dark ? 'light' : 'dark'}
-                  size="hero"
+                  size="nav"
                   onClick={() => onOpenInquiry('Book an Eotra Demo')}
                 />
               </div>
@@ -182,21 +210,13 @@ export function Navbar({ onOpenInquiry, onNavigateHome, onNavigateToTeam, dark: 
                 onClick={() => setMobileMenuOpen((o) => !o)}
                 aria-expanded={mobileMenuOpen}
                 aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
-                className={`md:hidden w-11 h-11 rounded-full flex items-center justify-center transition-colors cursor-pointer ${
+                className={`md:hidden w-10 h-10 rounded-full flex items-center justify-center transition-colors cursor-pointer ${
                   dark ? 'bg-white/15 text-white hover:bg-white/25' : 'bg-gray-900/10 text-gray-900 hover:bg-gray-900/15'
                 }`}
               >
                 {mobileMenuOpen ? <Minus size={16} strokeWidth={1.75} /> : <Plus size={16} strokeWidth={1.75} />}
               </button>
             </nav>
-
-            {mobileMenuOpen && (
-              <div
-                aria-hidden="true"
-                className="fixed inset-0 -z-10 md:hidden pointer-events-auto bg-black/20 backdrop-blur-[2px]"
-                onClick={() => setMobileMenuOpen(false)}
-              />
-            )}
 
             {/* The panel: the bar opens downwards into thin pill links */}
             <div
@@ -214,7 +234,7 @@ export function Navbar({ onOpenInquiry, onNavigateHome, onNavigateToTeam, dark: 
                         href={item.href}
                         tabIndex={mobileMenuOpen ? 0 : -1}
                         onClick={item.onClick}
-                        className={`flex-1 min-w-[28%] rounded-full px-3 py-2.5 text-center text-[15px] transition-colors ${
+                        className={`flex-1 min-w-[28%] rounded-full px-3 py-2 text-center text-[14px] transition-colors ${
                           dark
                             ? 'bg-white/10 text-white hover:bg-white/20'
                             : 'bg-gray-900/[0.06] text-gray-900 hover:bg-gray-900/10'
