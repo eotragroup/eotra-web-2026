@@ -237,7 +237,7 @@ export function ServicesSlider({ onOpenInquiry }: ServicesSliderProps) {
               onClick={() => scrollByCard(-1)}
               disabled={!canScrollPrev}
               aria-label="Previous services"
-              className="w-11 h-11 rounded-full bg-gray-100 text-gray-900 hover:bg-gray-900 hover:text-white disabled:opacity-35 disabled:pointer-events-none transition-colors duration-200 flex items-center justify-center cursor-pointer"
+              className="w-11 h-11 rounded-full bg-white shadow-sm text-gray-900 hover:bg-gray-900 hover:text-white disabled:opacity-35 disabled:pointer-events-none transition-colors duration-200 flex items-center justify-center cursor-pointer"
             >
               <ArrowLeft size={16} />
             </button>
@@ -246,7 +246,7 @@ export function ServicesSlider({ onOpenInquiry }: ServicesSliderProps) {
               onClick={() => scrollByCard(1)}
               disabled={!canScrollNext}
               aria-label="Next services"
-              className="w-11 h-11 rounded-full bg-gray-100 text-gray-900 hover:bg-[#0400F5] hover:text-white disabled:opacity-35 disabled:pointer-events-none transition-colors duration-200 flex items-center justify-center cursor-pointer"
+              className="w-11 h-11 rounded-full bg-white shadow-sm text-gray-900 hover:bg-[#0400F5] hover:text-white disabled:opacity-35 disabled:pointer-events-none transition-colors duration-200 flex items-center justify-center cursor-pointer"
             >
               <ArrowRight size={16} />
             </button>
