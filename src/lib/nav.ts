@@ -26,3 +26,4 @@ export const goToCompany = () => navigateTo('/company');
 export const goToSolutions = () => navigateTo('/solutions');
 export const goToReferences = () => navigateTo('/references');
 export const goToLegal = (kind: 'privacy' | 'terms' | 'security') => navigateTo(`/${kind}`);
+export const goToCareers = () => navigateTo('/careers');

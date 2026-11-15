@@ -27,6 +27,7 @@ function sitemap(origin: string): Response {
     { path: '/team' },
     { path: '/faq' },
     { path: '/connect' },
+    { path: '/careers' },
     { path: '/references' },
     { path: '/company' },
     { path: '/privacy' },

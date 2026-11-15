@@ -30,6 +30,7 @@ const STATIC: Record<string, PageMeta> = {
     title: 'Our Solutions',
     description: 'POS, inventory and warehouse, CRM and loyalty: every app your retail runs on, in one connected core.',
   },
+  '/careers': { title: 'Careers', description: 'Join Eotra, a small founder-led startup building retail software. Send us your CV.' },
   '/references': {
     title: 'References',
     description: 'Brands that run on what Eotra builds: Jamjoom Pharmacy, EOTRA Menu, NEOSHE, IBOSH, Lidya and TradesPilot AI.',
