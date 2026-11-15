@@ -83,10 +83,10 @@ export function InquiryForm({ subject, onClose, showClose = true, doneLabel = 'D
   };
 
   const submit = async () => {
-    if (isProject && services.length === 0) return setError('Please choose at least one service.');
-    if (isProject && !budget) return setError('Please choose a budget range.');
     if (!name.trim()) return setError('Please enter your name.');
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) return setError('Please enter a valid email address.');
+    if (isProject && services.length === 0) return setError('Please choose at least one service.');
+    if (isProject && !budget) return setError('Please choose a budget range.');
     setError('');
     setIsSending(true);
     const chosen = services.length ? services.join(', ') : 'Not specified';
@@ -170,6 +170,34 @@ export function InquiryForm({ subject, onClose, showClose = true, doneLabel = 'D
           </div>
 
           <div className="space-y-7">
+            {/* 1. Contact details first */}
+            <div>
+              {isProject && <span className={sectionLabel}>How can we reach you?</span>}
+              <div className="space-y-4">
+                <div>
+                  <label htmlFor="inquiry-name" className="block text-[13px] font-medium text-gray-700 mb-1.5">
+                    Your name
+                  </label>
+                  <input id="inquiry-name" type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="Alex Morgan" autoComplete="name" className={field} />
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label htmlFor="inquiry-email" className="block text-[13px] font-medium text-gray-700 mb-1.5">
+                      Email
+                    </label>
+                    <input id="inquiry-email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="alex@company.com" autoComplete="email" className={field} />
+                  </div>
+                  <div>
+                    <label htmlFor="inquiry-phone" className="block text-[13px] font-medium text-gray-700 mb-1.5">
+                      Phone / WhatsApp <span className="text-gray-400 font-normal">(optional)</span>
+                    </label>
+                    <input id="inquiry-phone" type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="+90 …" autoComplete="tel" className={field} />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* 2. What they need and the budget */}
             {isProject && (
               <>
                 <div>
@@ -223,36 +251,12 @@ export function InquiryForm({ subject, onClose, showClose = true, doneLabel = 'D
               </>
             )}
 
+            {/* 3. Optional note, right above Send */}
             <div>
-              {isProject && <span className={sectionLabel}>How can we reach you?</span>}
-              <div className="space-y-4">
-                <div>
-                  <label htmlFor="inquiry-name" className="block text-[13px] font-medium text-gray-700 mb-1.5">
-                    Your name
-                  </label>
-                  <input id="inquiry-name" type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="Alex Morgan" autoComplete="name" className={field} />
-                </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label htmlFor="inquiry-email" className="block text-[13px] font-medium text-gray-700 mb-1.5">
-                      Email
-                    </label>
-                    <input id="inquiry-email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="alex@company.com" autoComplete="email" className={field} />
-                  </div>
-                  <div>
-                    <label htmlFor="inquiry-phone" className="block text-[13px] font-medium text-gray-700 mb-1.5">
-                      Phone / WhatsApp <span className="text-gray-400 font-normal">(optional)</span>
-                    </label>
-                    <input id="inquiry-phone" type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="+90 …" autoComplete="tel" className={field} />
-                  </div>
-                </div>
-                <div>
-                  <label htmlFor="inquiry-notes" className="block text-[13px] font-medium text-gray-700 mb-1.5">
-                    Anything else? <span className="text-gray-400 font-normal">(optional)</span>
-                  </label>
-                  <textarea id="inquiry-notes" rows={3} value={notes} onChange={(e) => setNotes(e.target.value)} placeholder="Tell us a little about your project" className={`${field} resize-none`} />
-                </div>
-              </div>
+              <label htmlFor="inquiry-notes" className="block text-[13px] font-medium text-gray-700 mb-1.5">
+                Anything else? <span className="text-gray-400 font-normal">(optional)</span>
+              </label>
+              <textarea id="inquiry-notes" rows={3} value={notes} onChange={(e) => setNotes(e.target.value)} placeholder="Tell us a little about your project" className={`${field} resize-none`} />
             </div>
           </div>
 
