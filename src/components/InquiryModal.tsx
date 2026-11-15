@@ -1,5 +1,20 @@
 import { useEffect, useState, FormEvent } from 'react';
-import { CheckCircle2, Mail, X } from 'lucide-react';
+import {
+  CheckCircle2,
+  Cloud,
+  CircleHelp,
+  Code2,
+  Database,
+  Layers,
+  LayoutDashboard,
+  Mail,
+  Smartphone,
+  ShieldCheck,
+  ShoppingBag,
+  Store,
+  X,
+  type LucideIcon,
+} from 'lucide-react';
 import { RollButton } from './RollButton';
 
 interface InquiryModalProps {
@@ -18,17 +33,17 @@ interface InquiryFormProps {
 }
 
 // What the customer can ask us for. `match` pre-selects an option from the button they clicked.
-const SERVICES: { label: string; match: RegExp }[] = [
-  { label: 'Retail platform (POS, WMS, ERP, CRM)', match: /point of sale|wms|inventory|crm|loyalty|retail platform/i },
-  { label: 'Web app', match: /web app/i },
-  { label: 'Mobile app', match: /mobile/i },
-  { label: 'UI / UX design', match: /ui ?\/ ?ux|design/i },
-  { label: 'E-commerce', match: /e-?commerce/i },
-  { label: 'Backend & APIs', match: /backend|api/i },
-  { label: 'Cloud & DevOps', match: /cloud|devops/i },
-  { label: 'Internal tools', match: /internal tools|erp/i },
-  { label: 'QA & dedicated team', match: /qa|dedicated/i },
-  { label: 'Not sure yet', match: /^$/ },
+const SERVICES: { label: string; match: RegExp; Icon: LucideIcon }[] = [
+  { label: 'Retail platform (POS, WMS, ERP, CRM)', match: /point of sale|wms|inventory|crm|loyalty|retail platform/i, Icon: Store },
+  { label: 'Web app', match: /web app/i, Icon: Code2 },
+  { label: 'Mobile app', match: /mobile/i, Icon: Smartphone },
+  { label: 'UI / UX design', match: /ui ?\/ ?ux|design/i, Icon: Layers },
+  { label: 'E-commerce', match: /e-?commerce/i, Icon: ShoppingBag },
+  { label: 'Backend & APIs', match: /backend|api/i, Icon: Database },
+  { label: 'Cloud & DevOps', match: /cloud|devops/i, Icon: Cloud },
+  { label: 'Internal tools', match: /internal tools|erp/i, Icon: LayoutDashboard },
+  { label: 'QA & dedicated team', match: /qa|dedicated/i, Icon: ShieldCheck },
+  { label: 'Not sure yet', match: /^$/, Icon: CircleHelp },
 ];
 
 const BUDGETS = ['Under $5,000', '$5,000 – $15,000', '$15,000 – $50,000', '$50,000+', 'Not sure yet'];
@@ -195,9 +210,16 @@ export function InquiryForm({ subject, onClose, showClose = true, doneLabel = 'D
                           role="checkbox"
                           aria-checked={on}
                           onClick={() => toggleService(s.label)}
-                          className={tile(on)}
+                          className={`${tile(on)} flex items-center gap-3`}
                         >
-                          {s.label}
+                          <span
+                            className={`w-8 h-8 shrink-0 rounded-lg flex items-center justify-center transition-colors ${
+                              on ? 'bg-white/15 text-white' : 'bg-gray-100 text-gray-700'
+                            }`}
+                          >
+                            <s.Icon size={16} strokeWidth={1.8} />
+                          </span>
+                          <span>{s.label}</span>
                         </button>
                       );
                     })}
