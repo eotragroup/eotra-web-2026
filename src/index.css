@@ -204,3 +204,19 @@ html.lenis body {
 .step-in {
   animation: step-in 0.28s ease-out;
 }
+
+/* Connect page: slow drifting colour shapes behind the glass card */
+@keyframes connect-drift {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(-30px, 24px, 0) scale(1.06); }
+}
+.connect-orb {
+  animation: connect-drift 18s ease-in-out infinite;
+}
+.connect-orb-b {
+  animation-duration: 24s;
+  animation-direction: reverse;
+}
+@media (prefers-reduced-motion: reduce) {
+  .connect-orb { animation: none; }
+}

@@ -23,43 +23,54 @@ interface ConnectPageProps {
 export function ConnectPage({ onNavigateHome, onOpenInquiry, onNavigateToTeam, onSelectProduct }: ConnectPageProps) {
   return (
     <div className="min-h-screen bg-white text-gray-900 antialiased">
-      <section className="relative flex flex-col bg-white">
-        <Navbar onOpenInquiry={onOpenInquiry} onNavigateHome={onNavigateHome} onNavigateToTeam={onNavigateToTeam} bordered />
-      </section>
-
-      <section className="bg-white pt-12 sm:pt-16 lg:pt-20 pb-20 sm:pb-28 lg:pb-36">
-        <div className="max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-12 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14">
-          <div className="lg:col-span-5">
-            <h1 className="text-[clamp(2.25rem,6vw,4.5rem)] font-medium leading-[1.02] tracking-[-0.03em] text-gray-900">
-              Connect
-            </h1>
-            <p className="mt-6 text-[15px] sm:text-[17px] text-gray-600 leading-relaxed max-w-sm">
-              Tell us what you need. We reply within one business day.
-            </p>
-            <a href="mailto:info@eotra.com" className="mt-6 inline-block text-[15px] font-medium text-gray-900 hover:text-[#0400F5] transition-colors">
-              info@eotra.com
-            </a>
-
-            <div className="mt-10 lg:mt-14 flex flex-wrap items-center gap-x-9 gap-y-7 max-w-md">
-              {BRANDS.map((b) => (
-                <img
-                  key={b.name}
-                  src={b.src}
-                  alt={b.name}
-                  loading="lazy"
-                  className={`${b.h} w-auto object-contain grayscale opacity-75 hover:grayscale-0 hover:opacity-100 transition-all duration-300`}
-                />
-              ))}
-            </div>
-          </div>
-
-          <div className="lg:col-span-7">
-            <div className="rounded-2xl border border-gray-200 bg-white p-6 sm:p-8 lg:p-10 max-w-2xl">
-              <InquiryForm subject="Connect with Eotra" onClose={() => onNavigateHome()} showClose={false} doneLabel="Back to home" />
-            </div>
-          </div>
+      <div className="connect-glass-bg relative isolate overflow-hidden bg-[#f4f4ff]">
+        {/* Soft colour shapes behind the glass card */}
+        <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10">
+          <div className="connect-orb absolute -top-24 right-[4%] w-[520px] h-[520px] rounded-full bg-[#0400F5]/45 blur-[110px]" />
+          <div className="connect-orb connect-orb-b absolute top-[38%] right-[30%] w-[420px] h-[420px] rounded-full bg-fuchsia-400/40 blur-[110px]" />
+          <div className="connect-orb absolute bottom-[-6%] right-[2%] w-[460px] h-[460px] rounded-full bg-sky-400/50 blur-[110px]" />
+          <div className="connect-orb connect-orb-b absolute top-[8%] left-[-8%] w-[380px] h-[380px] rounded-full bg-indigo-300/50 blur-[100px]" />
         </div>
-      </section>
+
+        <section className="relative flex flex-col">
+          <Navbar onOpenInquiry={onOpenInquiry} onNavigateHome={onNavigateHome} onNavigateToTeam={onNavigateToTeam} bordered />
+        </section>
+
+        <section className="pt-12 sm:pt-16 lg:pt-20 pb-20 sm:pb-28 lg:pb-36">
+          <div className="max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-12 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14">
+            <div className="lg:col-span-5">
+              <h1 className="text-[clamp(2.25rem,6vw,4.5rem)] font-medium leading-[1.02] tracking-[-0.03em] text-gray-900">
+                Connect
+              </h1>
+              <p className="mt-6 text-[15px] sm:text-[17px] text-gray-700 leading-relaxed max-w-sm">
+                Tell us what you need. We reply within one business day.
+              </p>
+              <a href="mailto:info@eotra.com" className="mt-6 inline-block text-[15px] font-medium text-gray-900 hover:text-[#0400F5] transition-colors">
+                info@eotra.com
+              </a>
+
+              <div className="mt-10 lg:mt-14 flex flex-wrap items-center gap-x-9 gap-y-7 max-w-md">
+                {BRANDS.map((b) => (
+                  <img
+                    key={b.name}
+                    src={b.src}
+                    alt={b.name}
+                    loading="lazy"
+                    className={`${b.h} w-auto object-contain grayscale opacity-75 hover:grayscale-0 hover:opacity-100 transition-all duration-300`}
+                  />
+                ))}
+              </div>
+            </div>
+
+            <div className="lg:col-span-7">
+              {/* Frosted-glass card */}
+              <div className="rounded-3xl border border-white/70 bg-white/35 backdrop-blur-2xl backdrop-saturate-150 shadow-[0_24px_70px_rgba(4,0,245,0.14),inset_0_1px_0_rgba(255,255,255,0.9)] p-6 sm:p-8 lg:p-10 max-w-2xl">
+                <InquiryForm subject="Connect with Eotra" onClose={() => onNavigateHome()} showClose={false} doneLabel="Back to home" glass />
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
 
       <Footer
         onNavigateHome={() => onNavigateHome()}

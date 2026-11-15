@@ -59,9 +59,11 @@ interface InquiryFormProps {
   /** Modal shows a close (X) button; the page does not */
   showClose?: boolean;
   doneLabel?: string;
+  /** Translucent fields and tiles, for use on top of the frosted-glass card */
+  glass?: boolean;
 }
 
-export function InquiryForm({ subject, onClose, showClose = true, doneLabel = 'Done' }: InquiryFormProps) {
+export function InquiryForm({ subject, onClose, showClose = true, doneLabel = 'Done', glass = false }: InquiryFormProps) {
   const isProject = !NOT_A_PROJECT.test(subject || '');
 
   const [services, setServices] = useState<string[]>(() => preselect(subject));
@@ -124,17 +126,21 @@ export function InquiryForm({ subject, onClose, showClose = true, doneLabel = 'D
 
   const title = isProject ? 'Tell us about your project' : subject || 'Contact Eotra';
 
+  const idle = glass ? 'border-white/70 bg-white/55 hover:border-gray-900 hover:bg-white/80' : 'border-gray-200 bg-white hover:border-gray-900';
+
   const tile = (selected: boolean) =>
     `text-left rounded-xl border px-4 py-3 text-[14px] font-medium transition-colors cursor-pointer ${
-      selected ? 'border-gray-900 bg-gray-900 text-white' : 'border-gray-200 bg-white text-gray-900 hover:border-gray-900'
+      selected ? 'border-gray-900 bg-gray-900 text-white' : `${idle} text-gray-900`
     }`;
 
   const pill = (selected: boolean) =>
     `rounded-full border px-4 py-2 text-[13px] font-medium transition-colors cursor-pointer ${
-      selected ? 'border-gray-900 bg-gray-900 text-white' : 'border-gray-200 bg-white text-gray-900 hover:border-gray-900'
+      selected ? 'border-gray-900 bg-gray-900 text-white' : `${idle} text-gray-900`
     }`;
 
-  const field = 'w-full rounded-xl border border-gray-200 px-3.5 py-2.5 text-[14px] text-gray-900 focus:outline-none focus:border-gray-900';
+  const field = `w-full rounded-xl border px-3.5 py-2.5 text-[14px] text-gray-900 placeholder:text-gray-400 focus:outline-none focus:border-gray-900 ${
+    glass ? 'border-white/70 bg-white/55 focus:bg-white/85' : 'border-gray-200'
+  }`;
   const sectionLabel = 'block text-[13px] font-semibold text-gray-900 mb-3';
 
   return (
@@ -217,7 +223,7 @@ export function InquiryForm({ subject, onClose, showClose = true, doneLabel = 'D
                         >
                           <span
                             className={`w-8 h-8 shrink-0 rounded-lg flex items-center justify-center transition-colors ${
-                              on ? 'bg-white/15 text-white' : 'bg-gray-100 text-gray-700'
+                              on ? 'bg-white/15 text-white' : glass ? 'bg-white/70 text-gray-700' : 'bg-gray-100 text-gray-700'
                             }`}
                           >
                             <s.Icon size={16} strokeWidth={1.8} />
@@ -226,7 +232,7 @@ export function InquiryForm({ subject, onClose, showClose = true, doneLabel = 'D
                           <span
                             aria-hidden="true"
                             className={`w-5 h-5 shrink-0 rounded-md border flex items-center justify-center transition-colors ${
-                              on ? 'border-white bg-white text-gray-900' : 'border-gray-300 bg-white text-transparent'
+                              on ? 'border-white bg-white text-gray-900' : glass ? 'border-gray-300 bg-white/70 text-transparent' : 'border-gray-300 bg-white text-transparent'
                             }`}
                           >
                             <Check size={13} strokeWidth={3} />
