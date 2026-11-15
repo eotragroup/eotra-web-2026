@@ -1,12 +1,11 @@
 import { goToBlog, goToConnect, goToCareers, goToFaq, goToLegal } from '../lib/nav';
 import React, { useState } from 'react';
-import { ArrowRight, Check, Facebook, Globe, Instagram, Linkedin, Twitter } from 'lucide-react';
+import { ArrowRight, Check, Facebook, Globe, Instagram, Linkedin } from 'lucide-react';
 import { PRODUCTS } from '../data/products';
 import { useI18n } from '../i18n';
 
 const SOCIALS = [
   { name: 'Instagram', href: 'https://www.instagram.com/eotraofficial', Icon: Instagram },
-  { name: 'X', href: 'https://x.com/eotraofficial', Icon: Twitter },
   { name: 'LinkedIn', href: 'https://www.linkedin.com/company/eotraofficial', Icon: Linkedin },
   { name: 'Facebook', href: 'https://www.facebook.com/eotraofficial', Icon: Facebook },
 ];
