@@ -25,6 +25,8 @@ function sitemap(origin: string): Response {
     { path: '/team' },
     { path: '/faq' },
     { path: '/connect' },
+    { path: '/company' },
+    { path: '/solutions' },
     { path: '/blog' },
     ...PRODUCTS.map((p) => ({ path: `/products/${p.id}` })),
     ...SERVICE_SLUGS.map((s) => ({ path: `/services/${s}` })),

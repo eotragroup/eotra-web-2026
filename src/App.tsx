@@ -1,5 +1,7 @@
-import { goToConnect } from './lib/nav';
+import { goToCompany, goToConnect } from './lib/nav';
 import { ServicePage } from './components/ServicePage';
+import { CompanyPage } from './components/CompanyPage';
+import { SolutionsPage } from './components/SolutionsPage';
 import { getService } from './data/services';
 import { useEffect, useState } from 'react';
 import { MessageSquare } from 'lucide-react';
@@ -95,6 +97,13 @@ function getServiceFromPath(pathname: string): string | null {
   return m ? m[1] : null;
 }
 
+// '/company' or '/solutions'
+function getInfoPageFromPath(pathname: string): 'company' | 'solutions' | null {
+  if (/^\/company\/?$/.test(pathname)) return 'company';
+  if (/^\/solutions\/?$/.test(pathname)) return 'solutions';
+  return null;
+}
+
 function isTeamPath(pathname: string): boolean {
   return pathname === '/team';
 }
@@ -127,6 +136,9 @@ export default function App() {
   const [isConnectPage, setIsConnectPage] = useState<boolean>(() =>
     isConnectPath(window.location.pathname)
   );
+  const [infoPage, setInfoPage] = useState<'company' | 'solutions' | null>(() =>
+    getInfoPageFromPath(window.location.pathname)
+  );
   const [serviceSlug, setServiceSlug] = useState<string | null>(() =>
     getServiceFromPath(window.location.pathname)
   );
@@ -157,6 +169,7 @@ export default function App() {
       setIsConnectPage(isConnectPath(window.location.pathname));
       setBlogRoute(getBlogFromPath(window.location.pathname));
       setServiceSlug(getServiceFromPath(window.location.pathname));
+      setInfoPage(getInfoPageFromPath(window.location.pathname));
     };
     window.addEventListener('popstate', handlePopState);
     return () => window.removeEventListener('popstate', handlePopState);
@@ -165,6 +178,8 @@ export default function App() {
   useEffect(() => {
     if (activeProduct) {
       document.title = `${activeProduct.title} — Eotra`;
+    } else if (infoPage) {
+      document.title = infoPage === 'company' ? 'Our Company — Eotra' : 'Our Solutions — Eotra';
     } else if (serviceSlug) {
       document.title = `${getService(serviceSlug)?.title ?? 'Services'} — Eotra`;
     } else if (isTeamPage) {
@@ -178,11 +193,11 @@ export default function App() {
     } else {
       document.title = 'Eotra — Enterprise Operations & Transaction';
     }
-  }, [activeProduct, isTeamPage, isFaqPage, isConnectPage, blogRoute, serviceSlug]);
+  }, [activeProduct, isTeamPage, isFaqPage, isConnectPage, blogRoute, serviceSlug, infoPage]);
 
   // GSAP Animations
   useEffect(() => {
-    if (activeProduct || isTeamPage || isFaqPage || isConnectPage || blogRoute !== null || serviceSlug) return;
+    if (activeProduct || isTeamPage || isFaqPage || isConnectPage || blogRoute !== null || serviceSlug || infoPage) return;
 
     const ctx = gsap.context(() => {
       // Hero entrance animation
@@ -229,7 +244,7 @@ export default function App() {
     });
 
     return () => ctx.revert();
-  }, [activeProduct, isTeamPage, isFaqPage, isConnectPage, blogRoute, serviceSlug]);
+  }, [activeProduct, isTeamPage, isFaqPage, isConnectPage, blogRoute, serviceSlug, infoPage]);
 
   const navigateToProduct = (productId: string) => {
     const targetPath = `/products/${encodeURIComponent(productId)}`;
@@ -242,6 +257,7 @@ export default function App() {
     setBlogRoute(null);
     setIsConnectPage(false);
     setServiceSlug(null);
+    setInfoPage(null);
     smoothScrollTo(0, { immediate: true });
   };
 
@@ -253,6 +269,7 @@ export default function App() {
     setBlogRoute(null);
     setIsConnectPage(false);
     setServiceSlug(null);
+    setInfoPage(null);
     smoothScrollTo(0, { immediate: true });
   };
 
@@ -265,6 +282,7 @@ export default function App() {
     setBlogRoute(null);
     setIsConnectPage(false);
     setServiceSlug(null);
+    setInfoPage(null);
 
     if (sectionId) {
       requestAnimationFrame(() => {
@@ -312,6 +330,20 @@ export default function App() {
             onSelectProduct={navigateToProduct}
           />
         )
+      ) : infoPage === 'company' ? (
+        <CompanyPage
+          onNavigateHome={navigateHome}
+          onOpenInquiry={openInquiry}
+          onNavigateToTeam={navigateToTeam}
+          onSelectProduct={navigateToProduct}
+        />
+      ) : infoPage === 'solutions' ? (
+        <SolutionsPage
+          onNavigateHome={navigateHome}
+          onOpenInquiry={openInquiry}
+          onNavigateToTeam={navigateToTeam}
+          onSelectProduct={navigateToProduct}
+        />
       ) : serviceSlug ? (
         <ServicePage
           slug={serviceSlug}
@@ -428,7 +460,7 @@ export default function App() {
                   label="About our company"
                   variant="orange"
                   size="hero"
-                  onClick={() => setInfoModal('company')}
+                  onClick={() => goToCompany()}
                 />
               }
             />
@@ -488,10 +520,7 @@ export default function App() {
         onNavigateHome={() => smoothScrollTo(0)}
         onOpenInquiry={openInquiry}
         onNavigateToProduct={navigateToProduct}
-        onNavigateToTeam={() => {
-          setView('team');
-          smoothScrollTo(0, { immediate: true });
-        }}
+        onNavigateToTeam={navigateToTeam}
         onOpenInfoModal={(mode) => setInfoModal(mode)}
       />
         </div>

@@ -1,4 +1,4 @@
-import { goToBlog, goToConnect, goToFaq, goToService } from '../lib/nav';
+import { goToBlog, goToCompany, goToConnect, goToFaq, goToService, goToSolutions } from '../lib/nav';
 import { SERVICES } from '../data/services';
 import { smoothScrollTo } from '../lib/smoothScroll';
 import { useEffect, useRef, useState } from 'react';
@@ -143,8 +143,8 @@ export function Navbar({ onOpenInquiry, onNavigateHome, onNavigateToTeam, dark: 
   const menuItems: { label: string; href: string; onClick: (e: React.MouseEvent) => void }[] = [
     { label: 'Projects', href: '#projects', onClick: (e) => { e.preventDefault(); scrollToSection('projects'); } },
     { label: 'Services', href: '#services', onClick: (e) => { e.preventDefault(); scrollToSection('services'); } },
-    { label: 'Company', href: '#company', onClick: (e) => { e.preventDefault(); scrollToSection('company'); } },
-    { label: 'Solutions', href: '#solutions', onClick: (e) => { e.preventDefault(); scrollToSection('solutions'); } },
+    { label: 'Company', href: '/company', onClick: (e) => { e.preventDefault(); setMobileMenuOpen(false); goToCompany(); } },
+    { label: 'Solutions', href: '/solutions', onClick: (e) => { e.preventDefault(); setMobileMenuOpen(false); goToSolutions(); } },
     { label: 'Team', href: '/team', onClick: handleTeamClick },
     { label: 'FAQ', href: '/faq', onClick: handleFaqClick },
     { label: 'Blog', href: '/blog', onClick: handleBlogClick },

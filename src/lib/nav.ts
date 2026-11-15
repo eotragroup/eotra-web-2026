@@ -20,3 +20,5 @@ export const goToConnect = (subject?: string) => {
 export const goToBlog = () => navigateTo('/blog');
 export const goToPost = (slug: string) => navigateTo(`/blog/${slug}`);
 export const goToService = (slug: string) => navigateTo(`/services/${slug}`);
+export const goToCompany = () => navigateTo('/company');
+export const goToSolutions = () => navigateTo('/solutions');
