@@ -1,8 +1,7 @@
 import { goToBlog, goToConnect, goToFaq } from '../lib/nav';
 import { smoothScrollTo } from '../lib/smoothScroll';
 import { useEffect, useRef, useState } from 'react';
-import { ArrowRight, Menu, X } from 'lucide-react';
-import { RollButton } from './RollButton';
+import { Minus, Plus } from 'lucide-react';
 
 interface NavbarProps {
   onOpenInquiry: (subject?: string) => void;
@@ -56,6 +55,15 @@ export function Navbar({ onOpenInquiry, onNavigateHome, onNavigateToTeam, dark: 
     };
   }, [mobileMenuOpen]);
 
+  useEffect(() => {
+    if (!mobileMenuOpen) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setMobileMenuOpen(false);
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [mobileMenuOpen]);
+
   const scrollToSection = (id: string) => {
     setMobileMenuOpen(false);
     if (onNavigateHome) {
@@ -104,201 +112,112 @@ export function Navbar({ onOpenInquiry, onNavigateHome, onNavigateToTeam, dark: 
     { label: 'Connect', href: '/connect', onClick: (e) => { e.preventDefault(); setMobileMenuOpen(false); goToConnect(); } },
   ];
 
+  // Pure glass: no outline, no highlight edge
+  const glass = dark ? 'bg-white/[0.10]' : 'bg-white/55';
+
   return (
     <>
       {/* Keeps the space the floating bar takes up */}
-      <div aria-hidden="true" className="h-[72px] sm:h-[80px]" />
+      <div aria-hidden="true" className="h-[64px] sm:h-[72px]" />
       <header ref={headerRef} className="fixed top-0 inset-x-0 z-40 pointer-events-none">
-        <div className="w-full max-w-[1440px] mx-auto p-2 sm:p-3">
-        <nav
-          aria-label="Primary navigation"
-          className={`pointer-events-auto rounded-full p-[5px] flex items-center justify-between border backdrop-blur-xl backdrop-saturate-150 transition-[background-color,border-color,box-shadow] duration-300 ${
-            dark
-              ? 'bg-white/[0.08] border-white/15 shadow-[inset_0_1px_0_rgba(255,255,255,0.18)]'
-              : 'bg-white/60 border-gray-200/80 shadow-[inset_0_1px_0_rgba(255,255,255,0.9)]'
-          }`}
-        >
-          {/* LEFT: Logo + Desktop Nav Links */}
-          <div className="flex items-center">
-            <a
-              href="/"
-              onClick={(e) => {
-                if (onNavigateHome) {
-                  e.preventDefault();
-                  onNavigateHome();
-                }
-              }}
-              className="flex items-center shrink-0 pl-3.5 sm:pl-4 pr-1 py-1"
-              aria-label="Eotra Home"
+        <div className="w-full max-w-[1440px] mx-auto px-3 sm:px-5 pt-3">
+          <div className="w-full md:max-w-[520px]">
+            {/* The bar: just the logo and one round button */}
+            <nav
+              aria-label="Primary navigation"
+              className={`pointer-events-auto h-12 rounded-full pl-4 pr-1.5 flex items-center justify-between backdrop-blur-xl backdrop-saturate-150 transition-[background-color] duration-300 ${glass}`}
             >
-              <span className="overflow-hidden inline-flex items-center">
-                <img
-                  src="/assets/aistudio/Eotra_aef517cd.svg"
-                  alt="Eotra"
-                  className={`h-[32px] sm:h-[36px] w-auto max-w-none -ml-3.5 -mr-7 ${dark ? 'brightness-0 invert' : ''}`}
-                />
-              </span>
-            </a>
-
-            <div className="hidden md:flex items-center gap-6 ml-6">
               <a
-                href="#projects"
+                href="/"
                 onClick={(e) => {
-                  e.preventDefault();
-                  scrollToSection('projects');
-                }}
-                className={`text-[14px] transition-colors duration-300 whitespace-nowrap shrink-0 ${dark ? 'text-white/85 hover:text-white' : 'text-gray-900 hover:text-gray-500'}`}
-              >
-                Projects
-              </a>
-              <a
-                href="#services"
-                onClick={(e) => {
-                  e.preventDefault();
-                  scrollToSection('services');
-                }}
-                className={`text-[14px] transition-colors duration-300 whitespace-nowrap shrink-0 ${dark ? 'text-white/85 hover:text-white' : 'text-gray-900 hover:text-gray-500'}`}
-              >
-                Services
-              </a>
-              <a
-                href="#company"
-                onClick={(e) => {
-                  e.preventDefault();
-                  scrollToSection('company');
-                }}
-                className={`text-[14px] transition-colors duration-300 whitespace-nowrap shrink-0 ${dark ? 'text-white/85 hover:text-white' : 'text-gray-900 hover:text-gray-500'}`}
-              >
-                Company
-              </a>
-              <a
-                href="#solutions"
-                onClick={(e) => {
-                  e.preventDefault();
-                  scrollToSection('solutions');
-                }}
-                className={`text-[14px] transition-colors duration-300 whitespace-nowrap shrink-0 ${dark ? 'text-white/85 hover:text-white' : 'text-gray-900 hover:text-gray-500'}`}
-              >
-                Solutions
-              </a>
-              <a
-                href="/team"
-                onClick={handleTeamClick}
-                className={`text-[14px] transition-colors duration-300 whitespace-nowrap shrink-0 ${dark ? 'text-white/85 hover:text-white' : 'text-gray-900 hover:text-gray-500'}`}
-              >
-                Team
-              </a>
-              <a
-                href="/faq"
-                onClick={handleFaqClick}
-                className={`text-[14px] transition-colors duration-300 whitespace-nowrap shrink-0 ${dark ? 'text-white/85 hover:text-white' : 'text-gray-900 hover:text-gray-500'}`}
-              >
-                FAQ
-              </a>
-              <a
-                href="/blog"
-                onClick={handleBlogClick}
-                className={`text-[14px] transition-colors duration-300 whitespace-nowrap shrink-0 ${dark ? 'text-white/85 hover:text-white' : 'text-gray-900 hover:text-gray-500'}`}
-              >
-                Blog
-              </a>
-              <button
-                type="button"
-                onClick={() => goToConnect()}
-                className={`text-[14px] transition-colors duration-300 whitespace-nowrap shrink-0 cursor-pointer ${dark ? 'text-white/85 hover:text-white' : 'text-gray-900 hover:text-gray-500'}`}
-              >
-                Connect
-              </button>
-            </div>
-          </div>
-
-          {/* RIGHT: CTA */}
-          <div className="hidden md:flex items-center gap-5">
-            <RollButton
-              label="Book a demo"
-              variant={dark ? 'light' : 'dark'}
-              size="nav"
-              onClick={() => onOpenInquiry('Book an Eotra Demo')}
-            />
-          </div>
-
-          {/* MOBILE TOGGLE */}
-          <button
-            type="button"
-            onClick={() => setMobileMenuOpen((prev) => !prev)}
-            className={`md:hidden rounded-full px-4 py-2 text-[13px] font-medium flex items-center gap-2 cursor-pointer ${dark ? 'bg-white text-gray-900' : 'bg-gray-900 text-white'}`}
-            aria-expanded={mobileMenuOpen}
-            aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
-          >
-            <span>{mobileMenuOpen ? 'Close' : 'Menu'}</span>
-            {mobileMenuOpen ? <X size={14} /> : <Menu size={14} />}
-          </button>
-        </nav>
-
-        {/* PHONE MENU: the glass bar opens downwards into a glass panel of pill links */}
-        {mobileMenuOpen && (
-          <div
-            aria-hidden="true"
-            className="fixed inset-0 -z-10 md:hidden pointer-events-auto bg-black/25 backdrop-blur-[2px]"
-            onClick={() => setMobileMenuOpen(false)}
-          />
-        )}
-        <div
-          className={`md:hidden pointer-events-auto grid transition-[grid-template-rows,margin] duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] ${
-            mobileMenuOpen ? 'grid-rows-[1fr] mt-2' : 'grid-rows-[0fr] mt-0'
-          }`}
-          aria-hidden={!mobileMenuOpen}
-        >
-          <div className="overflow-hidden">
-            <div
-              className={`rounded-[28px] border backdrop-blur-xl backdrop-saturate-150 p-3 ${
-                dark
-                  ? 'bg-white/[0.10] border-white/15 shadow-[inset_0_1px_0_rgba(255,255,255,0.18)]'
-                  : 'bg-white/70 border-gray-200/80 shadow-[inset_0_1px_0_rgba(255,255,255,0.9)]'
-              }`}
-            >
-              <div className="grid grid-cols-2 gap-2">
-                {menuItems.map((item) => (
-                  <a
-                    key={item.label}
-                    href={item.href}
-                    tabIndex={mobileMenuOpen ? 0 : -1}
-                    onClick={item.onClick}
-                    className={`rounded-full px-4 py-3 text-center text-[15px] font-medium transition-colors ${
-                      dark
-                        ? 'bg-white/10 text-white hover:bg-white/20'
-                        : 'bg-gray-900/[0.06] text-gray-900 hover:bg-gray-900/10'
-                    }`}
-                  >
-                    {item.label}
-                  </a>
-                ))}
-              </div>
-
-              <button
-                type="button"
-                tabIndex={mobileMenuOpen ? 0 : -1}
-                onClick={() => {
                   setMobileMenuOpen(false);
-                  onOpenInquiry('Get Started with Eotra');
+                  if (onNavigateHome) {
+                    e.preventDefault();
+                    onNavigateHome();
+                  }
                 }}
-                className="mt-2 w-full bg-[#0400F5] hover:bg-[#0300cc] text-white rounded-full pl-6 pr-2 py-2.5 text-[14px] font-medium flex items-center justify-between transition-colors duration-300 cursor-pointer"
+                className="flex items-center shrink-0"
+                aria-label="Eotra Home"
               >
-                <span>Get started now</span>
-                <span className="w-8 h-8 rounded-full bg-white flex items-center justify-center">
-                  <ArrowRight className="w-4 h-4 text-[#0400F5]" />
+                <span className="overflow-hidden inline-flex items-center">
+                  <img
+                    src="/assets/aistudio/Eotra_aef517cd.svg"
+                    alt="Eotra"
+                    className={`h-[28px] w-auto max-w-none -ml-3 -mr-6 ${dark ? 'brightness-0 invert' : ''}`}
+                  />
                 </span>
-              </button>
+              </a>
 
-              <div className={`mt-3 px-2 pb-1 flex items-center justify-between text-[12px] ${dark ? 'text-white/60' : 'text-gray-500'}`}>
-                <a href="mailto:info@eotra.com" tabIndex={mobileMenuOpen ? 0 : -1} className="hover:underline">
-                  info@eotra.com
-                </a>
-                <span>&copy; 2026 Eotra Inc.</span>
+              <button
+                type="button"
+                onClick={() => setMobileMenuOpen((o) => !o)}
+                aria-expanded={mobileMenuOpen}
+                aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
+                className={`w-9 h-9 rounded-full flex items-center justify-center transition-colors cursor-pointer ${
+                  dark ? 'bg-white/15 text-white hover:bg-white/25' : 'bg-gray-900/10 text-gray-900 hover:bg-gray-900/15'
+                }`}
+              >
+                {mobileMenuOpen ? <Minus size={16} strokeWidth={1.75} /> : <Plus size={16} strokeWidth={1.75} />}
+              </button>
+            </nav>
+
+            {mobileMenuOpen && (
+              <div
+                aria-hidden="true"
+                className="fixed inset-0 -z-10 pointer-events-auto bg-black/20 backdrop-blur-[2px]"
+                onClick={() => setMobileMenuOpen(false)}
+              />
+            )}
+
+            {/* The panel: the bar opens downwards into thin pill links */}
+            <div
+              className={`pointer-events-auto grid transition-[grid-template-rows,margin] duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] ${
+                mobileMenuOpen ? 'grid-rows-[1fr] mt-2' : 'grid-rows-[0fr] mt-0'
+              }`}
+              aria-hidden={!mobileMenuOpen}
+            >
+              <div className="overflow-hidden">
+                <div className={`rounded-[26px] backdrop-blur-xl backdrop-saturate-150 p-2 ${glass}`}>
+                  <div className="flex flex-wrap gap-1.5">
+                    {menuItems.map((item) => (
+                      <a
+                        key={item.label}
+                        href={item.href}
+                        tabIndex={mobileMenuOpen ? 0 : -1}
+                        onClick={item.onClick}
+                        className={`flex-1 min-w-[28%] rounded-full px-3 py-2 text-center text-[14px] transition-colors ${
+                          dark
+                            ? 'bg-white/10 text-white hover:bg-white/20'
+                            : 'bg-gray-900/[0.06] text-gray-900 hover:bg-gray-900/10'
+                        }`}
+                      >
+                        {item.label}
+                      </a>
+                    ))}
+                  </div>
+
+                  <button
+                    type="button"
+                    tabIndex={mobileMenuOpen ? 0 : -1}
+                    onClick={() => {
+                      setMobileMenuOpen(false);
+                      onOpenInquiry('Book an Eotra Demo');
+                    }}
+                    className="mt-1.5 w-full rounded-full bg-[#0400F5] hover:bg-[#0300cc] text-white px-3 py-2 text-[14px] transition-colors cursor-pointer"
+                  >
+                    Book a demo
+                  </button>
+
+                  <div className={`mt-2 px-3 pb-1 flex items-center justify-between text-[12px] ${dark ? 'text-white/55' : 'text-gray-500'}`}>
+                    <a href="mailto:info@eotra.com" tabIndex={mobileMenuOpen ? 0 : -1} className="hover:underline">
+                      info@eotra.com
+                    </a>
+                    <span>&copy; 2026 Eotra Inc.</span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
         </div>
       </header>
     </>
