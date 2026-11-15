@@ -23,7 +23,7 @@ interface ConnectPageProps {
 export function ConnectPage({ onNavigateHome, onOpenInquiry, onNavigateToTeam, onSelectProduct }: ConnectPageProps) {
   return (
     <div className="min-h-screen bg-white text-gray-900 antialiased">
-      <div className="relative isolate overflow-hidden bg-[#F3F3F3]">
+      <div className="relative isolate overflow-hidden bg-white">
 
         <section className="relative flex flex-col">
           <Navbar onOpenInquiry={onOpenInquiry} onNavigateHome={onNavigateHome} onNavigateToTeam={onNavigateToTeam} />
@@ -57,7 +57,7 @@ export function ConnectPage({ onNavigateHome, onOpenInquiry, onNavigateToTeam, o
 
             <div className="lg:col-span-7">
               {/* Frosted-glass card */}
-              <div className="rounded-[32px] bg-white backdrop-saturate-150 p-6 sm:p-8 lg:p-10 max-w-2xl">
+              <div className="rounded-[32px] bg-gray-50 p-6 sm:p-8 lg:p-10 max-w-2xl">
                 <InquiryForm subject="Connect with Eotra" onClose={() => onNavigateHome()} showClose={false} doneLabel="Back to home" />
               </div>
             </div>
