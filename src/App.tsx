@@ -1,4 +1,6 @@
 import { goToConnect } from './lib/nav';
+import { ServicePage } from './components/ServicePage';
+import { getService } from './data/services';
 import { useEffect, useState } from 'react';
 import { MessageSquare } from 'lucide-react';
 import { gsap } from 'gsap';
@@ -87,6 +89,12 @@ function getProductIdFromPath(pathname: string): string | null {
   return match ? decodeURIComponent(match[1]) : null;
 }
 
+// '/services/<slug>' -> slug
+function getServiceFromPath(pathname: string): string | null {
+  const m = pathname.match(/^\/services\/([a-z0-9-]+)\/?$/);
+  return m ? m[1] : null;
+}
+
 function isTeamPath(pathname: string): boolean {
   return pathname === '/team';
 }
@@ -119,6 +127,9 @@ export default function App() {
   const [isConnectPage, setIsConnectPage] = useState<boolean>(() =>
     isConnectPath(window.location.pathname)
   );
+  const [serviceSlug, setServiceSlug] = useState<string | null>(() =>
+    getServiceFromPath(window.location.pathname)
+  );
   const [blogRoute, setBlogRoute] = useState<string | null>(() =>
     getBlogFromPath(window.location.pathname)
   );
@@ -145,6 +156,7 @@ export default function App() {
       setIsFaqPage(isFaqPath(window.location.pathname));
       setIsConnectPage(isConnectPath(window.location.pathname));
       setBlogRoute(getBlogFromPath(window.location.pathname));
+      setServiceSlug(getServiceFromPath(window.location.pathname));
     };
     window.addEventListener('popstate', handlePopState);
     return () => window.removeEventListener('popstate', handlePopState);
@@ -153,6 +165,8 @@ export default function App() {
   useEffect(() => {
     if (activeProduct) {
       document.title = `${activeProduct.title} — Eotra`;
+    } else if (serviceSlug) {
+      document.title = `${getService(serviceSlug)?.title ?? 'Services'} — Eotra`;
     } else if (isTeamPage) {
       document.title = 'The Founder Team — Eotra';
     } else if (isFaqPage) {
@@ -164,11 +178,11 @@ export default function App() {
     } else {
       document.title = 'Eotra — Enterprise Operations & Transaction';
     }
-  }, [activeProduct, isTeamPage, isFaqPage, isConnectPage, blogRoute]);
+  }, [activeProduct, isTeamPage, isFaqPage, isConnectPage, blogRoute, serviceSlug]);
 
   // GSAP Animations
   useEffect(() => {
-    if (activeProduct || isTeamPage || isFaqPage || isConnectPage || blogRoute !== null) return;
+    if (activeProduct || isTeamPage || isFaqPage || isConnectPage || blogRoute !== null || serviceSlug) return;
 
     const ctx = gsap.context(() => {
       // Hero entrance animation
@@ -215,7 +229,7 @@ export default function App() {
     });
 
     return () => ctx.revert();
-  }, [activeProduct, isTeamPage, isFaqPage, isConnectPage, blogRoute]);
+  }, [activeProduct, isTeamPage, isFaqPage, isConnectPage, blogRoute, serviceSlug]);
 
   const navigateToProduct = (productId: string) => {
     const targetPath = `/products/${encodeURIComponent(productId)}`;
@@ -227,6 +241,7 @@ export default function App() {
     setIsFaqPage(false);
     setBlogRoute(null);
     setIsConnectPage(false);
+    setServiceSlug(null);
     smoothScrollTo(0, { immediate: true });
   };
 
@@ -237,6 +252,7 @@ export default function App() {
     setIsFaqPage(false);
     setBlogRoute(null);
     setIsConnectPage(false);
+    setServiceSlug(null);
     smoothScrollTo(0, { immediate: true });
   };
 
@@ -248,6 +264,7 @@ export default function App() {
     setIsFaqPage(false);
     setBlogRoute(null);
     setIsConnectPage(false);
+    setServiceSlug(null);
 
     if (sectionId) {
       requestAnimationFrame(() => {
@@ -295,6 +312,14 @@ export default function App() {
             onSelectProduct={navigateToProduct}
           />
         )
+      ) : serviceSlug ? (
+        <ServicePage
+          slug={serviceSlug}
+          onNavigateHome={navigateHome}
+          onOpenInquiry={openInquiry}
+          onNavigateToTeam={navigateToTeam}
+          onSelectProduct={navigateToProduct}
+        />
       ) : isConnectPage ? (
         <ConnectPage
           onNavigateHome={navigateHome}

@@ -13,6 +13,9 @@ interface Env {
   ASSETS: { fetch(request: Request): Promise<Response> };
 }
 
+// Keep in sync with src/data/services.ts (not imported here: that file pulls in images)
+const SERVICE_SLUGS = ['web-apps', 'mobile-development', 'ui-ux-design', 'e-commerce', 'backend-apis', 'cloud-devops', 'internal-tools-erp', 'qa-dedicated-teams'];
+
 const KNOWN = new Set(POSTS.map((p) => p.slug));
 
 // sitemap.xml and robots.txt are generated from the address they are requested on, so they are always correct
@@ -24,6 +27,7 @@ function sitemap(origin: string): Response {
     { path: '/connect' },
     { path: '/blog' },
     ...PRODUCTS.map((p) => ({ path: `/products/${p.id}` })),
+    ...SERVICE_SLUGS.map((s) => ({ path: `/services/${s}` })),
     ...POSTS.map((p) => ({ path: `/blog/${p.slug}`, lastmod: p.date })),
   ];
   const body =
