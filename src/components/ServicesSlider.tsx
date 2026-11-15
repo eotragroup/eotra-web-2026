@@ -158,7 +158,6 @@ interface ServicesSliderProps {
 export function ServicesSlider({ onOpenInquiry }: ServicesSliderProps) {
   const trackRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
-  const [revealedIndex, setRevealedIndex] = useState<string | null>(null);
   const [canScrollPrev, setCanScrollPrev] = useState(false);
   const [canScrollNext, setCanScrollNext] = useState(true);
 
@@ -263,24 +262,10 @@ export function ServicesSlider({ onOpenInquiry }: ServicesSliderProps) {
         className="flex gap-5 sm:gap-6 overflow-x-auto scroll-smooth snap-x snap-mandatory no-scrollbar pb-2 pl-5 sm:pl-8 lg:pl-[max(3rem,calc((100vw-1440px)/2+3rem))] pr-5 sm:pr-8 lg:pr-12 scroll-pl-5 sm:scroll-pl-8 lg:scroll-pl-[max(3rem,calc((100vw-1440px)/2+3rem))]"
       >
         {EOTRA_SERVICES.map((service) => {
-          const isRevealed = revealedIndex === service.index;
           return (
             <article
               key={service.index}
               tabIndex={0}
-              onClick={() =>
-                setRevealedIndex((prev) =>
-                  prev === service.index ? null : service.index
-                )
-              }
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                  e.preventDefault();
-                  setRevealedIndex((prev) =>
-                    prev === service.index ? null : service.index
-                  );
-                }
-              }}
               aria-label={service.title}
               className="group relative snap-start shrink-0 w-[78vw] sm:w-[320px] md:w-[330px] lg:w-[340px] xl:w-[355px] aspect-[4/5] rounded-3xl overflow-hidden bg-gray-900 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0400F5]"
             >
@@ -291,21 +276,9 @@ export function ServicesSlider({ onOpenInquiry }: ServicesSliderProps) {
                 icon={service.icon}
               />
 
-              {/* Minimal Hover / Focus / Tap Text Overlay */}
-              <div
-                className={`absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-transparent flex flex-col justify-end p-6 sm:p-7 transition-opacity duration-300 ease-out ${
-                  isRevealed
-                    ? 'opacity-100'
-                    : 'opacity-0 group-hover:opacity-100 group-focus-within:opacity-100'
-                }`}
-              >
-                <div
-                  className={`flex items-end justify-between gap-4 transition-transform duration-300 ease-out ${
-                    isRevealed
-                      ? 'translate-y-0'
-                      : 'translate-y-2 group-hover:translate-y-0 group-focus-within:translate-y-0'
-                  }`}
-                >
+              {/* Title + arrow, always visible */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-transparent flex flex-col justify-end p-6 sm:p-7">
+                <div className="flex items-end justify-between gap-4">
                   <div className="min-w-0">
                     <h3 className="text-[20px] sm:text-[22px] font-semibold text-white tracking-[-0.015em]">
                       {service.title}
