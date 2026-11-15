@@ -10,9 +10,11 @@ interface NavbarProps {
   onNavigateToTeam?: () => void;
   /** Light grey outline, for pages with a plain white background */
   bordered?: boolean;
+  /** Dark frosted-glass bar for dark pages */
+  dark?: boolean;
 }
 
-export function Navbar({ onOpenInquiry, onNavigateHome, onNavigateToTeam, bordered = false }: NavbarProps) {
+export function Navbar({ onOpenInquiry, onNavigateHome, onNavigateToTeam, bordered = false, dark = false }: NavbarProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
@@ -68,7 +70,11 @@ export function Navbar({ onOpenInquiry, onNavigateHome, onNavigateToTeam, border
       <header className="relative z-20 w-full max-w-[1440px] mx-auto p-2 sm:p-3">
         <nav
           aria-label="Primary navigation"
-          className={`bg-white rounded-full p-[5px] flex items-center justify-between ${bordered ? 'border border-gray-200' : ''}`}
+          className={`rounded-full p-[5px] flex items-center justify-between ${
+            dark
+              ? 'bg-white/[0.07] border border-white/15 backdrop-blur-xl shadow-[inset_0_1px_0_rgba(255,255,255,0.15)]'
+              : `bg-white ${bordered ? 'border border-gray-200' : ''}`
+          }`}
         >
           {/* LEFT: Logo + Desktop Nav Links */}
           <div className="flex items-center">
@@ -87,7 +93,7 @@ export function Navbar({ onOpenInquiry, onNavigateHome, onNavigateToTeam, border
                 <img
                   src="/assets/aistudio/Eotra_aef517cd.svg"
                   alt="Eotra"
-                  className="h-[32px] sm:h-[36px] w-auto max-w-none -ml-3.5 -mr-7"
+                  className={`h-[32px] sm:h-[36px] w-auto max-w-none -ml-3.5 -mr-7 ${dark ? 'brightness-0 invert' : ''}`}
                 />
               </span>
             </a>
@@ -99,7 +105,7 @@ export function Navbar({ onOpenInquiry, onNavigateHome, onNavigateToTeam, border
                   e.preventDefault();
                   scrollToSection('projects');
                 }}
-                className="text-[14px] text-gray-900 hover:text-gray-500 transition-colors duration-300 whitespace-nowrap shrink-0"
+                className={`text-[14px] transition-colors duration-300 whitespace-nowrap shrink-0 ${dark ? 'text-white/85 hover:text-white' : 'text-gray-900 hover:text-gray-500'}`}
               >
                 Projects
               </a>
@@ -109,7 +115,7 @@ export function Navbar({ onOpenInquiry, onNavigateHome, onNavigateToTeam, border
                   e.preventDefault();
                   scrollToSection('services');
                 }}
-                className="text-[14px] text-gray-900 hover:text-gray-500 transition-colors duration-300 whitespace-nowrap shrink-0"
+                className={`text-[14px] transition-colors duration-300 whitespace-nowrap shrink-0 ${dark ? 'text-white/85 hover:text-white' : 'text-gray-900 hover:text-gray-500'}`}
               >
                 Services
               </a>
@@ -119,7 +125,7 @@ export function Navbar({ onOpenInquiry, onNavigateHome, onNavigateToTeam, border
                   e.preventDefault();
                   scrollToSection('company');
                 }}
-                className="text-[14px] text-gray-900 hover:text-gray-500 transition-colors duration-300 whitespace-nowrap shrink-0"
+                className={`text-[14px] transition-colors duration-300 whitespace-nowrap shrink-0 ${dark ? 'text-white/85 hover:text-white' : 'text-gray-900 hover:text-gray-500'}`}
               >
                 Company
               </a>
@@ -129,35 +135,35 @@ export function Navbar({ onOpenInquiry, onNavigateHome, onNavigateToTeam, border
                   e.preventDefault();
                   scrollToSection('solutions');
                 }}
-                className="text-[14px] text-gray-900 hover:text-gray-500 transition-colors duration-300 whitespace-nowrap shrink-0"
+                className={`text-[14px] transition-colors duration-300 whitespace-nowrap shrink-0 ${dark ? 'text-white/85 hover:text-white' : 'text-gray-900 hover:text-gray-500'}`}
               >
                 Solutions
               </a>
               <a
                 href="/team"
                 onClick={handleTeamClick}
-                className="text-[14px] text-gray-900 hover:text-gray-500 transition-colors duration-300 whitespace-nowrap shrink-0"
+                className={`text-[14px] transition-colors duration-300 whitespace-nowrap shrink-0 ${dark ? 'text-white/85 hover:text-white' : 'text-gray-900 hover:text-gray-500'}`}
               >
                 Team
               </a>
               <a
                 href="/faq"
                 onClick={handleFaqClick}
-                className="text-[14px] text-gray-900 hover:text-gray-500 transition-colors duration-300 whitespace-nowrap shrink-0"
+                className={`text-[14px] transition-colors duration-300 whitespace-nowrap shrink-0 ${dark ? 'text-white/85 hover:text-white' : 'text-gray-900 hover:text-gray-500'}`}
               >
                 FAQ
               </a>
               <a
                 href="/blog"
                 onClick={handleBlogClick}
-                className="text-[14px] text-gray-900 hover:text-gray-500 transition-colors duration-300 whitespace-nowrap shrink-0"
+                className={`text-[14px] transition-colors duration-300 whitespace-nowrap shrink-0 ${dark ? 'text-white/85 hover:text-white' : 'text-gray-900 hover:text-gray-500'}`}
               >
                 Blog
               </a>
               <button
                 type="button"
                 onClick={() => goToConnect()}
-                className="text-[14px] text-gray-900 hover:text-gray-500 transition-colors duration-300 whitespace-nowrap shrink-0 cursor-pointer"
+                className={`text-[14px] transition-colors duration-300 whitespace-nowrap shrink-0 cursor-pointer ${dark ? 'text-white/85 hover:text-white' : 'text-gray-900 hover:text-gray-500'}`}
               >
                 Connect
               </button>
@@ -168,7 +174,7 @@ export function Navbar({ onOpenInquiry, onNavigateHome, onNavigateToTeam, border
           <div className="hidden md:flex items-center gap-5">
             <RollButton
               label="Book a demo"
-              variant="dark"
+              variant={dark ? 'light' : 'dark'}
               size="nav"
               onClick={() => onOpenInquiry('Book an Eotra Demo')}
             />
@@ -178,7 +184,7 @@ export function Navbar({ onOpenInquiry, onNavigateHome, onNavigateToTeam, border
           <button
             type="button"
             onClick={() => setMobileMenuOpen((prev) => !prev)}
-            className="md:hidden bg-gray-900 text-white rounded-full px-4 py-2 text-[13px] font-medium flex items-center gap-2 cursor-pointer"
+            className={`md:hidden rounded-full px-4 py-2 text-[13px] font-medium flex items-center gap-2 cursor-pointer ${dark ? 'bg-white text-gray-900' : 'bg-gray-900 text-white'}`}
             aria-expanded={mobileMenuOpen}
             aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
           >
