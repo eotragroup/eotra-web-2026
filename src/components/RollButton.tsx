@@ -1,5 +1,24 @@
 import { ArrowRight } from 'lucide-react';
 
+// Subtle magnetic pull toward the cursor (mouse only, off for reduced motion)
+const canMagnet = () =>
+  typeof window !== 'undefined' &&
+  window.matchMedia('(hover: hover) and (pointer: fine)').matches &&
+  !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+function pull(e: React.MouseEvent<HTMLButtonElement>) {
+  if (!canMagnet()) return;
+  const el = e.currentTarget;
+  const r = el.getBoundingClientRect();
+  const dx = (e.clientX - (r.left + r.width / 2)) / r.width;
+  const dy = (e.clientY - (r.top + r.height / 2)) / r.height;
+  el.style.translate = `${(dx * 12).toFixed(1)}px ${(dy * 10).toFixed(1)}px`;
+}
+
+function release(e: React.MouseEvent<HTMLButtonElement>) {
+  e.currentTarget.style.translate = '0px 0px';
+}
+
 interface RollButtonProps {
   label: string;
   variant?: 'dark' | 'orange';
@@ -36,7 +55,10 @@ export function RollButton({
     <button
       type="button"
       onClick={onClick}
-      className={`group inline-flex items-center gap-3 rounded-full font-medium transition-colors duration-300 cursor-pointer shrink-0 whitespace-nowrap ${bgClasses} ${paddingClasses} ${className}`}
+      onMouseMove={pull}
+      onMouseLeave={release}
+      style={{ transition: 'translate 0.35s cubic-bezier(0.22, 1, 0.36, 1), background-color 0.3s, scale 0.2s' }}
+      className={`group inline-flex items-center gap-3 rounded-full font-medium cursor-pointer active:scale-[0.96] shrink-0 whitespace-nowrap ${bgClasses} ${paddingClasses} ${className}`}
     >
       <span className="h-[20px] overflow-hidden inline-block">
         <span className="flex flex-col transition-transform duration-500 ease-[cubic-bezier(0.25,0.1,0.25,1)] group-hover:-translate-y-1/2">
