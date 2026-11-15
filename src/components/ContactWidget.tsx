@@ -127,11 +127,16 @@ export function ContactWidget() {
 
   return (
     <aside aria-label={t('Quick contact')} className="fixed bottom-5 right-5 sm:bottom-6 sm:right-6 z-40 flex flex-col items-end gap-3">
-      {open && (
+      {/* Always mounted so it can open and close smoothly (grows from the button) */}
+      {(
         <div
           role="dialog"
           aria-label={t('Contact Eotra')}
-          className="w-[calc(100vw-2.5rem)] sm:w-[380px] max-h-[min(640px,calc(100dvh-7.5rem))] flex flex-col rounded-[28px] bg-white/95 backdrop-blur-xl shadow-[0_24px_80px_rgba(0,0,0,0.18)] overflow-hidden"
+          aria-hidden={!open}
+          inert={!open}
+          className={`w-[calc(100vw-2.5rem)] sm:w-[380px] max-h-[min(640px,calc(100dvh-7.5rem))] flex flex-col rounded-[28px] bg-white/95 backdrop-blur-xl shadow-[0_24px_80px_rgba(0,0,0,0.18)] overflow-hidden origin-bottom-right rtl:origin-bottom-left transition-[opacity,transform,visibility] duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] ${
+            open ? 'opacity-100 translate-y-0 scale-100 visible' : 'opacity-0 translate-y-4 scale-90 invisible pointer-events-none'
+          }`}
         >
           {/* Header */}
           <div className="px-5 pt-5 pb-3">
@@ -178,7 +183,7 @@ export function ContactWidget() {
                 {msgs.map((m, i) => (
                   <div
                     key={i}
-                    className={`max-w-[88%] rounded-2xl px-3.5 py-2.5 text-[14px] leading-relaxed whitespace-pre-wrap ${
+                    className={`cw-msg max-w-[88%] rounded-2xl px-3.5 py-2.5 text-[14px] leading-relaxed whitespace-pre-wrap ${
                       m.role === 'user' ? 'ms-auto rounded-se-md bg-[#0400F5] text-white' : 'rounded-ss-md bg-gray-900/[0.06] text-gray-900'
                     }`}
                   >
@@ -317,7 +322,14 @@ export function ContactWidget() {
         title={t('Contact Eotra')}
         className="group relative flex items-center justify-center w-[52px] h-[52px] sm:w-[56px] sm:h-[56px] bg-gray-950 hover:bg-black text-white rounded-full shadow-2xl hover:shadow-black/40 transition-all duration-200 ease-out hover:scale-105 active:scale-95 cursor-pointer border border-white/15"
       >
-        {open ? <X size={22} className="shrink-0" /> : <MessageSquare size={22} className="shrink-0 group-hover:scale-105 transition-transform duration-200" />}
+        <MessageSquare
+          size={22}
+          className={`absolute shrink-0 transition-all duration-300 ease-out ${open ? 'opacity-0 rotate-90 scale-50' : 'opacity-100 rotate-0 scale-100'}`}
+        />
+        <X
+          size={22}
+          className={`absolute shrink-0 transition-all duration-300 ease-out ${open ? 'opacity-100 rotate-0 scale-100' : 'opacity-0 -rotate-90 scale-50'}`}
+        />
       </button>
     </aside>
   );
