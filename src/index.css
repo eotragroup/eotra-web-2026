@@ -264,3 +264,14 @@ html[lang="ar"] * {
 @media (prefers-reduced-motion: reduce) {
   .cw-msg { animation: none; }
 }
+
+/* Floating contact button: its distance from the right edge. It is applied with an inline style on the element,
+   so it stays at the bottom-right corner in every language (it is not mirrored for Arabic). */
+.cw-anchor {
+  --cw-right: 1.25rem;
+}
+@media (min-width: 640px) {
+  .cw-anchor {
+    --cw-right: 1.5rem;
+  }
+}

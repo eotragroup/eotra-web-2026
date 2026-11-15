@@ -18,6 +18,7 @@ import {
 } from 'lucide-react';
 import { RollButton } from './RollButton';
 import { useI18n } from '../i18n';
+import { suggestEmail } from '../lib/emailTypos';
 
 // What the customer can ask us for. `match` pre-selects an option from the button they clicked.
 const SERVICES: { label: string; match: RegExp; Icon: LucideIcon }[] = [
@@ -77,6 +78,8 @@ export function InquiryForm({ subject, onClose, showClose = true, doneLabel = 'D
   const [phone, setPhone] = useState('');
   const [notes, setNotes] = useState(initialNotes);
   const [error, setError] = useState('');
+  const [emailHint, setEmailHint] = useState<string | null>(null);
+  const [emailOk, setEmailOk] = useState('');
   const [isSending, setIsSending] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
@@ -92,6 +95,11 @@ export function InquiryForm({ subject, onClose, showClose = true, doneLabel = 'D
   const submit = async () => {
     if (!name.trim()) return setError(t('Please enter your name.'));
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) return setError(t('Please enter a valid email address.'));
+    const typo = suggestEmail(email);
+    if (typo && emailOk !== email.trim()) {
+      setError('');
+      return setEmailHint(typo);
+    }
     if (isProject && services.length === 0) return setError(t('Please choose at least one service.'));
     if (isProject && !budget) return setError(t('Please choose a budget range.'));
     setError('');
@@ -226,7 +234,17 @@ export function InquiryForm({ subject, onClose, showClose = true, doneLabel = 'D
                     <label htmlFor="inquiry-email" className={`block text-[13px] font-medium mb-1.5 ${c.label}`}>
                       {t('Email')}
                     </label>
-                    <input id="inquiry-email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="alex@company.com" autoComplete="email" className={field} />
+                    <input id="inquiry-email" type="email" value={email} onChange={(e) => {
+                      setEmail(e.target.value);
+                      setEmailHint(null);
+                    }} placeholder="alex@company.com" autoComplete="email" className={field} />
+                    {emailHint && (
+                      <p className={`mt-2 text-[12.5px] ${c.label}`} role="status">
+                        {t('Did you mean')} <span dir="ltr" className="font-medium">{emailHint}</span>?{' '}
+                        <button type="button" className="underline font-medium cursor-pointer" onClick={() => { setEmail(emailHint); setEmailHint(null); }}>{t('Yes, use it')}</button>{' · '}
+                        <button type="button" className="underline cursor-pointer" onClick={() => { setEmailOk(email.trim()); setEmailHint(null); }}>{t('No, keep mine')}</button>
+                      </p>
+                    )}
                   </div>
                   <div>
                     <label htmlFor="inquiry-phone" className={`block text-[13px] font-medium mb-1.5 ${c.label}`}>

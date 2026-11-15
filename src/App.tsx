@@ -564,7 +564,6 @@ export default function App() {
         onOpenInquiry={openInquiry}
         onNavigateToProduct={navigateToProduct}
         onNavigateToTeam={navigateToTeam}
-        onOpenInfoModal={(mode) => setInfoModal(mode)}
       />
         </div>
       )}

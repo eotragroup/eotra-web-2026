@@ -3,8 +3,17 @@ import { ArrowRight, Bot, Check, CheckCircle2, Mail, MessageCircle, MessageSquar
 import { useI18n } from '../i18n';
 import { CONTACT_EMAIL, WHATSAPP_NUMBER } from '../data/contact';
 import { goToConnect } from '../lib/nav';
+import { suggestEmail } from '../lib/emailTypos';
 
 type Tab = 'chat' | 'whatsapp' | 'email';
+interface Lead {
+  name: string;
+  email: string;
+  phone: string;
+  service: string;
+  summary: string;
+}
+
 interface Msg {
   role: 'user' | 'assistant';
   content: string;
@@ -36,6 +45,8 @@ export function ContactWidget() {
   const [chatError, setChatError] = useState('');
   const [leadStatus, setLeadStatus] = useState<'idle' | 'sent' | 'failed'>('idle');
   const leadSentRef = useRef(false);
+  const [pendingLead, setPendingLead] = useState<{ lead: Lead; convo: Msg[]; suggestion: string } | null>(null);
+  const [failedLead, setFailedLead] = useState<{ lead: Lead; convo: Msg[] } | null>(null);
   const listRef = useRef<HTMLDivElement>(null);
 
   // email
@@ -45,6 +56,8 @@ export function ContactWidget() {
   const [sending, setSending] = useState(false);
   const [sent, setSent] = useState(false);
   const [mailError, setMailError] = useState('');
+  const [mailHint, setMailHint] = useState<string | null>(null);
+  const [mailOk, setMailOk] = useState('');
 
   useEffect(() => {
     if (!open) return;
@@ -60,9 +73,12 @@ export function ContactWidget() {
   const userCount = msgs.filter((m) => m.role === 'user').length;
 
   // The assistant collected the visitor's details: send them to the team (with the whole conversation)
-  const sendLead = async (lead: { name: string; email: string; phone: string; service: string; summary: string }, convo: Msg[]) => {
+  const sendLead = async (lead: Lead, convo: Msg[]) => {
     if (leadSentRef.current) return;
     leadSentRef.current = true;
+    setPendingLead(null);
+    setFailedLead(null);
+    setLeadStatus('idle');
     const transcript = convo.map((m) => `${m.role === 'user' ? 'Visitor' : 'Assistant'}: ${m.content}`).join('\n');
     try {
       const res = await fetch(`https://formsubmit.co/ajax/${CONTACT_EMAIL}`, {
@@ -86,8 +102,16 @@ export function ContactWidget() {
       setLeadStatus('sent');
     } catch {
       leadSentRef.current = false;
+      setFailedLead({ lead, convo });
       setLeadStatus('failed');
     }
+  };
+
+  // Before sending, double-check an email that looks like a typo of a popular provider ("gamil.com")
+  const handleLead = (lead: Lead, convo: Msg[]) => {
+    const suggestion = suggestEmail(lead.email);
+    if (suggestion) setPendingLead({ lead, convo, suggestion });
+    else void sendLead(lead, convo);
   };
 
   const send = async (text: string) => {
@@ -112,7 +136,7 @@ export function ContactWidget() {
       if (!res.ok || !data?.reply) throw new Error('chat failed');
       const full: Msg[] = [...next, { role: 'assistant', content: String(data.reply), handoff: data.handoff ?? null }];
       setMsgs(full);
-      if (data.lead) void sendLead(data.lead, full);
+      if (data.lead) handleLead(data.lead, full);
     } catch {
       setChatError(t('Sorry, the assistant is not available right now. Please use email or WhatsApp.'));
     } finally {
@@ -125,6 +149,11 @@ export function ContactWidget() {
     if (sending) return;
     if (!name.trim()) return setMailError(t('Please enter your name.'));
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) return setMailError(t('Please enter a valid email address.'));
+    const typo = suggestEmail(email);
+    if (typo && mailOk !== email.trim()) {
+      setMailError('');
+      return setMailHint(typo);
+    }
     if (!message.trim()) return setMailError(t('Please write a short message.'));
     setMailError('');
     setSending(true);
@@ -164,7 +193,8 @@ export function ContactWidget() {
     'w-full rounded-full bg-gray-900/[0.06] px-4 py-2.5 text-[14px] text-gray-900 placeholder:text-gray-400 focus:bg-gray-900/10 focus:outline-none transition-colors';
 
   return (
-    <aside aria-label={t('Quick contact')} className="fixed bottom-5 right-5 sm:bottom-6 sm:right-6 z-40 flex flex-col items-end gap-3">
+    // Always at the bottom-right corner, also on the Arabic site (the layout inside the panel still follows the language)
+    <aside aria-label={t('Quick contact')} dir="ltr" style={{ right: 'var(--cw-right)' }} className="cw-anchor fixed bottom-5 sm:bottom-6 z-40 flex flex-col items-end gap-3">
       {/* Always mounted so it can open and close smoothly (grows from the button) */}
       {(
         <div
@@ -172,7 +202,8 @@ export function ContactWidget() {
           aria-label={t('Contact Eotra')}
           aria-hidden={!open}
           inert={!open}
-          className={`w-[calc(100vw-2.5rem)] sm:w-[380px] max-h-[min(640px,calc(100dvh-7.5rem))] flex flex-col rounded-[28px] bg-white/95 backdrop-blur-xl shadow-[0_24px_80px_rgba(0,0,0,0.18)] overflow-hidden origin-bottom-right rtl:origin-bottom-left transition-[opacity,transform,visibility] duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] ${
+          dir={lang === 'ar' ? 'rtl' : 'ltr'}
+          className={`w-[calc(100vw-2.5rem)] sm:w-[380px] max-h-[min(640px,calc(100dvh-7.5rem))] flex flex-col rounded-[28px] bg-white/95 backdrop-blur-xl shadow-[0_24px_80px_rgba(0,0,0,0.18)] overflow-hidden origin-bottom-right transition-[opacity,transform,visibility] duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] ${
             open ? 'opacity-100 translate-y-0 scale-100 visible' : 'opacity-0 translate-y-4 scale-90 invisible pointer-events-none'
           }`}
         >
@@ -268,10 +299,43 @@ export function ContactWidget() {
                   <CheckCircle2 size={14} /> {t('Your details were sent to the Eotra team.')}
                 </p>
               )}
-              {leadStatus === 'failed' && (
-                <p className="mt-2 text-[12.5px] text-red-600" role="alert">
-                  {t('We could not send your details. Please use the Email tab or write to info@eotra.com.')}
-                </p>
+              {pendingLead && (
+                <div className="mt-2 rounded-2xl bg-amber-50 px-3.5 py-2.5 text-[13px] text-gray-800" role="status">
+                  {t('Is your email')} <span dir="ltr" className="font-medium">{pendingLead.suggestion}</span>?
+                  <div className="mt-2 flex flex-wrap gap-2">
+                    <button
+                      type="button"
+                      onClick={() => void sendLead({ ...pendingLead.lead, email: pendingLead.suggestion }, pendingLead.convo)}
+                      className="rounded-full bg-[#0400F5] text-white px-3.5 py-1.5 text-[12.5px] font-medium cursor-pointer"
+                    >
+                      {t('Yes, use it')}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => void sendLead(pendingLead.lead, pendingLead.convo)}
+                      className="rounded-full bg-white border border-gray-200 px-3.5 py-1.5 text-[12.5px] cursor-pointer"
+                    >
+                      {t('No, keep mine')}
+                    </button>
+                  </div>
+                </div>
+              )}
+              {leadStatus === 'failed' && failedLead && (
+                <div className="mt-2 text-[12.5px] text-red-600" role="alert">
+                  {t('We could not send your details.')}{' '}
+                  <button type="button" className="underline font-medium cursor-pointer" onClick={() => void sendLead(failedLead.lead, failedLead.convo)}>
+                    {t('Try again')}
+                  </button>
+                  {' · '}
+                  <a
+                    className="underline font-medium"
+                    href={`mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(`Chat lead: ${failedLead.lead.service}`)}&body=${encodeURIComponent(
+                      `Name: ${failedLead.lead.name}\nEmail: ${failedLead.lead.email}\nPhone: ${failedLead.lead.phone || '-'}\nService: ${failedLead.lead.service}\nSummary: ${failedLead.lead.summary}`,
+                    )}`}
+                  >
+                    {t('Send by email')}
+                  </a>
+                </div>
               )}
               {chatError && <p className="mt-2 text-[12.5px] text-red-600" role="alert">{chatError}</p>}
               <form
@@ -340,12 +404,23 @@ export function ContactWidget() {
                   <input
                     type="email"
                     value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    onChange={(e) => {
+                      setEmail(e.target.value);
+                      setMailHint(null);
+                    }}
                     placeholder={t('Your email')}
                     aria-label={t('Your email')}
                     autoComplete="email"
                     className={field}
                   />
+                  {mailHint && (
+                    <p className="text-[12.5px] text-gray-700" role="status">
+                      {t('Did you mean')} <span dir="ltr" className="font-medium">{mailHint}</span>?{' '}
+                      <button type="button" className="underline font-medium cursor-pointer" onClick={() => { setEmail(mailHint); setMailHint(null); }}>{t('Yes, use it')}</button>
+                      {' · '}
+                      <button type="button" className="underline cursor-pointer" onClick={() => { setMailOk(email.trim()); setMailHint(null); }}>{t('No, keep mine')}</button>
+                    </p>
+                  )}
                   <textarea
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
