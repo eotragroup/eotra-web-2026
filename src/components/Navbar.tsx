@@ -1,6 +1,6 @@
 import { goToBlog, goToConnect, goToFaq } from '../lib/nav';
 import { smoothScrollTo } from '../lib/smoothScroll';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { ArrowRight, Menu, X } from 'lucide-react';
 import { RollButton } from './RollButton';
 
@@ -8,14 +8,42 @@ interface NavbarProps {
   onOpenInquiry: (subject?: string) => void;
   onNavigateHome?: (sectionId?: string) => void;
   onNavigateToTeam?: () => void;
-  /** Light grey outline, for pages with a plain white background */
-  bordered?: boolean;
-  /** Dark frosted-glass bar for dark pages */
+  /** Always use the dark glass (otherwise it switches by itself, depending on the section behind it) */
   dark?: boolean;
 }
 
-export function Navbar({ onOpenInquiry, onNavigateHome, onNavigateToTeam, bordered = false, dark = false }: NavbarProps) {
+export function Navbar({ onOpenInquiry, onNavigateHome, onNavigateToTeam, dark: forceDark = false }: NavbarProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [onDark, setOnDark] = useState(false);
+  const headerRef = useRef<HTMLElement>(null);
+  const dark = forceDark || onDark;
+
+  // Glass follows the page: dark glass over sections marked data-nav-theme="dark", light glass elsewhere
+  useEffect(() => {
+    let raf = 0;
+    const check = () => {
+      raf = 0;
+      const header = headerRef.current;
+      if (!header) return;
+      const r = header.getBoundingClientRect();
+      const stack = document.elementsFromPoint(window.innerWidth / 2, r.top + r.height / 2);
+      const behind = stack.find((el) => !header.contains(el));
+      setOnDark(behind?.closest('[data-nav-theme]')?.getAttribute('data-nav-theme') === 'dark');
+    };
+    const schedule = () => {
+      if (!raf) raf = requestAnimationFrame(check);
+    };
+    check();
+    window.addEventListener('scroll', schedule, { passive: true });
+    window.addEventListener('resize', schedule);
+    const t = window.setTimeout(check, 400);
+    return () => {
+      window.removeEventListener('scroll', schedule);
+      window.removeEventListener('resize', schedule);
+      window.clearTimeout(t);
+      if (raf) cancelAnimationFrame(raf);
+    };
+  }, []);
 
   useEffect(() => {
     if (mobileMenuOpen) {
@@ -65,15 +93,29 @@ export function Navbar({ onOpenInquiry, onNavigateHome, onNavigateToTeam, border
     }
   };
 
+  const menuItems: { label: string; href: string; onClick: (e: React.MouseEvent) => void }[] = [
+    { label: 'Projects', href: '#projects', onClick: (e) => { e.preventDefault(); scrollToSection('projects'); } },
+    { label: 'Services', href: '#services', onClick: (e) => { e.preventDefault(); scrollToSection('services'); } },
+    { label: 'Company', href: '#company', onClick: (e) => { e.preventDefault(); scrollToSection('company'); } },
+    { label: 'Solutions', href: '#solutions', onClick: (e) => { e.preventDefault(); scrollToSection('solutions'); } },
+    { label: 'Team', href: '/team', onClick: handleTeamClick },
+    { label: 'FAQ', href: '/faq', onClick: handleFaqClick },
+    { label: 'Blog', href: '/blog', onClick: handleBlogClick },
+    { label: 'Connect', href: '/connect', onClick: (e) => { e.preventDefault(); setMobileMenuOpen(false); goToConnect(); } },
+  ];
+
   return (
     <>
-      <header className="relative z-20 w-full max-w-[1440px] mx-auto p-2 sm:p-3">
+      {/* Keeps the space the floating bar takes up */}
+      <div aria-hidden="true" className="h-[72px] sm:h-[80px]" />
+      <header ref={headerRef} className="fixed top-0 inset-x-0 z-40 pointer-events-none">
+        <div className="w-full max-w-[1440px] mx-auto p-2 sm:p-3">
         <nav
           aria-label="Primary navigation"
-          className={`rounded-full p-[5px] flex items-center justify-between ${
+          className={`pointer-events-auto rounded-full p-[5px] flex items-center justify-between border backdrop-blur-xl backdrop-saturate-150 transition-[background-color,border-color,box-shadow] duration-300 ${
             dark
-              ? 'bg-white/[0.07] border border-white/15 backdrop-blur-xl shadow-[inset_0_1px_0_rgba(255,255,255,0.15)]'
-              : `bg-white ${bordered ? 'border border-gray-200' : ''}`
+              ? 'bg-white/[0.08] border-white/15 shadow-[0_10px_40px_rgba(0,0,0,0.35),inset_0_1px_0_rgba(255,255,255,0.18)]'
+              : 'bg-white/60 border-white/70 shadow-[0_10px_40px_rgba(15,23,42,0.10),inset_0_1px_0_rgba(255,255,255,0.9)]'
           }`}
         >
           {/* LEFT: Logo + Desktop Nav Links */}
@@ -192,126 +234,73 @@ export function Navbar({ onOpenInquiry, onNavigateHome, onNavigateToTeam, border
             {mobileMenuOpen ? <X size={14} /> : <Menu size={14} />}
           </button>
         </nav>
-      </header>
 
-      {/* MOBILE MENU OVERLAY */}
-      <div
-        className={`fixed inset-0 z-50 md:hidden flex flex-col justify-end transition-opacity duration-500 ${
-          mobileMenuOpen
-            ? 'opacity-100 pointer-events-auto'
-            : 'opacity-0 pointer-events-none'
-        }`}
-        aria-hidden={!mobileMenuOpen}
-      >
+        {/* PHONE MENU: the glass bar opens downwards into a glass panel of pill links */}
+        {mobileMenuOpen && (
+          <div
+            aria-hidden="true"
+            className="fixed inset-0 -z-10 md:hidden pointer-events-auto bg-black/25 backdrop-blur-[2px]"
+            onClick={() => setMobileMenuOpen(false)}
+          />
+        )}
         <div
-          className="absolute inset-0 bg-black/60"
-          onClick={() => setMobileMenuOpen(false)}
-        />
-        <div
-          className={`relative bg-white rounded-2xl mx-3 mb-3 p-6 flex flex-col gap-6 transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] ${
-            mobileMenuOpen ? 'translate-y-0' : 'translate-y-full'
+          className={`md:hidden pointer-events-auto grid transition-[grid-template-rows,margin] duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] ${
+            mobileMenuOpen ? 'grid-rows-[1fr] mt-2' : 'grid-rows-[0fr] mt-0'
           }`}
+          aria-hidden={!mobileMenuOpen}
         >
-          <div className="flex items-center justify-end">
-            <button
-              type="button"
-              onClick={() => setMobileMenuOpen(false)}
-              className="bg-gray-900 text-white rounded-full px-3.5 py-1.5 text-[13px] font-medium inline-flex items-center gap-1.5 cursor-pointer"
+          <div className="overflow-hidden">
+            <div
+              className={`rounded-[28px] border backdrop-blur-xl backdrop-saturate-150 p-3 ${
+                dark
+                  ? 'bg-white/[0.10] border-white/15 shadow-[0_20px_60px_rgba(0,0,0,0.45),inset_0_1px_0_rgba(255,255,255,0.18)]'
+                  : 'bg-white/70 border-white/70 shadow-[0_20px_60px_rgba(15,23,42,0.14),inset_0_1px_0_rgba(255,255,255,0.9)]'
+              }`}
             >
-              <span>Close</span>
-              <X size={14} />
-            </button>
-          </div>
+              <div className="grid grid-cols-2 gap-2">
+                {menuItems.map((item) => (
+                  <a
+                    key={item.label}
+                    href={item.href}
+                    tabIndex={mobileMenuOpen ? 0 : -1}
+                    onClick={item.onClick}
+                    className={`rounded-full px-4 py-3 text-center text-[15px] font-medium transition-colors ${
+                      dark
+                        ? 'bg-white/10 text-white hover:bg-white/20'
+                        : 'bg-gray-900/[0.06] text-gray-900 hover:bg-gray-900/10'
+                    }`}
+                  >
+                    {item.label}
+                  </a>
+                ))}
+              </div>
 
-          <div className="flex flex-col gap-3">
-            <a
-              href="#projects"
-              onClick={(e) => {
-                e.preventDefault();
-                scrollToSection('projects');
-              }}
-              className="text-[28px] sm:text-[32px] font-medium text-gray-900 leading-tight hover:text-gray-500 transition-colors"
-            >
-              Projects
-            </a>
-            <a
-              href="#services"
-              onClick={(e) => {
-                e.preventDefault();
-                scrollToSection('services');
-              }}
-              className="text-[28px] sm:text-[32px] font-medium text-gray-900 leading-tight hover:text-gray-500 transition-colors"
-            >
-              Services
-            </a>
-            <a
-              href="#company"
-              onClick={(e) => {
-                e.preventDefault();
-                scrollToSection('company');
-              }}
-              className="text-[28px] sm:text-[32px] font-medium text-gray-900 leading-tight hover:text-gray-500 transition-colors"
-            >
-              Company
-            </a>
-            <a
-              href="#solutions"
-              onClick={(e) => {
-                e.preventDefault();
-                scrollToSection('solutions');
-              }}
-              className="text-[28px] sm:text-[32px] font-medium text-gray-900 leading-tight hover:text-gray-500 transition-colors"
-            >
-              Solutions
-            </a>
-            <a
-              href="/team"
-              onClick={handleTeamClick}
-              className="text-[28px] sm:text-[32px] font-medium text-gray-900 leading-tight hover:text-gray-500 transition-colors"
-            >
-              Team
-            </a>
-            <a
-              href="/faq"
-              onClick={handleFaqClick}
-              className="text-[28px] sm:text-[32px] font-medium text-gray-900 leading-tight hover:text-gray-500 transition-colors"
-            >
-              FAQ
-            </a>
-            <a
-              href="/blog"
-              onClick={handleBlogClick}
-              className="text-[28px] sm:text-[32px] font-medium text-gray-900 leading-tight hover:text-gray-500 transition-colors"
-            >
-              Blog
-            </a>
-            <button
-              type="button"
-              onClick={() => {
-                setMobileMenuOpen(false);
-                goToConnect();
-              }}
-              className="text-left text-[28px] sm:text-[32px] font-medium text-gray-900 leading-tight hover:text-gray-500 transition-colors cursor-pointer"
-            >
-              Connect
-            </button>
-          </div>
+              <button
+                type="button"
+                tabIndex={mobileMenuOpen ? 0 : -1}
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  onOpenInquiry('Get Started with Eotra');
+                }}
+                className="mt-2 w-full bg-[#0400F5] hover:bg-[#0300cc] text-white rounded-full pl-6 pr-2 py-2.5 text-[14px] font-medium flex items-center justify-between transition-colors duration-300 cursor-pointer"
+              >
+                <span>Get started now</span>
+                <span className="w-8 h-8 rounded-full bg-white flex items-center justify-center">
+                  <ArrowRight className="w-4 h-4 text-[#0400F5]" />
+                </span>
+              </button>
 
-          <button
-            type="button"
-            onClick={() => {
-              setMobileMenuOpen(false);
-              onOpenInquiry('Get Started with Eotra');
-            }}
-            className="w-full bg-[#0400F5] hover:bg-[#0300cc] text-white rounded-full pl-6 pr-2 py-2.5 text-[14px] font-medium flex items-center justify-between transition-colors duration-300 cursor-pointer"
-          >
-            <span>Get started now</span>
-            <span className="w-8 h-8 rounded-full bg-white flex items-center justify-center">
-              <ArrowRight className="w-4 h-4 text-[#0400F5]" />
-            </span>
-          </button>
+              <div className={`mt-3 px-2 pb-1 flex items-center justify-between text-[12px] ${dark ? 'text-white/60' : 'text-gray-500'}`}>
+                <a href="mailto:info@eotra.com" tabIndex={mobileMenuOpen ? 0 : -1} className="hover:underline">
+                  info@eotra.com
+                </a>
+                <span>&copy; 2026 Eotra Inc.</span>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
+        </div>
+      </header>
     </>
   );
 }

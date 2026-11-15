@@ -23,7 +23,7 @@ interface ConnectPageProps {
 export function ConnectPage({ onNavigateHome, onOpenInquiry, onNavigateToTeam, onSelectProduct }: ConnectPageProps) {
   return (
     <div className="min-h-screen bg-white text-gray-900 antialiased">
-      <div className="connect-glass-bg relative isolate overflow-hidden bg-[#05060f]">
+      <div data-nav-theme="dark" className="connect-glass-bg relative isolate overflow-hidden bg-[#05060f]">
                 <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10">
           {/* Kept to the left and the far edges, so nothing bright sits behind the form card */}
           <div className="connect-orb absolute top-[22%] left-[-14%] w-[560px] h-[560px] rounded-full bg-[#0400F5]/55 blur-[120px]" />
@@ -33,7 +33,7 @@ export function ConnectPage({ onNavigateHome, onOpenInquiry, onNavigateToTeam, o
         </div>
 
         <section className="relative flex flex-col">
-          <Navbar onOpenInquiry={onOpenInquiry} onNavigateHome={onNavigateHome} onNavigateToTeam={onNavigateToTeam} dark />
+          <Navbar onOpenInquiry={onOpenInquiry} onNavigateHome={onNavigateHome} onNavigateToTeam={onNavigateToTeam} />
         </section>
 
         <section className="pt-12 sm:pt-16 lg:pt-20 pb-20 sm:pb-28 lg:pb-36">

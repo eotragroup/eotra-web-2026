@@ -52,7 +52,7 @@ export function FaqPage({ onNavigateHome, onOpenInquiry, onNavigateToTeam, onSel
   return (
     <div className="min-h-screen bg-white text-gray-900 antialiased">
       <section className="relative flex flex-col bg-white">
-        <Navbar onOpenInquiry={onOpenInquiry} onNavigateHome={onNavigateHome} onNavigateToTeam={onNavigateToTeam} bordered />
+        <Navbar onOpenInquiry={onOpenInquiry} onNavigateHome={onNavigateHome} onNavigateToTeam={onNavigateToTeam} />
       </section>
 
       <section className="bg-white pt-12 sm:pt-16 lg:pt-20 pb-20 sm:pb-28 lg:pb-36">
