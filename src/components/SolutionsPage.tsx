@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Check } from 'lucide-react';
+import { Building2, Check, Layers, Store } from 'lucide-react';
 import { Navbar } from './Navbar';
 import { Footer } from './Footer';
 import { RollButton } from './RollButton';
@@ -45,6 +45,8 @@ const SOLUTIONS = [
     subject: 'Inquiry: CRM, Loyalty & Predictive Analytics',
   },
 ];
+
+const EDITION_ICONS = [Store, Layers, Building2];
 
 const EDITIONS = [
   { name: 'Standard', text: 'For single-brand boutiques and a first set of stores.' },
@@ -150,7 +152,14 @@ export function SolutionsPage({ onNavigateHome, onOpenInquiry, onNavigateToTeam,
           <div className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-3">
             {EDITIONS.map((e, i) => (
               <div key={e.name} className="rounded-3xl bg-white p-6 sm:p-8 min-h-[200px] flex flex-col justify-between">
-                <span className="text-[13px] font-medium text-[#0400F5]">0{i + 1}</span>
+                {(() => {
+                  const EIcon = EDITION_ICONS[i] ?? Store;
+                  return (
+                    <span className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-[#0400F5]">
+                      <EIcon size={18} strokeWidth={1.7} />
+                    </span>
+                  );
+                })()}
                 <div className="mt-8">
                   <h3 className="text-[20px] font-medium text-gray-900 tracking-[-0.01em]">{t(e.name)}</h3>
                   <p className="mt-2 text-[14px] sm:text-[15px] text-gray-500 leading-relaxed">{t(e.text)}</p>

@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { Activity, AppWindow, ArrowRight, BarChart3, Boxes, Cloud, Code2, CreditCard, Database, GitBranch, Globe, Layers, LifeBuoy, Link2, MousePointerClick, Package, Palette, Plug, Receipt, RefreshCw, Rocket, Search, ShieldCheck, ShoppingCart, Smartphone, Sparkles, Store, TestTube2, Truck, Users, Warehouse, WifiOff, Wrench } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
+import { Hammer, PencilRuler } from 'lucide-react';
 import { Navbar } from './Navbar';
 import { Footer } from './Footer';
 import { RollButton } from './RollButton';
@@ -10,6 +11,8 @@ import { goToConnect, goToService } from '../lib/nav';
 import { useI18n } from '../i18n';
 
 const OFFER_ICONS: Record<string, LucideIcon> = { Activity, AppWindow, BarChart3, Boxes, Cloud, CreditCard, Database, GitBranch, Globe, Layers, LifeBuoy, Link2, MousePointerClick, Package, Palette, Plug, Receipt, RefreshCw, Rocket, Search, ShieldCheck, ShoppingCart, Smartphone, Sparkles, Store, TestTube2, Truck, Users, Warehouse, WifiOff, Wrench };
+
+const STEP_ICONS: LucideIcon[] = [Search, PencilRuler, Hammer, Rocket];
 
 interface ServicePageProps {
   slug: string;
@@ -112,7 +115,14 @@ export function ServicePage({ slug, onNavigateHome, onOpenInquiry, onNavigateToT
           <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
             {SERVICE_STEPS.map((s, i) => (
               <div key={s.title} className="rounded-3xl bg-white p-6 sm:p-7">
-                <span className="text-[13px] font-medium text-[#0400F5]">0{i + 1}</span>
+                {(() => {
+                  const SIcon = STEP_ICONS[i] ?? Rocket;
+                  return (
+                    <span className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-[#0400F5]">
+                      <SIcon size={18} strokeWidth={1.7} />
+                    </span>
+                  );
+                })()}
                 <h3 className="mt-6 text-[18px] font-medium text-gray-900 tracking-[-0.01em]">{t(s.title)}</h3>
                 <p className="mt-2 text-[14px] text-gray-500 leading-relaxed">{t(s.text)}</p>
               </div>

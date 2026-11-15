@@ -1,6 +1,7 @@
 import { goToConnect, goToReferences } from '../lib/nav';
 import { useEffect } from 'react';
-import { ArrowLeft, ArrowRight, ExternalLink } from 'lucide-react';
+import { ArrowLeft, ArrowRight, ExternalLink, Languages, CreditCard, Smartphone, BarChart3, Truck, Search, QrCode, Activity, Boxes, Store, Layers, Sparkles } from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { PRODUCTS, ProductPageData } from '../data/products';
@@ -13,6 +14,25 @@ import { useI18n } from '../i18n';
 
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
+}
+
+// Picks a fitting icon from the words in a highlight title
+function iconForTitle(title: string): LucideIcon {
+  const s = title.toLowerCase();
+  const rules: [RegExp, LucideIcon][] = [
+    [/language|locali[sz]|translation|rtl|bilingual/, Languages],
+    [/checkout|payment|wallet|currency|settlement|cod/, CreditCard],
+    [/mobile|touch|responsive|device/, Smartphone],
+    [/analytics|telemetry|performance|metrics|equity/, BarChart3],
+    [/shipping|fulfil|delivery|courier|routing|branch/, Truck],
+    [/search|merchandis|catalog|curat|ingredient|routine|formula/, Search],
+    [/qr|menu|template|table/, QrCode],
+    [/trad|risk|drawdown|strategy|copier|broker|execution|capital/, Activity],
+    [/inventory|stock|order|sync/, Boxes],
+    [/guest|engagement|experience|storefront|e-commerce|commerce|flagship/, Store],
+    [/architecture|platform|bridge|integration/, Layers],
+  ];
+  return rules.find(([re]) => re.test(s))?.[1] ?? Sparkles;
 }
 
 interface ProductPageProps {
@@ -230,9 +250,14 @@ export function ProductPage({
                 key={cap.index}
                 className="rounded-3xl bg-gray-50 p-6 sm:p-7 min-h-[140px] flex flex-col justify-between"
               >
-                <span className="text-[13px] font-semibold text-[#0400F5] tabular-nums">
-                  {cap.index}
-                </span>
+                {(() => {
+                  const CIcon = iconForTitle(cap.title);
+                  return (
+                    <span className="w-10 h-10 rounded-full bg-white flex items-center justify-center text-[#0400F5]">
+                      <CIcon size={18} strokeWidth={1.7} />
+                    </span>
+                  );
+                })()}
                 <h3 className="text-[18px] sm:text-[20px] font-medium leading-snug tracking-[-0.01em] text-gray-900 mt-6">
                   {t(cap.title)}
                 </h3>
