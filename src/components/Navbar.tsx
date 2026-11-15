@@ -2,6 +2,7 @@ import { goToBlog, goToConnect, goToFaq } from '../lib/nav';
 import { smoothScrollTo } from '../lib/smoothScroll';
 import { useEffect, useRef, useState } from 'react';
 import { Minus, Plus } from 'lucide-react';
+import { RollButton } from './RollButton';
 
 interface NavbarProps {
   onOpenInquiry: (subject?: string) => void;
@@ -127,6 +128,7 @@ export function Navbar({ onOpenInquiry, onNavigateHome, onNavigateToTeam, dark: 
               aria-label="Primary navigation"
               className={`pointer-events-auto h-12 rounded-full pl-4 pr-1.5 flex items-center justify-between backdrop-blur-xl backdrop-saturate-150 transition-[background-color] duration-300 ${glass}`}
             >
+              <div className="flex items-center">
               <a
                 href="/"
                 onClick={(e) => {
@@ -148,12 +150,39 @@ export function Navbar({ onOpenInquiry, onNavigateHome, onNavigateToTeam, dark: 
                 </span>
               </a>
 
+                {/* Desktop: the links sit in the bar */}
+                <div className="hidden md:flex items-center gap-6 ml-8">
+                  {menuItems.map((item) => (
+                    <a
+                      key={item.label}
+                      href={item.href}
+                      onClick={item.onClick}
+                      className={`text-[14px] transition-colors duration-300 whitespace-nowrap ${
+                        dark ? 'text-white/85 hover:text-white' : 'text-gray-900 hover:text-gray-500'
+                      }`}
+                    >
+                      {item.label}
+                    </a>
+                  ))}
+                </div>
+              </div>
+
+              {/* Desktop: Book a demo */}
+              <div className="hidden md:block">
+                <RollButton
+                  label="Book a demo"
+                  variant={dark ? 'light' : 'dark'}
+                  size="nav"
+                  onClick={() => onOpenInquiry('Book an Eotra Demo')}
+                />
+              </div>
+
               <button
                 type="button"
                 onClick={() => setMobileMenuOpen((o) => !o)}
                 aria-expanded={mobileMenuOpen}
                 aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
-                className={`w-9 h-9 rounded-full flex items-center justify-center transition-colors cursor-pointer ${
+                className={`md:hidden w-9 h-9 rounded-full flex items-center justify-center transition-colors cursor-pointer ${
                   dark ? 'bg-white/15 text-white hover:bg-white/25' : 'bg-gray-900/10 text-gray-900 hover:bg-gray-900/15'
                 }`}
               >
@@ -164,14 +193,14 @@ export function Navbar({ onOpenInquiry, onNavigateHome, onNavigateToTeam, dark: 
             {mobileMenuOpen && (
               <div
                 aria-hidden="true"
-                className="fixed inset-0 -z-10 pointer-events-auto bg-black/20 backdrop-blur-[2px]"
+                className="fixed inset-0 -z-10 md:hidden pointer-events-auto bg-black/20 backdrop-blur-[2px]"
                 onClick={() => setMobileMenuOpen(false)}
               />
             )}
 
             {/* The panel: the bar opens downwards into thin pill links */}
             <div
-              className={`pointer-events-auto grid transition-[grid-template-rows,margin] duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] ${
+              className={`md:hidden pointer-events-auto grid transition-[grid-template-rows,margin] duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] ${
                 mobileMenuOpen ? 'grid-rows-[1fr] mt-2' : 'grid-rows-[0fr] mt-0'
               }`}
               aria-hidden={!mobileMenuOpen}
