@@ -1,4 +1,5 @@
 import { goToBlog, goToFaq } from '../lib/nav';
+import { smoothScrollTo } from '../lib/smoothScroll';
 import { useEffect, useState } from 'react';
 import { ArrowRight, Clock, Menu, X } from 'lucide-react';
 import { RollButton } from './RollButton';
@@ -48,7 +49,7 @@ export function Navbar({ onOpenInquiry, onNavigateHome, onNavigateToTeam }: Navb
     }
     const element = document.getElementById(id);
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+      smoothScrollTo(element);
     }
   };
 
@@ -70,7 +71,7 @@ export function Navbar({ onOpenInquiry, onNavigateHome, onNavigateToTeam }: Navb
     if (onNavigateToTeam) {
       onNavigateToTeam();
     } else if (window.location.pathname === '/team') {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      smoothScrollTo(0);
     } else {
       window.history.pushState({}, '', '/team');
       window.dispatchEvent(new PopStateEvent('popstate'));

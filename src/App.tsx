@@ -16,6 +16,7 @@ import { ScrollRevealText } from './components/ScrollRevealText';
 import { EotraBrandSculpture } from './components/EotraBrandSculpture';
 import { Footer } from './components/Footer';
 import { POSTS } from './data/posts';
+import { initSmoothScroll, smoothScrollTo } from './lib/smoothScroll';
 import { AppRain } from './components/AppRain';
 import { AdvantageStack } from './components/AdvantageStack';
 import { ProductsGrid } from './components/ProductsGrid';
@@ -126,6 +127,8 @@ export default function App() {
     ? PRODUCTS.find((p) => p.id === activeProductId) ?? null
     : null;
 
+  useEffect(() => initSmoothScroll(), []);
+
   useEffect(() => {
     const handlePopState = () => {
       setActiveProductId(getProductIdFromPath(window.location.pathname));
@@ -211,7 +214,7 @@ export default function App() {
     setIsTeamPage(false);
     setIsFaqPage(false);
     setBlogRoute(null);
-    window.scrollTo({ top: 0, behavior: 'auto' });
+    smoothScrollTo(0, { immediate: true });
   };
 
   const navigateToTeam = () => {
@@ -220,7 +223,7 @@ export default function App() {
     setIsTeamPage(true);
     setIsFaqPage(false);
     setBlogRoute(null);
-    window.scrollTo({ top: 0, behavior: 'auto' });
+    smoothScrollTo(0, { immediate: true });
   };
 
   const navigateHome = (sectionId?: string) => {
@@ -236,12 +239,12 @@ export default function App() {
         setTimeout(() => {
           const el = document.getElementById(sectionId);
           if (el) {
-            el.scrollIntoView({ behavior: 'smooth' });
+            smoothScrollTo(el);
           }
         }, 40);
       });
     } else {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      smoothScrollTo(0);
     }
   };
 
@@ -434,12 +437,12 @@ export default function App() {
 
       {/* Full-Width Footer with Columns, Information & Sign Up */}
       <Footer
-        onNavigateHome={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+        onNavigateHome={() => smoothScrollTo(0)}
         onOpenInquiry={openInquiry}
         onNavigateToProduct={navigateToProduct}
         onNavigateToTeam={() => {
           setView('team');
-          window.scrollTo({ top: 0, behavior: 'instant' });
+          smoothScrollTo(0, { immediate: true });
         }}
         onOpenInfoModal={(mode) => setInfoModal(mode)}
       />

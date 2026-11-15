@@ -286,7 +286,7 @@ export function CaseStudyModal({
       onClick={onClose}
     >
       <div
-        className="bg-white rounded-2xl w-full max-w-2xl overflow-hidden shadow-2xl max-h-[90vh] overflow-y-auto"
+        data-lenis-prevent className="bg-white rounded-2xl w-full max-w-2xl overflow-hidden shadow-2xl max-h-[90vh] overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="relative aspect-[16/9] bg-gray-900">
@@ -428,7 +428,7 @@ export function InfoModal({ mode, onClose, onStartProject }: InfoModalProps) {
       onClick={onClose}
     >
       <div
-        className="bg-white rounded-2xl w-full max-w-xl p-6 sm:p-8 shadow-2xl max-h-[88vh] overflow-y-auto"
+        data-lenis-prevent className="bg-white rounded-2xl w-full max-w-xl p-6 sm:p-8 shadow-2xl max-h-[88vh] overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-start justify-between gap-4 mb-6">

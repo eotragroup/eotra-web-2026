@@ -4,6 +4,24 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Lenis (soft scroll) */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-stopped {
+  overflow: clip;
+}
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
+}
+
 .liquid-glass {
   background: rgba(255, 255, 255, 0.01);
   backdrop-filter: blur(4px);
