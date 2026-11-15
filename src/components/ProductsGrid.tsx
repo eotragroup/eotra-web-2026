@@ -31,9 +31,9 @@ function coverFor(id: string): string | undefined {
 const TINTS: Record<string, string> = {
   'jamjoom-online': 'from-[#e8f0fb] to-[#e6f4ea]',
   'eotra-menu': 'from-[#fff1e8] to-[#ffe3d1]',
-  neoshe: 'from-[#f3ede6] to-[#e7ddd1]',
+  neoshe: 'from-[#e9e9ec] to-[#e9e9ec]',
   ibosh: 'from-[#ececec] to-[#d9d9d9]',
-  lidya: 'from-[#eaf0ea] to-[#d8e3d8]',
+  lidya: 'from-[#e9e9ec] to-[#e9e9ec]',
   tradespilot: 'from-[#e3f5ef] to-[#cdeee3]',
 };
 
@@ -47,6 +47,8 @@ const LOGO_SIZE: Record<string, string> = {
 const DARK = new Set(['tradespilot']);
 
 // Products whose picture is a photo: add a soft white fade behind the logo
+// Photos with a plain white backdrop: multiply onto a soft grey card
+const WHITE_BG = new Set(['neoshe', 'lidya']);
 const PHOTO = new Set(['eotra-menu', 'ibosh', 'jamjoom-online']);
 
 export function ProductCover({
@@ -64,7 +66,7 @@ export function ProductCover({
   const zoom = hoverZoom ? 'transition-transform duration-700 ease-out group-hover:scale-[1.04]' : '';
   return (
     <div
-      className={`relative rounded-2xl overflow-hidden ring-1 ring-black/5 bg-gradient-to-br ${
+      className={`relative rounded-3xl overflow-hidden bg-gradient-to-br ${
         TINTS[product.id] ?? 'from-gray-100 to-gray-200'
       } ${className}`}
     >
@@ -72,7 +74,7 @@ export function ProductCover({
         <img
           src={cover}
           alt={`${product.title} preview`}
-          className={`absolute inset-0 w-full h-full object-cover object-top ${zoom}`}
+          className={`absolute inset-0 w-full h-full object-cover object-top ${WHITE_BG.has(product.id) ? 'mix-blend-multiply ' : ''}${zoom}`}
         />
       ) : (
         <div

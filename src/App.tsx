@@ -8,6 +8,7 @@ import { RollButton } from './components/RollButton';
 import { ProductPage } from './components/ProductPage';
 import { TeamPage } from './components/TeamPage';
 import { FaqPage } from './components/FaqPage';
+import { ConnectPage } from './components/ConnectPage';
 import { BlogPage, BlogPostPage } from './components/BlogPage';
 import { ServicesSlider } from './components/ServicesSlider';
 import { PartnersMarquee } from './components/PartnersMarquee';
@@ -16,6 +17,7 @@ import { ScrollRevealText } from './components/ScrollRevealText';
 import { EotraBrandSculpture } from './components/EotraBrandSculpture';
 import { Footer } from './components/Footer';
 import { POSTS } from './data/posts';
+import { initSmoothScroll, smoothScrollTo } from './lib/smoothScroll';
 import { AppRain } from './components/AppRain';
 import { AdvantageStack } from './components/AdvantageStack';
 import { ProductsGrid } from './components/ProductsGrid';
@@ -92,6 +94,10 @@ function isFaqPath(pathname: string): boolean {
   return pathname === '/faq';
 }
 
+function isConnectPath(pathname: string): boolean {
+  return pathname === '/connect';
+}
+
 // '/blog' -> '' (list), '/blog/<slug>' -> slug, anything else -> null
 function getBlogFromPath(pathname: string): string | null {
   if (/^\/blog\/?$/.test(pathname)) return '';
@@ -108,6 +114,9 @@ export default function App() {
   );
   const [isFaqPage, setIsFaqPage] = useState<boolean>(() =>
     isFaqPath(window.location.pathname)
+  );
+  const [isConnectPage, setIsConnectPage] = useState<boolean>(() =>
+    isConnectPath(window.location.pathname)
   );
   const [blogRoute, setBlogRoute] = useState<string | null>(() =>
     getBlogFromPath(window.location.pathname)
@@ -126,11 +135,14 @@ export default function App() {
     ? PRODUCTS.find((p) => p.id === activeProductId) ?? null
     : null;
 
+  useEffect(() => initSmoothScroll(), []);
+
   useEffect(() => {
     const handlePopState = () => {
       setActiveProductId(getProductIdFromPath(window.location.pathname));
       setIsTeamPage(isTeamPath(window.location.pathname));
       setIsFaqPage(isFaqPath(window.location.pathname));
+      setIsConnectPage(isConnectPath(window.location.pathname));
       setBlogRoute(getBlogFromPath(window.location.pathname));
     };
     window.addEventListener('popstate', handlePopState);
@@ -144,16 +156,18 @@ export default function App() {
       document.title = 'The Founder Team — Eotra';
     } else if (isFaqPage) {
       document.title = 'FAQ — Eotra';
+    } else if (isConnectPage) {
+      document.title = 'Connect — Eotra';
     } else if (blogRoute !== null) {
       document.title = blogRoute ? `${POSTS.find((p) => p.slug === blogRoute)?.title ?? 'Blog'} — Eotra` : 'Blog — Eotra';
     } else {
       document.title = 'Eotra — Enterprise Operations & Transaction';
     }
-  }, [activeProduct, isTeamPage, isFaqPage, blogRoute]);
+  }, [activeProduct, isTeamPage, isFaqPage, isConnectPage, blogRoute]);
 
   // GSAP Animations
   useEffect(() => {
-    if (activeProduct || isTeamPage || isFaqPage || blogRoute !== null) return;
+    if (activeProduct || isTeamPage || isFaqPage || isConnectPage || blogRoute !== null) return;
 
     const ctx = gsap.context(() => {
       // Hero entrance animation
@@ -200,7 +214,7 @@ export default function App() {
     });
 
     return () => ctx.revert();
-  }, [activeProduct, isTeamPage, isFaqPage, blogRoute]);
+  }, [activeProduct, isTeamPage, isFaqPage, isConnectPage, blogRoute]);
 
   const navigateToProduct = (productId: string) => {
     const targetPath = `/products/${encodeURIComponent(productId)}`;
@@ -211,7 +225,8 @@ export default function App() {
     setIsTeamPage(false);
     setIsFaqPage(false);
     setBlogRoute(null);
-    window.scrollTo({ top: 0, behavior: 'auto' });
+    setIsConnectPage(false);
+    smoothScrollTo(0, { immediate: true });
   };
 
   const navigateToTeam = () => {
@@ -220,7 +235,8 @@ export default function App() {
     setIsTeamPage(true);
     setIsFaqPage(false);
     setBlogRoute(null);
-    window.scrollTo({ top: 0, behavior: 'auto' });
+    setIsConnectPage(false);
+    smoothScrollTo(0, { immediate: true });
   };
 
   const navigateHome = (sectionId?: string) => {
@@ -230,18 +246,19 @@ export default function App() {
     setIsTeamPage(false);
     setIsFaqPage(false);
     setBlogRoute(null);
+    setIsConnectPage(false);
 
     if (sectionId) {
       requestAnimationFrame(() => {
         setTimeout(() => {
           const el = document.getElementById(sectionId);
           if (el) {
-            el.scrollIntoView({ behavior: 'smooth' });
+            smoothScrollTo(el);
           }
         }, 40);
       });
     } else {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      smoothScrollTo(0);
     }
   };
 
@@ -276,6 +293,13 @@ export default function App() {
             onSelectProduct={navigateToProduct}
           />
         )
+      ) : isConnectPage ? (
+        <ConnectPage
+          onNavigateHome={navigateHome}
+          onOpenInquiry={openInquiry}
+          onNavigateToTeam={navigateToTeam}
+          onSelectProduct={navigateToProduct}
+        />
       ) : isFaqPage ? (
         <FaqPage
           onNavigateHome={navigateHome}
@@ -434,12 +458,12 @@ export default function App() {
 
       {/* Full-Width Footer with Columns, Information & Sign Up */}
       <Footer
-        onNavigateHome={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+        onNavigateHome={() => smoothScrollTo(0)}
         onOpenInquiry={openInquiry}
         onNavigateToProduct={navigateToProduct}
         onNavigateToTeam={() => {
           setView('team');
-          window.scrollTo({ top: 0, behavior: 'instant' });
+          smoothScrollTo(0, { immediate: true });
         }}
         onOpenInfoModal={(mode) => setInfoModal(mode)}
       />

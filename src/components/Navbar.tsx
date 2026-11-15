@@ -1,32 +1,64 @@
-import { goToBlog, goToFaq } from '../lib/nav';
-import { useEffect, useState } from 'react';
-import { ArrowRight, Clock, Menu, X } from 'lucide-react';
+import { goToBlog, goToConnect, goToFaq } from '../lib/nav';
+import { smoothScrollTo } from '../lib/smoothScroll';
+import { useEffect, useRef, useState } from 'react';
+import { Minus, Plus } from 'lucide-react';
 import { RollButton } from './RollButton';
 
 interface NavbarProps {
   onOpenInquiry: (subject?: string) => void;
   onNavigateHome?: (sectionId?: string) => void;
   onNavigateToTeam?: () => void;
+  /** Always use the dark glass (otherwise it switches by itself, depending on the section behind it) */
+  dark?: boolean;
 }
 
-function getIstanbulTime(): string {
-  return new Intl.DateTimeFormat('en-GB', {
-    timeZone: 'Europe/Istanbul',
-    hour: '2-digit',
-    minute: '2-digit',
-    hour12: false,
-  }).format(new Date());
-}
-
-export function Navbar({ onOpenInquiry, onNavigateHome, onNavigateToTeam }: NavbarProps) {
-  const [istanbulTime, setIstanbulTime] = useState<string>(() => getIstanbulTime());
+export function Navbar({ onOpenInquiry, onNavigateHome, onNavigateToTeam, dark: forceDark = false }: NavbarProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [onDark, setOnDark] = useState(false);
+  const [hidden, setHidden] = useState(false);
+  const lastY = useRef(0);
+  const headerRef = useRef<HTMLElement>(null);
+  const dark = forceDark || onDark;
 
+  // Hides while scrolling down, comes back as soon as you scroll up
   useEffect(() => {
-    const interval = setInterval(() => {
-      setIstanbulTime(getIstanbulTime());
-    }, 1000);
-    return () => clearInterval(interval);
+    lastY.current = window.scrollY;
+    const onScroll = () => {
+      const y = Math.max(0, window.scrollY);
+      const delta = y - lastY.current;
+      if (y < 80) setHidden(false);
+      else if (delta > 6) setHidden(true);
+      else if (delta < -6) setHidden(false);
+      if (Math.abs(delta) > 6 || y < 80) lastY.current = y;
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  // Glass follows the page: dark glass over sections marked data-nav-theme="dark", light glass elsewhere
+  useEffect(() => {
+    let raf = 0;
+    const check = () => {
+      raf = 0;
+      const header = headerRef.current;
+      if (!header) return;
+      const stack = document.elementsFromPoint(window.innerWidth / 2, 36);
+      const behind = stack.find((el) => !header.contains(el));
+      setOnDark(behind?.closest('[data-nav-theme]')?.getAttribute('data-nav-theme') === 'dark');
+    };
+    const schedule = () => {
+      if (!raf) raf = requestAnimationFrame(check);
+    };
+    check();
+    window.addEventListener('scroll', schedule, { passive: true });
+    window.addEventListener('resize', schedule);
+    const t = window.setTimeout(check, 400);
+    return () => {
+      window.removeEventListener('scroll', schedule);
+      window.removeEventListener('resize', schedule);
+      window.clearTimeout(t);
+      if (raf) cancelAnimationFrame(raf);
+    };
   }, []);
 
   useEffect(() => {
@@ -40,6 +72,15 @@ export function Navbar({ onOpenInquiry, onNavigateHome, onNavigateToTeam }: Navb
     };
   }, [mobileMenuOpen]);
 
+  useEffect(() => {
+    if (!mobileMenuOpen) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setMobileMenuOpen(false);
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [mobileMenuOpen]);
+
   const scrollToSection = (id: string) => {
     setMobileMenuOpen(false);
     if (onNavigateHome) {
@@ -48,7 +89,7 @@ export function Navbar({ onOpenInquiry, onNavigateHome, onNavigateToTeam }: Navb
     }
     const element = document.getElementById(id);
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+      smoothScrollTo(element);
     }
   };
 
@@ -70,267 +111,164 @@ export function Navbar({ onOpenInquiry, onNavigateHome, onNavigateToTeam }: Navb
     if (onNavigateToTeam) {
       onNavigateToTeam();
     } else if (window.location.pathname === '/team') {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      smoothScrollTo(0);
     } else {
       window.history.pushState({}, '', '/team');
       window.dispatchEvent(new PopStateEvent('popstate'));
     }
   };
 
+  const menuItems: { label: string; href: string; onClick: (e: React.MouseEvent) => void }[] = [
+    { label: 'Projects', href: '#projects', onClick: (e) => { e.preventDefault(); scrollToSection('projects'); } },
+    { label: 'Services', href: '#services', onClick: (e) => { e.preventDefault(); scrollToSection('services'); } },
+    { label: 'Company', href: '#company', onClick: (e) => { e.preventDefault(); scrollToSection('company'); } },
+    { label: 'Solutions', href: '#solutions', onClick: (e) => { e.preventDefault(); scrollToSection('solutions'); } },
+    { label: 'Team', href: '/team', onClick: handleTeamClick },
+    { label: 'FAQ', href: '/faq', onClick: handleFaqClick },
+    { label: 'Blog', href: '/blog', onClick: handleBlogClick },
+    { label: 'Connect', href: '/connect', onClick: (e) => { e.preventDefault(); setMobileMenuOpen(false); goToConnect(); } },
+  ];
+
+  // Pure glass: no outline, no highlight edge
+  const glass = dark ? 'bg-white/[0.10]' : 'bg-gray-100/80';
+
   return (
     <>
-      <header className="relative z-20 w-full max-w-[1440px] mx-auto p-2 sm:p-3">
-        <nav
-          aria-label="Primary navigation"
-          className="bg-white rounded-full p-[5px] flex items-center justify-between"
-        >
-          {/* LEFT: Logo + Desktop Nav Links */}
-          <div className="flex items-center">
-            <a
-              href="/"
-              onClick={(e) => {
-                if (onNavigateHome) {
-                  e.preventDefault();
-                  onNavigateHome();
-                }
-              }}
-              className="flex items-center shrink-0 pl-3.5 sm:pl-4 pr-1 py-1"
-              aria-label="Eotra Home"
-            >
-              <span className="overflow-hidden inline-flex items-center">
-                <img
-                  src="/assets/aistudio/Eotra_aef517cd.svg"
-                  alt="Eotra"
-                  className="h-[32px] sm:h-[36px] w-auto max-w-none -ml-3.5 -mr-7"
-                />
-              </span>
-            </a>
-
-            <div className="hidden md:flex items-center gap-6 ml-6">
-              <a
-                href="#projects"
-                onClick={(e) => {
-                  e.preventDefault();
-                  scrollToSection('projects');
-                }}
-                className="text-[14px] text-gray-900 hover:text-gray-500 transition-colors duration-300 whitespace-nowrap shrink-0"
-              >
-                Projects
-              </a>
-              <a
-                href="#services"
-                onClick={(e) => {
-                  e.preventDefault();
-                  scrollToSection('services');
-                }}
-                className="text-[14px] text-gray-900 hover:text-gray-500 transition-colors duration-300 whitespace-nowrap shrink-0"
-              >
-                Services
-              </a>
-              <a
-                href="#company"
-                onClick={(e) => {
-                  e.preventDefault();
-                  scrollToSection('company');
-                }}
-                className="text-[14px] text-gray-900 hover:text-gray-500 transition-colors duration-300 whitespace-nowrap shrink-0"
-              >
-                Company
-              </a>
-              <a
-                href="#solutions"
-                onClick={(e) => {
-                  e.preventDefault();
-                  scrollToSection('solutions');
-                }}
-                className="text-[14px] text-gray-900 hover:text-gray-500 transition-colors duration-300 whitespace-nowrap shrink-0"
-              >
-                Solutions
-              </a>
-              <a
-                href="/team"
-                onClick={handleTeamClick}
-                className="text-[14px] text-gray-900 hover:text-gray-500 transition-colors duration-300 whitespace-nowrap shrink-0"
-              >
-                Team
-              </a>
-              <a
-                href="/faq"
-                onClick={handleFaqClick}
-                className="text-[14px] text-gray-900 hover:text-gray-500 transition-colors duration-300 whitespace-nowrap shrink-0"
-              >
-                FAQ
-              </a>
-              <a
-                href="/blog"
-                onClick={handleBlogClick}
-                className="text-[14px] text-gray-900 hover:text-gray-500 transition-colors duration-300 whitespace-nowrap shrink-0"
-              >
-                Blog
-              </a>
-              <button
-                type="button"
-                onClick={() => onOpenInquiry('Connect with Eotra')}
-                className="text-[14px] text-gray-900 hover:text-gray-500 transition-colors duration-300 whitespace-nowrap shrink-0 cursor-pointer"
-              >
-                Connect
-              </button>
-            </div>
-          </div>
-
-          {/* RIGHT: Availability, Live Clock, CTA */}
-          <div className="hidden md:flex items-center gap-5">
-            <span className="hidden lg:inline text-[13px] text-gray-600 whitespace-nowrap">
-              Taking on projects for Q1 2026
-            </span>
-            <div className="flex items-center gap-1.5 text-[13px] text-gray-600 whitespace-nowrap tabular-nums">
-              <Clock size={14} className="shrink-0" />
-              <span>{istanbulTime} in Istanbul</span>
-            </div>
-            <RollButton
-              label="Book a demo"
-              variant="dark"
-              size="nav"
-              onClick={() => onOpenInquiry('Book an Eotra Demo')}
-            />
-          </div>
-
-          {/* MOBILE TOGGLE */}
-          <button
-            type="button"
-            onClick={() => setMobileMenuOpen((prev) => !prev)}
-            className="md:hidden bg-gray-900 text-white rounded-full px-4 py-2 text-[13px] font-medium flex items-center gap-2 cursor-pointer"
-            aria-expanded={mobileMenuOpen}
-            aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
-          >
-            <span>{mobileMenuOpen ? 'Close' : 'Menu'}</span>
-            {mobileMenuOpen ? <X size={14} /> : <Menu size={14} />}
-          </button>
-        </nav>
-      </header>
-
-      {/* MOBILE MENU OVERLAY */}
-      <div
-        className={`fixed inset-0 z-50 md:hidden flex flex-col justify-end transition-opacity duration-500 ${
-          mobileMenuOpen
-            ? 'opacity-100 pointer-events-auto'
-            : 'opacity-0 pointer-events-none'
-        }`}
-        aria-hidden={!mobileMenuOpen}
-      >
+      {/* Keeps the space the floating bar takes up */}
+      <div aria-hidden="true" className="h-[68px] md:h-[72px]" />
+      {mobileMenuOpen && (
         <div
-          className="absolute inset-0 bg-black/60"
+          aria-hidden="true"
+          className="fixed inset-0 z-30 md:hidden bg-black/20 backdrop-blur-[2px]"
           onClick={() => setMobileMenuOpen(false)}
         />
-        <div
-          className={`relative bg-white rounded-2xl mx-3 mb-3 p-6 flex flex-col gap-6 transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] ${
-            mobileMenuOpen ? 'translate-y-0' : 'translate-y-full'
-          }`}
-        >
-          <div className="flex items-center justify-between">
-            <div className="inline-flex items-center gap-1.5 text-[13px] text-gray-600 bg-gray-100 px-3 py-1.5 rounded-full tabular-nums">
-              <Clock size={14} />
-              <span>{istanbulTime} in Istanbul</span>
+      )}
+      <header
+        ref={headerRef}
+        className={`fixed top-0 inset-x-0 z-40 pointer-events-none transition-transform duration-300 ease-out ${
+          hidden && !mobileMenuOpen ? '-translate-y-[130%]' : 'translate-y-0'
+        }`}
+      >
+        <div className="w-full max-w-[1440px] mx-auto px-3 sm:px-5 pt-3">
+          <div className="w-full">
+            {/* The bar: just the logo and one round button */}
+            <nav
+              aria-label="Primary navigation"
+              className={`pointer-events-auto h-[52px] md:h-[56px] rounded-full pl-4 md:pl-6 pr-1.5 md:pr-2 flex items-center justify-between backdrop-blur-xl backdrop-saturate-150 transition-[background-color] duration-300 ${glass}`}
+            >
+              <div className="flex items-center">
+              <a
+                href="/"
+                onClick={(e) => {
+                  setMobileMenuOpen(false);
+                  if (onNavigateHome) {
+                    e.preventDefault();
+                    onNavigateHome();
+                  }
+                }}
+                className="flex items-center shrink-0"
+                aria-label="Eotra Home"
+              >
+                <span className="overflow-hidden inline-flex items-center">
+                  <img
+                    src="/assets/aistudio/Eotra_aef517cd.svg"
+                    alt="Eotra"
+                    className={`h-[28px] md:h-[32px] w-auto max-w-none -ml-3 -mr-6 ${dark ? 'brightness-0 invert' : ''}`}
+                  />
+                </span>
+              </a>
+
+                {/* Desktop: the links sit in the bar */}
+                <div className="hidden md:flex items-center gap-7 ml-8">
+                  {menuItems.map((item) => (
+                    <a
+                      key={item.label}
+                      href={item.href}
+                      onClick={item.onClick}
+                      className={`text-[14px] transition-colors duration-300 whitespace-nowrap ${
+                        dark ? 'text-white/85 hover:text-white' : 'text-gray-900 hover:text-gray-500'
+                      }`}
+                    >
+                      {item.label}
+                    </a>
+                  ))}
+                </div>
+              </div>
+
+              {/* Desktop: Book a demo */}
+              <div className="hidden md:block">
+                <RollButton
+                  label="Book a demo"
+                  variant={dark ? 'light' : 'dark'}
+                  size="nav"
+                  onClick={() => onOpenInquiry('Book an Eotra Demo')}
+                />
+              </div>
+
+              <button
+                type="button"
+                onClick={() => setMobileMenuOpen((o) => !o)}
+                aria-expanded={mobileMenuOpen}
+                aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
+                className={`md:hidden w-10 h-10 rounded-full flex items-center justify-center transition-colors cursor-pointer ${
+                  dark ? 'bg-white/15 text-white hover:bg-white/25' : 'bg-gray-900/10 text-gray-900 hover:bg-gray-900/15'
+                }`}
+              >
+                {mobileMenuOpen ? <Minus size={16} strokeWidth={1.75} /> : <Plus size={16} strokeWidth={1.75} />}
+              </button>
+            </nav>
+
+            {/* The panel: the bar opens downwards into thin pill links */}
+            <div
+              className={`md:hidden pointer-events-auto grid transition-[grid-template-rows,margin] duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] ${
+                mobileMenuOpen ? 'grid-rows-[1fr] mt-2' : 'grid-rows-[0fr] mt-0'
+              }`}
+              aria-hidden={!mobileMenuOpen}
+            >
+              <div className="overflow-hidden">
+                <div className={`rounded-[26px] backdrop-blur-xl backdrop-saturate-150 p-2 ${glass}`}>
+                  <div className="flex flex-wrap gap-1.5">
+                    {menuItems.map((item) => (
+                      <a
+                        key={item.label}
+                        href={item.href}
+                        tabIndex={mobileMenuOpen ? 0 : -1}
+                        onClick={item.onClick}
+                        className={`flex-1 min-w-[28%] rounded-full px-3 py-2 text-center text-[14px] transition-colors ${
+                          dark
+                            ? 'bg-white/10 text-white hover:bg-white/20'
+                            : 'bg-gray-900/[0.06] text-gray-900 hover:bg-gray-900/10'
+                        }`}
+                      >
+                        {item.label}
+                      </a>
+                    ))}
+                  </div>
+
+                  <button
+                    type="button"
+                    tabIndex={mobileMenuOpen ? 0 : -1}
+                    onClick={() => {
+                      setMobileMenuOpen(false);
+                      onOpenInquiry('Book an Eotra Demo');
+                    }}
+                    className="mt-1.5 w-full rounded-full bg-[#0400F5] hover:bg-[#0300cc] text-white px-3 py-2 text-[14px] transition-colors cursor-pointer"
+                  >
+                    Book a demo
+                  </button>
+
+                  <div className={`mt-2 px-3 pb-1 flex items-center justify-between text-[12px] ${dark ? 'text-white/55' : 'text-gray-500'}`}>
+                    <a href="mailto:info@eotra.com" tabIndex={mobileMenuOpen ? 0 : -1} className="hover:underline">
+                      info@eotra.com
+                    </a>
+                    <span>&copy; 2026 Eotra Inc.</span>
+                  </div>
+                </div>
+              </div>
             </div>
-            <button
-              type="button"
-              onClick={() => setMobileMenuOpen(false)}
-              className="bg-gray-900 text-white rounded-full px-3.5 py-1.5 text-[13px] font-medium inline-flex items-center gap-1.5 cursor-pointer"
-            >
-              <span>Close</span>
-              <X size={14} />
-            </button>
           </div>
-
-          <div className="flex flex-col gap-3">
-            <a
-              href="#projects"
-              onClick={(e) => {
-                e.preventDefault();
-                scrollToSection('projects');
-              }}
-              className="text-[28px] sm:text-[32px] font-medium text-gray-900 leading-tight hover:text-gray-500 transition-colors"
-            >
-              Projects
-            </a>
-            <a
-              href="#services"
-              onClick={(e) => {
-                e.preventDefault();
-                scrollToSection('services');
-              }}
-              className="text-[28px] sm:text-[32px] font-medium text-gray-900 leading-tight hover:text-gray-500 transition-colors"
-            >
-              Services
-            </a>
-            <a
-              href="#company"
-              onClick={(e) => {
-                e.preventDefault();
-                scrollToSection('company');
-              }}
-              className="text-[28px] sm:text-[32px] font-medium text-gray-900 leading-tight hover:text-gray-500 transition-colors"
-            >
-              Company
-            </a>
-            <a
-              href="#solutions"
-              onClick={(e) => {
-                e.preventDefault();
-                scrollToSection('solutions');
-              }}
-              className="text-[28px] sm:text-[32px] font-medium text-gray-900 leading-tight hover:text-gray-500 transition-colors"
-            >
-              Solutions
-            </a>
-            <a
-              href="/team"
-              onClick={handleTeamClick}
-              className="text-[28px] sm:text-[32px] font-medium text-gray-900 leading-tight hover:text-gray-500 transition-colors"
-            >
-              Team
-            </a>
-            <a
-              href="/faq"
-              onClick={handleFaqClick}
-              className="text-[28px] sm:text-[32px] font-medium text-gray-900 leading-tight hover:text-gray-500 transition-colors"
-            >
-              FAQ
-            </a>
-            <a
-              href="/blog"
-              onClick={handleBlogClick}
-              className="text-[28px] sm:text-[32px] font-medium text-gray-900 leading-tight hover:text-gray-500 transition-colors"
-            >
-              Blog
-            </a>
-            <button
-              type="button"
-              onClick={() => {
-                setMobileMenuOpen(false);
-                onOpenInquiry('Connect with Eotra');
-              }}
-              className="text-left text-[28px] sm:text-[32px] font-medium text-gray-900 leading-tight hover:text-gray-500 transition-colors cursor-pointer"
-            >
-              Connect
-            </button>
-          </div>
-
-          <button
-            type="button"
-            onClick={() => {
-              setMobileMenuOpen(false);
-              onOpenInquiry('Get Started with Eotra');
-            }}
-            className="w-full bg-[#0400F5] hover:bg-[#0300cc] text-white rounded-full pl-6 pr-2 py-2.5 text-[14px] font-medium flex items-center justify-between transition-colors duration-300 cursor-pointer"
-          >
-            <span>Get started now</span>
-            <span className="w-8 h-8 rounded-full bg-white flex items-center justify-center">
-              <ArrowRight className="w-4 h-4 text-[#0400F5]" />
-            </span>
-          </button>
         </div>
-      </div>
+      </header>
     </>
   );
 }

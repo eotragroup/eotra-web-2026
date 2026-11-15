@@ -1,7 +1,7 @@
 import posImg from '../assets/advantage/pos.jpg';
 import wmsImg from '../assets/advantage/wms.jpg';
 import crmImg from '../assets/advantage/crm.jpg';
-import { ArrowRight } from 'lucide-react';
+import { RollButton } from './RollButton';
 
 interface Capability {
   index: string;
@@ -13,8 +13,7 @@ interface CardStyle {
   index: string;
   chip: string;
   items: string[];
-  btn: string;
-  btnIcon: string;
+  button: 'orange' | 'light' | 'dark';
   image: string;
   imageAlt: string;
 }
@@ -24,30 +23,27 @@ const STYLES: CardStyle[] = [
   {
     card: 'bg-gray-950 text-white',
     index: 'text-white/40',
-    chip: 'bg-white/10 border-white/20 text-white',
+    chip: 'bg-white/15 text-white',
     items: ['POS'],
-    btn: 'bg-[#0400F5] text-white hover:bg-[#0300cc]',
-    btnIcon: 'bg-white text-[#0400F5]',
+    button: 'orange',
     image: posImg,
     imageAlt: 'Cashier using a point of sale terminal in a store',
   },
   {
     card: 'bg-[#0400F5] text-white',
     index: 'text-white/50',
-    chip: 'bg-white/15 border-white/30 text-white',
+    chip: 'bg-white/20 text-white',
     items: ['WMS', 'ERP'],
-    btn: 'bg-white text-gray-900 hover:bg-gray-100',
-    btnIcon: 'bg-[#0400F5] text-white',
+    button: 'light',
     image: wmsImg,
     imageAlt: 'Warehouse aisles with live inventory scanning',
   },
   {
-    card: 'bg-white text-gray-900 border border-gray-200',
+    card: 'bg-gray-50 text-gray-900',
     index: 'text-gray-400',
-    chip: 'bg-gray-100 border-gray-200 text-gray-900',
+    chip: 'bg-white text-gray-900',
     items: ['CRM', 'Analytics'],
-    btn: 'bg-gray-950 text-white hover:bg-gray-800',
-    btnIcon: 'bg-white text-gray-950',
+    button: 'dark',
     image: crmImg,
     imageAlt: 'Store team meeting a loyalty customer',
   },
@@ -93,7 +89,7 @@ export function AdvantageStack({
                   {st.items.map((label) => (
                     <span
                       key={label}
-                      className={`inline-flex items-center px-4 py-1.5 rounded-full border text-[12px] sm:text-[13px] font-medium ${st.chip}`}
+                      className={`inline-flex items-center px-4 py-1.5 rounded-full text-[12px] sm:text-[13px] font-medium ${st.chip}`}
                     >
                       {label}
                     </span>
@@ -102,16 +98,14 @@ export function AdvantageStack({
                 <h3 className="text-[clamp(1.75rem,4.2vw,3.5rem)] font-medium leading-[1.05] tracking-[-0.03em] max-w-xl">
                   {cap.title}
                 </h3>
-                <button
-                  type="button"
-                  onClick={() => onOpenInquiry(`Inquiry: ${cap.title}`)}
-                  className={`mt-6 inline-flex items-center gap-2 pl-5 pr-1.5 h-11 rounded-full text-[13px] sm:text-[14px] font-medium transition-colors cursor-pointer ${st.btn}`}
-                >
-                  <span>Request quote</span>
-                  <span className={`w-8 h-8 rounded-full flex items-center justify-center ${st.btnIcon}`}>
-                    <ArrowRight size={15} />
-                  </span>
-                </button>
+                <div className="mt-6">
+                  <RollButton
+                    label="Request quote"
+                    variant={st.button}
+                    size="hero"
+                    onClick={() => onOpenInquiry(`Inquiry: ${cap.title}`)}
+                  />
+                </div>
               </div>
             </div>
           </div>

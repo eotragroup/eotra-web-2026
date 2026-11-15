@@ -237,7 +237,7 @@ export function ServicesSlider({ onOpenInquiry }: ServicesSliderProps) {
               onClick={() => scrollByCard(-1)}
               disabled={!canScrollPrev}
               aria-label="Previous services"
-              className="w-11 h-11 rounded-full border border-gray-300 bg-white text-gray-900 hover:border-gray-900 hover:bg-gray-900 hover:text-white disabled:opacity-35 disabled:pointer-events-none transition-colors duration-200 flex items-center justify-center cursor-pointer"
+              className="w-11 h-11 rounded-full bg-white shadow-sm text-gray-900 hover:bg-gray-900 hover:text-white disabled:opacity-35 disabled:pointer-events-none transition-colors duration-200 flex items-center justify-center cursor-pointer"
             >
               <ArrowLeft size={16} />
             </button>
@@ -246,7 +246,7 @@ export function ServicesSlider({ onOpenInquiry }: ServicesSliderProps) {
               onClick={() => scrollByCard(1)}
               disabled={!canScrollNext}
               aria-label="Next services"
-              className="w-11 h-11 rounded-full border border-gray-300 bg-white text-gray-900 hover:border-[#0400F5] hover:bg-[#0400F5] hover:text-white disabled:opacity-35 disabled:pointer-events-none transition-colors duration-200 flex items-center justify-center cursor-pointer"
+              className="w-11 h-11 rounded-full bg-white shadow-sm text-gray-900 hover:bg-[#0400F5] hover:text-white disabled:opacity-35 disabled:pointer-events-none transition-colors duration-200 flex items-center justify-center cursor-pointer"
             >
               <ArrowRight size={16} />
             </button>
@@ -282,7 +282,7 @@ export function ServicesSlider({ onOpenInquiry }: ServicesSliderProps) {
                 }
               }}
               aria-label={service.title}
-              className="group relative snap-start shrink-0 w-[78vw] sm:w-[320px] md:w-[330px] lg:w-[340px] xl:w-[355px] aspect-[4/5] rounded-2xl overflow-hidden bg-gray-900 border border-gray-200/80 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0400F5]"
+              className="group relative snap-start shrink-0 w-[78vw] sm:w-[320px] md:w-[330px] lg:w-[340px] xl:w-[355px] aspect-[4/5] rounded-3xl overflow-hidden bg-gray-900 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0400F5]"
             >
               <ServiceCardImage
                 src={service.image}
