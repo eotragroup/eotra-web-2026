@@ -602,5 +602,10 @@ export const AR: Record<string, string> = {
  "Open WhatsApp": "افتح واتساب",
  "We received your message and will reply within one business day.": "استلمنا رسالتك وسنرد خلال يوم عمل واحد.",
  "Your email": "بريدك الإلكتروني",
- "Send message": "إرسال الرسالة"
+ "Send message": "إرسال الرسالة",
+ "Continue to the quote form": "تابع إلى نموذج طلب العرض",
+ "Hi! I am the Eotra assistant. Tell me about your business and what you need, and I will point you to the right solution.": "مرحبًا! أنا مساعد إوترا. أخبرني عن نشاطك وما تحتاجه، وسأرشدك إلى الحل المناسب.",
+ "I run a retail business": "أدير نشاط تجزئة",
+ "I need a website or app": "أحتاج موقعًا أو تطبيقًا",
+ "I want a quote": "أريد عرض سعر"
 };

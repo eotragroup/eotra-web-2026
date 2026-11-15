@@ -1,12 +1,15 @@
 import { useEffect, useRef, useState, type FormEvent, type ReactNode } from 'react';
-import { Bot, Check, CheckCircle2, Mail, MessageCircle, MessageSquare, Send, X } from 'lucide-react';
+import { ArrowRight, Bot, Check, CheckCircle2, Mail, MessageCircle, MessageSquare, Send, X } from 'lucide-react';
 import { useI18n } from '../i18n';
 import { CONTACT_EMAIL, WHATSAPP_NUMBER } from '../data/contact';
+import { goToConnect } from '../lib/nav';
 
 type Tab = 'chat' | 'whatsapp' | 'email';
 interface Msg {
   role: 'user' | 'assistant';
   content: string;
+  /** Set when the assistant understood the need and it is time to continue on the Connect page */
+  handoff?: { service: string; summary: string } | null;
 }
 
 const MAX_USER_MESSAGES = 12;
@@ -74,7 +77,7 @@ export function ContactWidget() {
       });
       const data = await res.json().catch(() => ({}));
       if (!res.ok || !data?.reply) throw new Error('chat failed');
-      setMsgs([...next, { role: 'assistant', content: String(data.reply) }]);
+      setMsgs([...next, { role: 'assistant', content: String(data.reply), handoff: data.handoff ?? null }]);
     } catch {
       setChatError(t('Sorry, the assistant is not available right now. Please use email or WhatsApp.'));
     } finally {
@@ -114,7 +117,7 @@ export function ContactWidget() {
   };
 
   const waText = encodeURIComponent(lang === 'ar' ? 'مرحبًا إوترا، أود الاستفسار عن خدماتكم.' : 'Hello Eotra, I would like to ask about your services.');
-  const suggestions = [t('What do you build?'), t('How does a project start?'), t('Can I get a quote?')];
+  const suggestions = [t('I run a retail business'), t('I need a website or app'), t('I want a quote')];
 
   const tabs: { id: Tab; label: string; icon: ReactNode }[] = [
     { id: 'chat', label: t('AI assistant'), icon: <Bot size={14} /> },
@@ -178,7 +181,7 @@ export function ContactWidget() {
             <div className="flex flex-col min-h-0 flex-1 px-5 pb-5">
               <div ref={listRef} data-lenis-prevent className="flex-1 min-h-[220px] max-h-[340px] overflow-y-auto space-y-2.5 pe-1 py-1">
                 <div className="max-w-[88%] rounded-2xl rounded-ss-md bg-gray-900/[0.06] px-3.5 py-2.5 text-[14px] text-gray-900 leading-relaxed">
-                  {t('Hi! I am the Eotra assistant. Ask me about our services, products or how to start a project.')}
+                  {t('Hi! I am the Eotra assistant. Tell me about your business and what you need, and I will point you to the right solution.')}
                 </div>
                 {msgs.map((m, i) => (
                   <div
@@ -188,6 +191,19 @@ export function ContactWidget() {
                     }`}
                   >
                     {m.content}
+                    {m.handoff && (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setOpen(false);
+                          goToConnect(`Chat: ${m.handoff!.service}`, m.handoff!.summary ? `From the website chat: ${m.handoff!.summary}` : undefined);
+                        }}
+                        className="mt-3 w-full inline-flex items-center justify-center gap-2 rounded-full bg-[#0400F5] hover:bg-[#0300cc] text-white px-4 py-2.5 text-[13.5px] font-medium transition-colors cursor-pointer"
+                      >
+                        {t('Continue to the quote form')}
+                        <ArrowRight size={15} />
+                      </button>
+                    )}
                   </div>
                 ))}
                 {busy && (

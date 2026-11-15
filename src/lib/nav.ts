@@ -13,8 +13,9 @@ export function navigateTo(path: string) {
 
 export const goToFaq = () => navigateTo('/faq');
 // Optional subject pre-selects the matching service on the form (read back from ?s=)
-export const goToConnect = (subject?: string) => {
-  const q = subject ? `?s=${encodeURIComponent(subject)}` : '';
+export const goToConnect = (subject?: string, notes?: string) => {
+  const parts = [subject ? `s=${encodeURIComponent(subject)}` : '', notes ? `n=${encodeURIComponent(notes)}` : ''].filter(Boolean);
+  const q = parts.length ? `?${parts.join('&')}` : '';
   window.history.pushState({}, '', withLang(`/connect${q}`));
   window.dispatchEvent(new PopStateEvent('popstate'));
   smoothScrollTo(0, { immediate: true });

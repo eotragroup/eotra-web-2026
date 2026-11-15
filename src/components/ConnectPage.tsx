@@ -24,6 +24,14 @@ interface ConnectPageProps {
   onSelectProduct?: (id: string) => void;
 }
 
+function notesFromUrl() {
+  try {
+    return (new URLSearchParams(window.location.search).get('n') || '').slice(0, 600);
+  } catch {
+    return '';
+  }
+}
+
 function subjectFromUrl() {
   try {
     return new URLSearchParams(window.location.search).get('s') || 'Connect with Eotra';
@@ -75,7 +83,7 @@ export function ConnectPage({ onNavigateHome, onOpenInquiry, onNavigateToTeam, o
             <div className="lg:col-span-7">
               {/* Frosted-glass card */}
               <div className="rounded-[32px] bg-gray-50 p-6 sm:p-8 lg:p-10 max-w-2xl">
-                <InquiryForm key={subjectFromUrl()} subject={subjectFromUrl()} onClose={() => onNavigateHome()} showClose={false} doneLabel={t('Back to home')} />
+                <InquiryForm key={subjectFromUrl() + notesFromUrl()} subject={subjectFromUrl()} initialNotes={notesFromUrl()} onClose={() => onNavigateHome()} showClose={false} doneLabel={t('Back to home')} />
               </div>
 
               {/* Phones: globe sits under the form */}
