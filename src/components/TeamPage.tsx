@@ -201,14 +201,25 @@ export function TeamPage({ onNavigateHome, onOpenInquiry, onNavigateToTeam, onSe
             ))}
           </div>
 
-          {/* MINIMALIST METRICS STRIP WITH HOVER & ACCENT ANIMATION */}
-          <div className="team-metrics-anim grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6 py-6 sm:py-8 border-y border-gray-200 mb-16 sm:mb-20">
-            {STATS.map((stat) => (
+          {/* METRICS STRIP: the top and bottom divider lines light up above/below the hovered stat */}
+          <div className="team-metrics-anim grid grid-cols-2 lg:grid-cols-4 border-y border-gray-200 mb-16 sm:mb-20">
+            {STATS.map((stat, i) => (
               <div
                 key={stat.label}
-                className="group relative p-4 sm:p-5 rounded-2xl transition-all duration-300 hover:bg-gray-50/80 cursor-default select-none"
+                className="group relative px-4 sm:px-6 py-8 sm:py-10 transition-colors duration-300 hover:bg-gray-50/80 cursor-default select-none"
               >
-                <div className="h-0.5 w-6 bg-gray-200 group-hover:w-12 group-hover:bg-[#0400F5] transition-all duration-300 rounded-full mb-3.5" />
+                <span
+                  aria-hidden="true"
+                  className={`absolute -top-px left-0 h-[2px] w-full origin-left scale-x-0 bg-[#0400F5] transition-transform duration-500 ease-out group-hover:scale-x-100 ${
+                    i < 2 ? '' : 'hidden lg:block'
+                  }`}
+                />
+                <span
+                  aria-hidden="true"
+                  className={`absolute -bottom-px left-0 h-[2px] w-full origin-left scale-x-0 bg-[#0400F5] transition-transform duration-500 ease-out group-hover:scale-x-100 ${
+                    i >= 2 ? '' : 'hidden lg:block'
+                  }`}
+                />
                 <div className="text-[28px] sm:text-[38px] font-semibold text-gray-900 tracking-tight tabular-nums transition-all duration-300 group-hover:translate-x-1 group-hover:text-[#0400F5]">
                   {stat.value}
                 </div>
