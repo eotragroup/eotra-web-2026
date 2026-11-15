@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
-import { ArrowRight, Check } from 'lucide-react';
+import { Activity, AppWindow, ArrowRight, BarChart3, Boxes, Cloud, Code2, CreditCard, Database, GitBranch, Globe, Layers, LifeBuoy, Link2, MousePointerClick, Package, Palette, Plug, Receipt, RefreshCw, Rocket, Search, ShieldCheck, ShoppingCart, Smartphone, Sparkles, Store, TestTube2, Truck, Users, Warehouse, WifiOff, Wrench } from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
 import { Navbar } from './Navbar';
 import { Footer } from './Footer';
 import { RollButton } from './RollButton';
@@ -7,6 +8,8 @@ import { TechBadge } from './TechBadge';
 import { SERVICES, SERVICE_STEPS, getService } from '../data/services';
 import { goToConnect, goToService } from '../lib/nav';
 import { useI18n } from '../i18n';
+
+const OFFER_ICONS: Record<string, LucideIcon> = { Activity, AppWindow, BarChart3, Boxes, Cloud, CreditCard, Database, GitBranch, Globe, Layers, LifeBuoy, Link2, MousePointerClick, Package, Palette, Plug, Receipt, RefreshCw, Rocket, Search, ShieldCheck, ShoppingCart, Smartphone, Sparkles, Store, TestTube2, Truck, Users, Warehouse, WifiOff, Wrench };
 
 interface ServicePageProps {
   slug: string;
@@ -87,7 +90,10 @@ export function ServicePage({ slug, onNavigateHome, onOpenInquiry, onNavigateToT
             {service.offers.map((o) => (
               <div key={o.title} className="rounded-3xl bg-gray-50 p-6 sm:p-7 min-h-[150px] flex flex-col justify-between">
                 <span className="w-8 h-8 rounded-full bg-white flex items-center justify-center text-[#0400F5]">
-                  <Check size={15} strokeWidth={2.2} />
+                  {(() => {
+                    const OIcon = OFFER_ICONS[o.icon] ?? Code2;
+                    return <OIcon size={16} strokeWidth={1.8} />;
+                  })()}
                 </span>
                 <div className="mt-6">
                   <h3 className="text-[17px] font-medium text-gray-900 tracking-[-0.01em]">{t(o.title)}</h3>

@@ -13,7 +13,7 @@ export interface ServiceData {
   intro: string;
   imageAlt: string;
   /** What we build (kept short) */
-  offers: { title: string; text: string }[];
+  offers: { icon: string; title: string; text: string }[];
   /** Typical technologies */
   tech: string[];
   /** Subject sent to the Connect form (pre-selects the matching service) */
@@ -40,10 +40,10 @@ export const SERVICE_DATA: ServiceData[] = [
       'From customer portals to full SaaS products, we build web apps that load fast, scale with you and are simple to maintain.',
     imageAlt: 'Laptop displaying modern web application UI and code editor',
     offers: [
-      { title: 'SaaS platforms', text: 'Multi-tenant products with billing, roles and analytics.' },
-      { title: 'Customer portals', text: 'Self-service areas for orders, invoices and support.' },
-      { title: 'Marketing sites', text: 'Quick, SEO-ready sites that convert visitors.' },
-      { title: 'Progressive web apps', text: 'App-like experience, installable and offline-friendly.' },
+      { icon: 'Boxes', title: 'SaaS platforms', text: 'Multi-tenant products with billing, roles and analytics.' },
+      { icon: 'Users', title: 'Customer portals', text: 'Self-service areas for orders, invoices and support.' },
+      { icon: 'Globe', title: 'Marketing sites', text: 'Quick, SEO-ready sites that convert visitors.' },
+      { icon: 'AppWindow', title: 'Progressive web apps', text: 'App-like experience, installable and offline-friendly.' },
     ],
     tech: ['React', 'TypeScript', 'Node.js', 'Tailwind', 'PostgreSQL'],
     inquirySubject: 'Service Inquiry: Custom Web Apps',
@@ -59,10 +59,10 @@ export const SERVICE_DATA: ServiceData[] = [
       'One team, one codebase when it makes sense, native when it matters. We design, build and publish apps to both stores.',
     imageAlt: 'Smartphone showing clean minimalist mobile application UI',
     offers: [
-      { title: 'iOS & Android apps', text: 'Smooth, reliable apps that follow each platform’s rules.' },
-      { title: 'Cross-platform', text: 'One codebase to ship faster and spend less.' },
-      { title: 'Offline & sync', text: 'Apps that keep working without a connection.' },
-      { title: 'Store launch', text: 'Setup, review and release on App Store and Google Play.' },
+      { icon: 'Smartphone', title: 'iOS & Android apps', text: 'Smooth, reliable apps that follow each platform’s rules.' },
+      { icon: 'Layers', title: 'Cross-platform', text: 'One codebase to ship faster and spend less.' },
+      { icon: 'WifiOff', title: 'Offline & sync', text: 'Apps that keep working without a connection.' },
+      { icon: 'Rocket', title: 'Store launch', text: 'Setup, review and release on App Store and Google Play.' },
     ],
     tech: ['React Native', 'Swift', 'Kotlin', 'Firebase', 'REST & GraphQL'],
     inquirySubject: 'Service Inquiry: Mobile Development',
@@ -78,10 +78,10 @@ export const SERVICE_DATA: ServiceData[] = [
       'We turn ideas into clear flows and a consistent design system, tested with real users before a line of code is written.',
     imageAlt: 'Product designer crafting interface components and typography grids',
     offers: [
-      { title: 'User research', text: 'Interviews and tests to find what really matters.' },
-      { title: 'Wireframes & prototypes', text: 'Clickable flows you can try and change early.' },
-      { title: 'Design systems', text: 'Reusable components so every screen feels the same.' },
-      { title: 'Branding & visuals', text: 'Logo, colours and type that fit your product.' },
+      { icon: 'Search', title: 'User research', text: 'Interviews and tests to find what really matters.' },
+      { icon: 'MousePointerClick', title: 'Wireframes & prototypes', text: 'Clickable flows you can try and change early.' },
+      { icon: 'Palette', title: 'Design systems', text: 'Reusable components so every screen feels the same.' },
+      { icon: 'Sparkles', title: 'Branding & visuals', text: 'Logo, colours and type that fit your product.' },
     ],
     tech: ['Figma', 'Design tokens', 'Prototyping', 'Usability testing'],
     inquirySubject: 'Service Inquiry: UI / UX & Product Design',
@@ -97,10 +97,10 @@ export const SERVICE_DATA: ServiceData[] = [
       'Fast storefronts with simple checkout, local payment methods and stock that stays in sync with your shops and warehouse.',
     imageAlt: 'Digital commerce storefront tablet next to curated retail goods',
     offers: [
-      { title: 'Custom storefronts', text: 'Your brand, not a generic template.' },
-      { title: 'Checkout & payments', text: 'Cards, local wallets and bank transfer.' },
-      { title: 'Inventory sync', text: 'One stock number across web, POS and warehouse.' },
-      { title: 'Orders & shipping', text: 'Fulfilment, tracking and returns in one place.' },
+      { icon: 'Store', title: 'Custom storefronts', text: 'Your brand, not a generic template.' },
+      { icon: 'CreditCard', title: 'Checkout & payments', text: 'Cards, local wallets and bank transfer.' },
+      { icon: 'RefreshCw', title: 'Inventory sync', text: 'One stock number across web, POS and warehouse.' },
+      { icon: 'Truck', title: 'Orders & shipping', text: 'Fulfilment, tracking and returns in one place.' },
     ],
     tech: ['Next.js', 'Stripe & local gateways', 'Headless CMS', 'Search'],
     inquirySubject: 'Service Inquiry: E-Commerce Builds',
@@ -116,10 +116,10 @@ export const SERVICE_DATA: ServiceData[] = [
       'We design APIs and data models that stay fast as you grow, and connect the systems you already use.',
     imageAlt: 'Developer workspace showing backend code and database schemas',
     offers: [
-      { title: 'REST & GraphQL APIs', text: 'Clean, versioned and documented.' },
-      { title: 'Databases', text: 'Schema design, performance and safe migrations.' },
-      { title: 'Integrations', text: 'Payments, ERP, CRM, shipping and more.' },
-      { title: 'Security', text: 'Authentication, permissions and audit trails.' },
+      { icon: 'Plug', title: 'REST & GraphQL APIs', text: 'Clean, versioned and documented.' },
+      { icon: 'Database', title: 'Databases', text: 'Schema design, performance and safe migrations.' },
+      { icon: 'Link2', title: 'Integrations', text: 'Payments, ERP, CRM, shipping and more.' },
+      { icon: 'ShieldCheck', title: 'Security', text: 'Authentication, permissions and audit trails.' },
     ],
     tech: ['Node.js', 'PostgreSQL', 'Redis', 'Cloudflare Workers', 'OpenAPI'],
     inquirySubject: 'Service Inquiry: Backend & APIs',
@@ -135,10 +135,10 @@ export const SERVICE_DATA: ServiceData[] = [
       'We set up the pipelines, hosting and monitoring that let your team release with confidence at any time.',
     imageAlt: 'Software engineering team monitoring live cloud deployment pipeline',
     offers: [
-      { title: 'CI/CD pipelines', text: 'Automatic tests and one-click releases.' },
-      { title: 'Cloud hosting', text: 'Fast global delivery with sensible costs.' },
-      { title: 'Containers', text: 'Reproducible environments from laptop to production.' },
-      { title: 'Monitoring', text: 'Alerts and dashboards before users notice problems.' },
+      { icon: 'GitBranch', title: 'CI/CD pipelines', text: 'Automatic tests and one-click releases.' },
+      { icon: 'Cloud', title: 'Cloud hosting', text: 'Fast global delivery with sensible costs.' },
+      { icon: 'Package', title: 'Containers', text: 'Reproducible environments from laptop to production.' },
+      { icon: 'Activity', title: 'Monitoring', text: 'Alerts and dashboards before users notice problems.' },
     ],
     tech: ['Cloudflare', 'AWS', 'Docker', 'GitHub Actions', 'Terraform'],
     inquirySubject: 'Service Inquiry: Cloud & DevOps',
@@ -154,10 +154,10 @@ export const SERVICE_DATA: ServiceData[] = [
       'Replace spreadsheets and disconnected apps with tools built for your exact workflow, from the shop floor to the head office.',
     imageAlt: 'Widescreen display presenting operational analytics and KPI charts',
     offers: [
-      { title: 'POS & ordering', text: 'Fast checkout that works offline too.' },
-      { title: 'Inventory & WMS', text: 'Live stock across branches and warehouses.' },
-      { title: 'ERP & finance', text: 'Invoicing, settlement and reporting in one place.' },
-      { title: 'CRM & dashboards', text: 'Know your customers and your numbers.' },
+      { icon: 'ShoppingCart', title: 'POS & ordering', text: 'Fast checkout that works offline too.' },
+      { icon: 'Warehouse', title: 'Inventory & WMS', text: 'Live stock across branches and warehouses.' },
+      { icon: 'Receipt', title: 'ERP & finance', text: 'Invoicing, settlement and reporting in one place.' },
+      { icon: 'BarChart3', title: 'CRM & dashboards', text: 'Know your customers and your numbers.' },
     ],
     tech: ['React', 'Node.js', 'PostgreSQL', 'Realtime sync', 'Role-based access'],
     inquirySubject: 'Service Inquiry: Internal Tools & ERP',
@@ -173,10 +173,10 @@ export const SERVICE_DATA: ServiceData[] = [
       'Automated testing and ongoing support to keep releases safe, or a dedicated team that works with you for the long run.',
     imageAlt: 'Engineers reviewing automated test results together on a laptop',
     offers: [
-      { title: 'Automated testing', text: 'Regression suites that run on every change.' },
-      { title: 'Maintenance', text: 'Updates, fixes and security patches.' },
-      { title: 'Dedicated team', text: 'Engineers and designers embedded in your roadmap.' },
-      { title: 'Support', text: 'Clear response times and a named contact.' },
+      { icon: 'TestTube2', title: 'Automated testing', text: 'Regression suites that run on every change.' },
+      { icon: 'Wrench', title: 'Maintenance', text: 'Updates, fixes and security patches.' },
+      { icon: 'Users', title: 'Dedicated team', text: 'Engineers and designers embedded in your roadmap.' },
+      { icon: 'LifeBuoy', title: 'Support', text: 'Clear response times and a named contact.' },
     ],
     tech: ['Playwright', 'Jest', 'Sentry', 'Retainers', 'SLA support'],
     inquirySubject: 'Service Inquiry: QA & Dedicated Teams',
