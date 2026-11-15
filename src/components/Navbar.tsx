@@ -179,11 +179,8 @@ export function Navbar({ onOpenInquiry, onNavigateHome, onNavigateToTeam }: Navb
             </div>
           </div>
 
-          {/* RIGHT: Availability, Live Clock, CTA */}
+          {/* RIGHT: Live Clock, CTA */}
           <div className="hidden md:flex items-center gap-5">
-            <span className="hidden lg:inline text-[13px] text-gray-600 whitespace-nowrap">
-              Taking on projects for Q1 2026
-            </span>
             <div className="flex items-center gap-1.5 text-[13px] text-gray-600 whitespace-nowrap tabular-nums">
               <Clock size={14} className="shrink-0" />
               <span>{istanbulTime} in Istanbul</span>
