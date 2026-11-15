@@ -23,7 +23,7 @@ const STYLES: CardStyle[] = [
   {
     card: 'bg-gray-950 text-white',
     index: 'text-white/40',
-    chip: 'bg-white/10 border-white/20 text-white',
+    chip: 'bg-white/15 text-white',
     items: ['POS'],
     button: 'orange',
     image: posImg,
@@ -32,16 +32,16 @@ const STYLES: CardStyle[] = [
   {
     card: 'bg-[#0400F5] text-white',
     index: 'text-white/50',
-    chip: 'bg-white/15 border-white/30 text-white',
+    chip: 'bg-white/20 text-white',
     items: ['WMS', 'ERP'],
     button: 'light',
     image: wmsImg,
     imageAlt: 'Warehouse aisles with live inventory scanning',
   },
   {
-    card: 'bg-white text-gray-900 border border-gray-200',
+    card: 'bg-gray-50 text-gray-900',
     index: 'text-gray-400',
-    chip: 'bg-gray-100 border-gray-200 text-gray-900',
+    chip: 'bg-white text-gray-900',
     items: ['CRM', 'Analytics'],
     button: 'dark',
     image: crmImg,
@@ -89,7 +89,7 @@ export function AdvantageStack({
                   {st.items.map((label) => (
                     <span
                       key={label}
-                      className={`inline-flex items-center px-4 py-1.5 rounded-full border text-[12px] sm:text-[13px] font-medium ${st.chip}`}
+                      className={`inline-flex items-center px-4 py-1.5 rounded-full text-[12px] sm:text-[13px] font-medium ${st.chip}`}
                     >
                       {label}
                     </span>

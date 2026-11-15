@@ -95,7 +95,7 @@ export function AppRain({ cta }: { cta?: React.ReactNode }) {
           {['POS', 'WMS', 'ERP', 'CRM'].map((label) => (
             <span
               key={label}
-              className="inline-flex items-center px-3.5 py-1.5 rounded-full border border-white/25 bg-white/10 text-white text-[11px] sm:text-[13px] font-medium"
+              className="inline-flex items-center px-3.5 py-1.5 rounded-full bg-white/15 backdrop-blur-md text-white text-[11px] sm:text-[13px] font-medium"
             >
               {label}
             </span>

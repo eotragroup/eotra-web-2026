@@ -17,7 +17,7 @@ export function PartnersMarquee({ className = '' }: PartnersMarqueeProps) {
   return (
     <div
       id="partners"
-      className={`relative w-full bg-white border-b border-gray-100 py-6 sm:py-8 overflow-hidden select-none ${className}`}
+      className={`relative w-full bg-white py-6 sm:py-8 overflow-hidden select-none ${className}`}
     >
       {/* Animated Brand Logo Slider (White BG, No Card Borders, Pure Logos) */}
       <div className="relative eotra-marquee-wrapper">
