@@ -1,8 +1,6 @@
-import { useEffect, useRef, useState, FormEvent } from 'react';
+import { useState, FormEvent } from 'react';
 import {
-  Check,
   CheckCircle2,
-  ChevronDown,
   Cloud,
   CircleHelp,
   Code2,
@@ -60,92 +58,6 @@ interface InquiryFormProps {
   /** Modal shows a close (X) button; the page does not */
   showClose?: boolean;
   doneLabel?: string;
-}
-
-// Drop-down select for the services. Several can be chosen; the list opens in the page flow so it never gets clipped.
-function ServiceSelect({ selected, onToggle }: { selected: string[]; onToggle: (label: string) => void }) {
-  const [open, setOpen] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (!open) return;
-    const onDown = (e: MouseEvent) => {
-      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
-    };
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        e.stopPropagation();
-        setOpen(false);
-      }
-    };
-    document.addEventListener('mousedown', onDown);
-    document.addEventListener('keydown', onKey);
-    return () => {
-      document.removeEventListener('mousedown', onDown);
-      document.removeEventListener('keydown', onKey);
-    };
-  }, [open]);
-
-  const chosen = SERVICES.filter((s) => selected.includes(s.label));
-  const only = chosen.length === 1 ? chosen[0] : null;
-
-  return (
-    <div ref={ref}>
-      <button
-        type="button"
-        aria-haspopup="listbox"
-        aria-expanded={open}
-        onClick={() => setOpen((o) => !o)}
-        className={`w-full flex items-center justify-between gap-3 rounded-xl border px-3.5 py-3 text-left text-[14px] transition-colors cursor-pointer ${
-          open ? 'border-gray-900' : 'border-gray-200 hover:border-gray-900'
-        }`}
-      >
-        <span className="flex items-center gap-2.5 min-w-0">
-          {only && (
-            <span className="w-7 h-7 shrink-0 rounded-lg bg-gray-100 text-gray-700 flex items-center justify-center">
-              <only.Icon size={15} strokeWidth={1.8} />
-            </span>
-          )}
-          <span className={`truncate ${chosen.length ? 'text-gray-900 font-medium' : 'text-gray-400'}`}>
-            {chosen.length === 0 ? 'Select a service' : chosen.map((c) => c.label).join(', ')}
-          </span>
-        </span>
-        <ChevronDown size={16} className={`shrink-0 text-gray-500 transition-transform duration-200 ${open ? 'rotate-180' : ''}`} />
-      </button>
-
-      {open && (
-        <div
-          role="listbox"
-          aria-multiselectable="true"
-          aria-label="Services"
-          data-lenis-prevent
-          className="mt-2 rounded-xl border border-gray-200 bg-white p-1.5 max-h-72 overflow-y-auto shadow-[0_12px_30px_rgba(0,0,0,0.08)]"
-        >
-          {SERVICES.map((s) => {
-            const on = selected.includes(s.label);
-            return (
-              <button
-                key={s.label}
-                type="button"
-                role="option"
-                aria-selected={on}
-                onClick={() => onToggle(s.label)}
-                className={`w-full flex items-center gap-3 rounded-lg px-2.5 py-2 text-left text-[14px] transition-colors cursor-pointer ${
-                  on ? 'bg-gray-100 text-gray-900 font-medium' : 'text-gray-800 hover:bg-gray-50'
-                }`}
-              >
-                <span className="w-8 h-8 shrink-0 rounded-lg bg-white border border-gray-200 text-gray-700 flex items-center justify-center">
-                  <s.Icon size={16} strokeWidth={1.8} />
-                </span>
-                <span className="flex-1">{s.label}</span>
-                {on && <Check size={16} className="shrink-0 text-gray-900" />}
-              </button>
-            );
-          })}
-        </div>
-      )}
-    </div>
-  );
 }
 
 export function InquiryForm({ subject, onClose, showClose = true, doneLabel = 'Done' }: InquiryFormProps) {
@@ -210,6 +122,11 @@ export function InquiryForm({ subject, onClose, showClose = true, doneLabel = 'D
   };
 
   const title = isProject ? 'Tell us about your project' : subject || 'Contact Eotra';
+
+  const tile = (selected: boolean) =>
+    `text-left rounded-xl border px-4 py-3 text-[14px] font-medium transition-colors cursor-pointer ${
+      selected ? 'border-gray-900 bg-gray-900 text-white' : 'border-gray-200 bg-white text-gray-900 hover:border-gray-900'
+    }`;
 
   const pill = (selected: boolean) =>
     `rounded-full border px-4 py-2 text-[13px] font-medium transition-colors cursor-pointer ${
@@ -285,7 +202,30 @@ export function InquiryForm({ subject, onClose, showClose = true, doneLabel = 'D
               <>
                 <div>
                   <span className={sectionLabel}>What do you need? <span className="text-gray-400 font-normal">Choose one or more</span></span>
-                  <ServiceSelect selected={services} onToggle={toggleService} />
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5" role="group" aria-label="Services">
+                    {SERVICES.map((s) => {
+                      const on = services.includes(s.label);
+                      return (
+                        <button
+                          key={s.label}
+                          type="button"
+                          role="checkbox"
+                          aria-checked={on}
+                          onClick={() => toggleService(s.label)}
+                          className={`${tile(on)} flex items-center gap-3`}
+                        >
+                          <span
+                            className={`w-8 h-8 shrink-0 rounded-lg flex items-center justify-center transition-colors ${
+                              on ? 'bg-white/15 text-white' : 'bg-gray-100 text-gray-700'
+                            }`}
+                          >
+                            <s.Icon size={16} strokeWidth={1.8} />
+                          </span>
+                          <span>{s.label}</span>
+                        </button>
+                      );
+                    })}
+                  </div>
                 </div>
 
                 <div>
