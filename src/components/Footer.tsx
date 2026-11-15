@@ -9,6 +9,7 @@ interface FooterProps {
   onNavigateToProduct?: (productId: string) => void;
   onNavigateToTeam?: () => void;
   onOpenInfoModal?: (mode: 'suite' | 'architecture' | 'contact') => void;
+  dark?: boolean;
 }
 
 export function Footer({
@@ -17,6 +18,7 @@ export function Footer({
   onNavigateToProduct,
   onNavigateToTeam,
   onOpenInfoModal,
+  dark = false,
 }: FooterProps) {
   const [email, setEmail] = useState('');
   const [subscribed, setSubscribed] = useState(false);
@@ -60,9 +62,9 @@ export function Footer({
   };
 
   return (
-    <footer className="w-full border-t border-gray-200 bg-white">
+    <footer data-nav-theme={dark ? 'dark' : undefined} className={`w-full ${dark ? 'bg-[#05060f]' : 'border-t border-gray-200 bg-white'}`}>
       {/* Newsletter & Sign-up Banner (full-width brand color) */}
-      <div className="w-full bg-[#0400F5]">
+      <div className={`w-full ${dark ? 'bg-white/[0.04]' : 'bg-[#0400F5]'}`}>
       <div className="max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-12">
       <div className="py-12 sm:py-16">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start lg:items-center">
@@ -87,11 +89,11 @@ export function Footer({
                   }}
                   placeholder="Enter your work email"
                   aria-label="Work email address"
-                  className="flex-1 rounded-full px-5 py-3 text-[14px] text-gray-900 bg-gray-100 placeholder:text-gray-400 focus:bg-gray-200/70 focus:outline-none transition-colors"
+                  className={`flex-1 rounded-full px-5 py-3 text-[14px] focus:outline-none transition-colors ${dark ? 'text-white bg-white/[0.08] placeholder:text-white/35 focus:bg-white/[0.14]' : 'text-gray-900 bg-gray-100 placeholder:text-gray-400 focus:bg-gray-200/70'}`}
                 />
                 <button
                   type="submit"
-                  className="rounded-full px-6 py-3 bg-gray-900 hover:bg-[#0400F5] text-white text-[13px] font-medium tracking-wide transition-colors duration-200 flex items-center justify-center gap-2 cursor-pointer shrink-0"
+                  className={`rounded-full px-6 py-3 text-[13px] ${dark ? 'bg-white text-gray-900 hover:bg-[#0400F5] hover:text-white' : 'bg-gray-900 hover:bg-[#0400F5] text-white'} font-medium tracking-wide transition-colors duration-200 flex items-center justify-center gap-2 cursor-pointer shrink-0`}
                 >
                   {subscribed ? (
                     <>
@@ -122,7 +124,7 @@ export function Footer({
       </div>
       </div>
 
-      <div className="max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-12">
+      <div className={`max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-12 ${dark ? 'footer-dark' : ''}`}>
       {/* Multi-Column Links & Information Section */}
       <div className="py-12 sm:py-16">
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8 sm:gap-10">

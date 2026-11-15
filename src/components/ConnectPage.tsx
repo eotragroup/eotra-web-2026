@@ -73,6 +73,7 @@ export function ConnectPage({ onNavigateHome, onOpenInquiry, onNavigateToTeam, o
       </div>
 
       <Footer
+        dark
         onNavigateHome={() => onNavigateHome()}
         onOpenInquiry={onOpenInquiry}
         onNavigateToProduct={(id) => onSelectProduct?.(id)}
