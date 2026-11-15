@@ -2,7 +2,7 @@ import { ArrowRight } from 'lucide-react';
 
 interface RollButtonProps {
   label: string;
-  variant?: 'dark' | 'orange';
+  variant?: 'dark' | 'orange' | 'light';
   size?: 'nav' | 'hero';
   onClick?: () => void;
   className?: string;
@@ -19,6 +19,8 @@ export function RollButton({
   const bgClasses =
     variant === 'dark'
       ? 'bg-gray-900 hover:bg-gray-800 text-white'
+      : variant === 'light'
+      ? 'bg-white hover:bg-gray-100 text-gray-900'
       : 'bg-[#0400F5] hover:bg-[#0300cc] text-white';
 
   const paddingClasses = isNav
@@ -30,7 +32,8 @@ export function RollButton({
     : 'w-7 h-7 sm:w-8 sm:h-8';
 
   const arrowColor =
-    variant === 'dark' ? 'text-gray-900' : 'text-[#0400F5]';
+    variant === 'dark' ? 'text-gray-900' : variant === 'light' ? 'text-white' : 'text-[#0400F5]';
+  const circleBg = variant === 'light' ? 'bg-[#0400F5]' : 'bg-white';
 
   return (
     <button
@@ -52,7 +55,7 @@ export function RollButton({
         </span>
       </span>
       <span
-        className={`${circleClasses} rounded-full bg-white flex items-center justify-center shrink-0`}
+        className={`${circleClasses} rounded-full ${circleBg} flex items-center justify-center shrink-0`}
       >
         <ArrowRight
           className={`w-3.5 h-3.5 sm:w-4 sm:h-4 ${arrowColor} transition-transform duration-500 ease-[cubic-bezier(0.25,0.1,0.25,1)] group-hover:-rotate-45`}
