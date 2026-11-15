@@ -2,6 +2,17 @@ import { Navbar } from './Navbar';
 import { Footer } from './Footer';
 import { InquiryForm } from './InquiryModal';
 
+// Same brand logos as the homepage strip
+const BRANDS = [
+  { name: 'Eotra Menu', src: '/assets/eotra-menu-logo.svg', h: 'h-8' },
+  { name: 'Jamjoom Pharmacy Group', src: '/assets/aistudio/jamjoom_english--logo231313_aec5cb31.png', h: 'h-8' },
+  { name: 'Dosur', src: '/assets/dosur-logo.svg', h: 'h-8' },
+  { name: 'NEOSHE', src: '/assets/neoshe-logo.png', h: 'h-6' },
+  { name: 'IBOSH STORE', src: '/assets/ibosh-logo.png', h: 'h-7' },
+  { name: 'Lidya&Co', src: '/assets/lidya-logo.svg', h: 'h-12' },
+  { name: 'TradesPilot AI', src: '/assets/tradespilot-logo.svg', h: 'h-10' },
+];
+
 interface ConnectPageProps {
   onNavigateHome: (sectionId?: string) => void;
   onOpenInquiry: (subject?: string) => void;
@@ -28,6 +39,18 @@ export function ConnectPage({ onNavigateHome, onOpenInquiry, onNavigateToTeam, o
             <a href="mailto:info@eotra.com" className="mt-6 inline-block text-[15px] font-medium text-gray-900 hover:text-[#0400F5] transition-colors">
               info@eotra.com
             </a>
+
+            <div className="mt-10 lg:mt-14 flex flex-wrap items-center gap-x-9 gap-y-7 max-w-md">
+              {BRANDS.map((b) => (
+                <img
+                  key={b.name}
+                  src={b.src}
+                  alt={b.name}
+                  loading="lazy"
+                  className={`${b.h} w-auto object-contain grayscale opacity-75 hover:grayscale-0 hover:opacity-100 transition-all duration-300`}
+                />
+              ))}
+            </div>
           </div>
 
           <div className="lg:col-span-7">
