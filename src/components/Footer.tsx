@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { ArrowRight, Check, Facebook, Globe, Instagram, Linkedin } from 'lucide-react';
 import { PRODUCTS } from '../data/products';
 import { useI18n } from '../i18n';
+import { PHONE_DISPLAY, PHONE_TEL } from '../data/contact';
 
 const SOCIALS = [
   { name: 'Instagram', href: 'https://www.instagram.com/eotraofficial', Icon: Instagram },
@@ -168,6 +169,16 @@ export function Footer({
                   className="text-gray-900 font-medium hover:text-[#0400F5] transition-colors"
                 >
                   info@eotra.com
+                </a>
+              </p>
+              <p>
+                <span className="font-medium text-gray-900">{t('Phone / WhatsApp')}:</span>{' '}
+                <a
+                  href={`tel:${PHONE_TEL}`}
+                  dir="ltr"
+                  className="inline-block text-gray-900 font-medium hover:text-[#0400F5] transition-colors"
+                >
+                  {PHONE_DISPLAY}
                 </a>
               </p>
             </div>
