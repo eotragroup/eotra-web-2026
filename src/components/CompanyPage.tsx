@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { ArrowRight, Rocket, ShieldCheck, Users } from 'lucide-react';
+import { ArrowRight, CalendarCheck, Layers, MapPin, Rocket, ShieldCheck, Users, Boxes } from 'lucide-react';
 import { Navbar } from './Navbar';
 import { Footer } from './Footer';
 import { RollButton } from './RollButton';
@@ -42,10 +42,10 @@ export function CompanyPage({ onNavigateHome, onOpenInquiry, onNavigateToTeam, o
   }, []);
 
   const stats = [
-    { value: '7+', label: 'Years building' },
-    { value: String(PRODUCTS.length), label: 'Live references' },
-    { value: String(SERVICES.length), label: 'Services' },
-    { value: 'Istanbul', label: 'Headquarters' },
+    { icon: CalendarCheck, value: '7+', label: 'Years building' },
+    { icon: Boxes, value: String(PRODUCTS.length), label: 'Live references' },
+    { icon: Layers, value: String(SERVICES.length), label: 'Services' },
+    { icon: MapPin, value: 'Istanbul', label: 'Headquarters' },
   ];
 
   return (
@@ -90,6 +90,9 @@ export function CompanyPage({ onNavigateHome, onOpenInquiry, onNavigateToTeam, o
         <div className="max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-12 grid grid-cols-2 lg:grid-cols-4 gap-3">
           {stats.map((s) => (
             <div key={s.label} className="rounded-3xl bg-gray-50 p-6 sm:p-8">
+              <span className="w-10 h-10 rounded-full bg-white flex items-center justify-center text-[#0400F5] mb-6">
+                <s.icon size={18} strokeWidth={1.7} />
+              </span>
               <div className="text-[clamp(1.75rem,4vw,3rem)] font-medium tracking-[-0.03em] text-gray-900">{t(s.value)}</div>
               <div className="mt-2 text-[13px] sm:text-[14px] text-gray-500">{t(s.label)}</div>
             </div>
