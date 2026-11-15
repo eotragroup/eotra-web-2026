@@ -6,6 +6,8 @@ import { ProductsGrid } from './ProductsGrid';
 import { PRODUCTS } from '../data/products';
 import { goToConnect } from '../lib/nav';
 import { useI18n } from '../i18n';
+import { RevealWords } from './RevealWords';
+import { usePageAnimations } from '../lib/pageAnimations';
 
 interface PageProps {
   onNavigateHome: (sectionId?: string) => void;
@@ -16,6 +18,7 @@ interface PageProps {
 
 export function ReferencesPage({ onNavigateHome, onOpenInquiry, onNavigateToTeam, onSelectProduct }: PageProps) {
   const { t } = useI18n();
+  usePageAnimations();
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -31,9 +34,7 @@ export function ReferencesPage({ onNavigateHome, onOpenInquiry, onNavigateToTeam
           <span className="inline-flex items-center rounded-full bg-gray-100 px-3.5 py-1.5 text-[12px] sm:text-[13px] font-medium text-gray-900">
             {PRODUCTS.length} {t('live projects')}
           </span>
-          <h1 className="mt-6 text-[clamp(2.25rem,6vw,5rem)] font-medium leading-[1.02] tracking-[-0.03em] text-gray-900 max-w-4xl">
-            {t('References')}
-          </h1>
+          <h1 className="mt-6 text-[clamp(2.25rem,6vw,5rem)] font-medium leading-[1.02] tracking-[-0.03em] text-gray-900 max-w-4xl"><RevealWords text={t('References')} /></h1>
           <p className="mt-6 text-[16px] sm:text-[19px] text-gray-500 leading-relaxed max-w-2xl">
             {t('Brands that run on what we build. Open any project to see what we made and how it works.')}
           </p>

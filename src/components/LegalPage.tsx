@@ -2,6 +2,8 @@ import { useEffect } from 'react';
 import { Navbar } from './Navbar';
 import { Footer } from './Footer';
 import { useI18n } from '../i18n';
+import { RevealWords } from './RevealWords';
+import { usePageAnimations } from '../lib/pageAnimations';
 
 export type LegalKind = 'privacy' | 'terms' | 'security';
 
@@ -129,6 +131,7 @@ const DOCS: Record<LegalKind, { title: string; intro: string; sections: { h: str
 
 export function LegalPage({ kind, onNavigateHome, onOpenInquiry, onNavigateToTeam, onSelectProduct }: PageProps) {
   const { t } = useI18n();
+  usePageAnimations(kind);
   const doc = DOCS[kind];
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -146,9 +149,7 @@ export function LegalPage({ kind, onNavigateHome, onOpenInquiry, onNavigateToTea
             <span className="inline-flex items-center rounded-full bg-gray-100 px-3.5 py-1.5 text-[12px] sm:text-[13px] font-medium text-gray-900">
               {t('Updated')} {t(UPDATED)}
             </span>
-            <h1 className="mt-6 text-[clamp(2.25rem,5.5vw,4.25rem)] font-medium leading-[1.03] tracking-[-0.03em] text-gray-900">
-              {t(doc.title)}
-            </h1>
+            <h1 className="mt-6 text-[clamp(2.25rem,5.5vw,4.25rem)] font-medium leading-[1.03] tracking-[-0.03em] text-gray-900"><RevealWords text={t(doc.title)} /></h1>
             <p className="mt-5 text-[16px] sm:text-[18px] text-gray-500 leading-relaxed max-w-md">{t(doc.intro)}</p>
           </div>
 
