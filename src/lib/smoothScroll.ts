@@ -13,10 +13,10 @@ export function initSmoothScroll(): () => void {
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return () => {};
 
   const instance = new Lenis({
-    duration: 1.15,
-    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+    // lerp mode reacts straight away and eases out, so scrolling keeps up with the hand
+    lerp: 0.16,
     smoothWheel: true,
-    wheelMultiplier: 1,
+    wheelMultiplier: 1.1,
   });
   lenis = instance;
 
