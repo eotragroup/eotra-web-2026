@@ -1,3 +1,4 @@
+import { goToConnect } from '../lib/nav';
 import { useEffect } from 'react';
 import { ArrowLeft, ArrowRight, ExternalLink } from 'lucide-react';
 import { gsap } from 'gsap';
@@ -150,7 +151,7 @@ export function ProductPage({
                   label="Book a demo"
                   variant="orange"
                   size="hero"
-                  onClick={() => onOpenInquiry(product.inquirySubject)}
+                  onClick={() => goToConnect()}
                 />
 
                 {product.liveUrl && (
@@ -294,7 +295,7 @@ export function ProductPage({
                   label="Request a demo"
                   variant="orange"
                   size="hero"
-                  onClick={() => onOpenInquiry(product.inquirySubject)}
+                  onClick={() => goToConnect()}
                 />
               </div>
             </div>

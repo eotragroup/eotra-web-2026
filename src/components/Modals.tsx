@@ -1,3 +1,4 @@
+import { goToConnect } from '../lib/nav';
 import { useState, FormEvent } from 'react';
 import { ArrowRight, CheckCircle2, ExternalLink, Mail, X } from 'lucide-react';
 import {
@@ -143,7 +144,7 @@ export function CaseStudyModal({
                 type="button"
                 onClick={() => {
                   onClose();
-                  onStartSimilar(`Demo Inquiry (${project.title})`);
+                  goToConnect();
                 }}
                 className="bg-[#0400F5] hover:bg-[#0300cc] text-white text-[13px] font-medium rounded-full pl-5 pr-2 py-2 inline-flex items-center gap-3 transition-colors cursor-pointer"
               >

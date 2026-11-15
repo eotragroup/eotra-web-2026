@@ -1,3 +1,4 @@
+import { goToConnect } from './lib/nav';
 import { useEffect, useState } from 'react';
 import { MessageSquare } from 'lucide-react';
 import { gsap } from 'gsap';
@@ -262,8 +263,9 @@ export default function App() {
     }
   };
 
-  const openInquiry = (subject = 'Get Started with Eotra') => {
-    setInquiryState({ open: true, subject });
+  // Every "get started / book a demo / start a project" button goes to the Connect page instead of a pop-up
+  const openInquiry = (_subject?: string) => {
+    goToConnect();
   };
 
   return (
@@ -501,7 +503,7 @@ export default function App() {
       <InfoModal
         mode={infoModal}
         onClose={() => setInfoModal(null)}
-        onStartProject={() => openInquiry('Book an Eotra Demo')}
+        onStartProject={() => goToConnect()}
       />
     </>
   );
