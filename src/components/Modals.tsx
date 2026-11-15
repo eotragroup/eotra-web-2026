@@ -126,7 +126,7 @@ export function CaseStudyModal({
               onClick={onClose}
               className="text-[13px] font-medium text-gray-600 hover:text-gray-900 cursor-pointer"
             >
-              Back to projects
+              Back to references
             </button>
             <div className="flex items-center gap-3">
               {project.liveUrl && (

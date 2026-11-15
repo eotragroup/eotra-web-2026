@@ -1,7 +1,8 @@
-import { goToCompany, goToConnect } from './lib/nav';
+import { goToCompany, goToConnect, goToReferences } from './lib/nav';
 import { ServicePage } from './components/ServicePage';
 import { CompanyPage } from './components/CompanyPage';
 import { SolutionsPage } from './components/SolutionsPage';
+import { ReferencesPage } from './components/ReferencesPage';
 import { getService } from './data/services';
 import { useEffect, useState } from 'react';
 import { MessageSquare } from 'lucide-react';
@@ -98,7 +99,8 @@ function getServiceFromPath(pathname: string): string | null {
 }
 
 // '/company' or '/solutions'
-function getInfoPageFromPath(pathname: string): 'company' | 'solutions' | null {
+function getInfoPageFromPath(pathname: string): 'company' | 'solutions' | 'references' | null {
+  if (/^\/references\/?$/.test(pathname)) return 'references';
   if (/^\/company\/?$/.test(pathname)) return 'company';
   if (/^\/solutions\/?$/.test(pathname)) return 'solutions';
   return null;
@@ -136,7 +138,7 @@ export default function App() {
   const [isConnectPage, setIsConnectPage] = useState<boolean>(() =>
     isConnectPath(window.location.pathname)
   );
-  const [infoPage, setInfoPage] = useState<'company' | 'solutions' | null>(() =>
+  const [infoPage, setInfoPage] = useState<'company' | 'solutions' | 'references' | null>(() =>
     getInfoPageFromPath(window.location.pathname)
   );
   const [serviceSlug, setServiceSlug] = useState<string | null>(() =>
@@ -179,7 +181,7 @@ export default function App() {
     if (activeProduct) {
       document.title = `${activeProduct.title} — Eotra`;
     } else if (infoPage) {
-      document.title = infoPage === 'company' ? 'Our Company — Eotra' : 'Our Solutions — Eotra';
+      document.title = infoPage === 'company' ? 'Our Company — Eotra' : infoPage === 'references' ? 'References — Eotra' : 'Our Solutions — Eotra';
     } else if (serviceSlug) {
       document.title = `${getService(serviceSlug)?.title ?? 'Services'} — Eotra`;
     } else if (isTeamPage) {
@@ -332,6 +334,13 @@ export default function App() {
         )
       ) : infoPage === 'company' ? (
         <CompanyPage
+          onNavigateHome={navigateHome}
+          onOpenInquiry={openInquiry}
+          onNavigateToTeam={navigateToTeam}
+          onSelectProduct={navigateToProduct}
+        />
+      ) : infoPage === 'references' ? (
+        <ReferencesPage
           onNavigateHome={navigateHome}
           onOpenInquiry={openInquiry}
           onNavigateToTeam={navigateToTeam}
@@ -504,7 +513,7 @@ export default function App() {
           {/* Heading with ScrollRevealText */}
           <ScrollRevealText
             as="h2"
-            text="Our Products"
+            text="Our References"
             className="text-[clamp(1.75rem,5.5vw,3.75rem)] text-gray-900 mb-10 sm:mb-14 lg:mb-16"
             start="top 85%"
             end="bottom 55%"
@@ -512,6 +521,10 @@ export default function App() {
 
           {/* Products grid */}
           <ProductsGrid products={PRODUCTS} onOpenProduct={navigateToProduct} />
+
+          <div className="mt-10 flex justify-center">
+            <RollButton label="All references" variant="dark" size="hero" onClick={() => goToReferences()} />
+          </div>
         </div>
       </section>
 

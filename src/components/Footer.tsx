@@ -244,7 +244,7 @@ export function Footer({
           {/* Column: Client Work & Case Studies */}
           <div>
             <h4 className="text-[12px] font-semibold uppercase tracking-wider text-gray-900 mb-4">
-              Client Platforms
+              References
             </h4>
             <ul className="space-y-2.5 text-[13px] text-gray-600">
               {PRODUCTS.map((prod) => (

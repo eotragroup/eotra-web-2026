@@ -1,4 +1,4 @@
-import { goToConnect } from '../lib/nav';
+import { goToConnect, goToReferences } from '../lib/nav';
 import { useEffect } from 'react';
 import { ArrowLeft, ArrowRight, ExternalLink } from 'lucide-react';
 import { gsap } from 'gsap';
@@ -114,11 +114,11 @@ export function ProductPage({
         <div className="relative z-20 w-full max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-12 pt-8 sm:pt-12 lg:pt-16">
           <button
             type="button"
-            onClick={() => onNavigateHome('projects')}
+            onClick={() => goToReferences()}
             className="inline-flex items-center gap-2 text-[13px] font-medium text-gray-700 hover:text-[#0400F5] transition-colors mb-8 sm:mb-10 cursor-pointer min-h-[40px]"
           >
             <ArrowLeft size={15} />
-            <span>Back to all products</span>
+            <span>Back to references</span>
           </button>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
@@ -258,15 +258,15 @@ export function ProductPage({
         <div className="max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-12">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8 sm:mb-10">
             <h2 className="text-[clamp(1.75rem,4vw,3.25rem)] font-medium leading-[1.08] tracking-[-0.03em] text-gray-900">
-              More products
+              More references
             </h2>
 
             <button
               type="button"
-              onClick={() => onNavigateHome('projects')}
+              onClick={() => goToReferences()}
               className="inline-flex items-center gap-2 text-[14px] font-medium text-gray-900 hover:text-[#0400F5] transition-colors cursor-pointer self-start sm:self-auto"
             >
-              <span>All products &amp; projects</span>
+              <span>All references</span>
               <ArrowRight size={15} />
             </button>
           </div>

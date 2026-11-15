@@ -22,3 +22,4 @@ export const goToPost = (slug: string) => navigateTo(`/blog/${slug}`);
 export const goToService = (slug: string) => navigateTo(`/services/${slug}`);
 export const goToCompany = () => navigateTo('/company');
 export const goToSolutions = () => navigateTo('/solutions');
+export const goToReferences = () => navigateTo('/references');

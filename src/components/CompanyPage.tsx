@@ -41,7 +41,7 @@ export function CompanyPage({ onNavigateHome, onOpenInquiry, onNavigateToTeam, o
 
   const stats = [
     { value: '7+', label: 'Years building' },
-    { value: String(PRODUCTS.length), label: 'Live products' },
+    { value: String(PRODUCTS.length), label: 'Live references' },
     { value: String(SERVICES.length), label: 'Services' },
     { value: 'Istanbul', label: 'Headquarters' },
   ];
@@ -134,7 +134,7 @@ export function CompanyPage({ onNavigateHome, onOpenInquiry, onNavigateToTeam, o
       {/* Products */}
       <section className="bg-[#F5F5F5] py-16 sm:py-24">
         <div className="max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-12">
-          <h2 className="text-[clamp(1.6rem,3.4vw,2.6rem)] font-medium tracking-[-0.02em] text-gray-900 mb-10">Our products</h2>
+          <h2 className="text-[clamp(1.6rem,3.4vw,2.6rem)] font-medium tracking-[-0.02em] text-gray-900 mb-10">Our references</h2>
           <ProductsGrid products={PRODUCTS} onOpenProduct={(id) => onSelectProduct?.(id)} />
         </div>
       </section>
