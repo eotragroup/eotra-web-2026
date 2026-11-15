@@ -3,6 +3,7 @@
 //   POST /api/views/<slug>  -> { "views": <new count> }   (adds one view)
 import { POSTS } from '../src/data/posts';
 import { PRODUCTS } from '../src/data/products';
+import { metaForPath } from '../src/data/pageMeta';
 
 interface KV {
   get(key: string): Promise<string | null>;
@@ -27,6 +28,9 @@ function sitemap(origin: string): Response {
     { path: '/connect' },
     { path: '/references' },
     { path: '/company' },
+    { path: '/privacy' },
+    { path: '/terms' },
+    { path: '/security' },
     { path: '/solutions' },
     { path: '/blog' },
     ...PRODUCTS.map((p) => ({ path: `/products/${p.id}` })),
@@ -41,6 +45,34 @@ function sitemap(origin: string): Response {
     '\n</urlset>\n';
   return new Response(body, { headers: { 'content-type': 'application/xml; charset=utf-8', 'cache-control': 'public, max-age=3600' } });
 }
+// Fills the tags crawlers and link-preview bots read (they do not run JavaScript), per page, with absolute addresses.
+function withPageMeta(res: Response, url: URL): Response {
+  const meta = metaForPath(url.pathname);
+  const title = meta.title.includes('Eotra') ? meta.title : `${meta.title} — Eotra`;
+  const pageUrl = `${url.origin}${url.pathname}`;
+  const image = `${url.origin}/og.png`;
+  const content = (value: string) => ({
+    element(e: { setAttribute(n: string, v: string): void }) {
+      e.setAttribute('content', value);
+    },
+  });
+  const rewritten = new HTMLRewriter()
+    .on('title', { element(e) { e.setInnerContent(title); } })
+    .on('meta[name="description"]', content(meta.description))
+    .on('meta[property="og:title"]', content(title))
+    .on('meta[property="og:description"]', content(meta.description))
+    .on('meta[property="og:url"]', content(pageUrl))
+    .on('meta[property="og:image"]', content(image))
+    .on('meta[name="twitter:title"]', content(title))
+    .on('meta[name="twitter:description"]', content(meta.description))
+    .on('meta[name="twitter:image"]', content(image))
+    .on('meta[name="robots"]', content(meta.noindex ? 'noindex' : 'index, follow'))
+    .on('link[rel="canonical"]', { element(e) { e.setAttribute('href', pageUrl); } })
+    .transform(res);
+  // A wrong address gets a real 404 status (the page itself still shows the friendly "Page not found" screen)
+  return new Response(rewritten.body, { status: meta.noindex ? 404 : res.status, headers: res.headers });
+}
+
 const json = (data: unknown, status = 200) =>
   new Response(JSON.stringify(data), {
     status,
@@ -77,6 +109,10 @@ export default {
     }
 
     if (url.pathname.startsWith('/api/')) return json({ error: 'not found' }, 404);
-    return env.ASSETS.fetch(request);
+
+    const res = await env.ASSETS.fetch(request);
+    const isPage = request.method === 'GET' && !/\.[a-z0-9]+$/i.test(url.pathname);
+    if (!isPage || !(res.headers.get('content-type') ?? '').includes('text/html')) return res;
+    return withPageMeta(res, url);
   },
 };

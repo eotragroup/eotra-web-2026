@@ -1,4 +1,4 @@
-import { goToBlog, goToConnect, goToFaq } from '../lib/nav';
+import { goToBlog, goToConnect, goToFaq, goToLegal } from '../lib/nav';
 import React, { useState } from 'react';
 import { ArrowRight, Check, Facebook, Globe, Instagram, Linkedin, Twitter } from 'lucide-react';
 import { PRODUCTS } from '../data/products';
@@ -345,21 +345,21 @@ export function Footer({
         <div className="flex flex-wrap items-center gap-6">
           <button
             type="button"
-            onClick={() => onOpenInquiry?.('Privacy Policy Inquiry')}
+            onClick={() => goToLegal('privacy')}
             className="hover:text-gray-900 transition-colors"
           >
             Privacy Policy
           </button>
           <button
             type="button"
-            onClick={() => onOpenInquiry?.('Terms of Service Inquiry')}
+            onClick={() => goToLegal('terms')}
             className="hover:text-gray-900 transition-colors"
           >
             Terms of Service
           </button>
           <button
             type="button"
-            onClick={() => onOpenInquiry?.('Security & Compliance')}
+            onClick={() => goToLegal('security')}
             className="hover:text-gray-900 transition-colors"
           >
             Security

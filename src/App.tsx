@@ -1,4 +1,8 @@
 import { goToCompany, goToConnect, goToReferences } from './lib/nav';
+import { applyMeta } from './lib/seo';
+import { metaForPath } from './data/pageMeta';
+import { LegalPage } from './components/LegalPage';
+import { NotFoundPage } from './components/NotFoundPage';
 import { ServicePage } from './components/ServicePage';
 import { CompanyPage } from './components/CompanyPage';
 import { SolutionsPage } from './components/SolutionsPage';
@@ -99,7 +103,11 @@ function getServiceFromPath(pathname: string): string | null {
 }
 
 // '/company' or '/solutions'
-function getInfoPageFromPath(pathname: string): 'company' | 'solutions' | 'references' | null {
+type InfoPage = 'company' | 'solutions' | 'references' | 'privacy' | 'terms' | 'security';
+
+function getInfoPageFromPath(pathname: string): InfoPage | null {
+  const legal = pathname.match(/^\/(privacy|terms|security)\/?$/);
+  if (legal) return legal[1] as InfoPage;
   if (/^\/references\/?$/.test(pathname)) return 'references';
   if (/^\/company\/?$/.test(pathname)) return 'company';
   if (/^\/solutions\/?$/.test(pathname)) return 'solutions';
@@ -138,7 +146,7 @@ export default function App() {
   const [isConnectPage, setIsConnectPage] = useState<boolean>(() =>
     isConnectPath(window.location.pathname)
   );
-  const [infoPage, setInfoPage] = useState<'company' | 'solutions' | 'references' | null>(() =>
+  const [infoPage, setInfoPage] = useState<InfoPage | null>(() =>
     getInfoPageFromPath(window.location.pathname)
   );
   const [serviceSlug, setServiceSlug] = useState<string | null>(() =>
@@ -177,29 +185,26 @@ export default function App() {
     return () => window.removeEventListener('popstate', handlePopState);
   }, []);
 
+  const pathname = window.location.pathname;
+  const notFound =
+    pathname !== '/' &&
+    !(
+      activeProduct ||
+      isTeamPage ||
+      isFaqPage ||
+      isConnectPage ||
+      blogRoute !== null ||
+      (serviceSlug && getService(serviceSlug)) ||
+      infoPage
+    );
+
   useEffect(() => {
-    if (activeProduct) {
-      document.title = `${activeProduct.title} — Eotra`;
-    } else if (infoPage) {
-      document.title = infoPage === 'company' ? 'Our Company — Eotra' : infoPage === 'references' ? 'References — Eotra' : 'Our Solutions — Eotra';
-    } else if (serviceSlug) {
-      document.title = `${getService(serviceSlug)?.title ?? 'Services'} — Eotra`;
-    } else if (isTeamPage) {
-      document.title = 'The Founder Team — Eotra';
-    } else if (isFaqPage) {
-      document.title = 'FAQ — Eotra';
-    } else if (isConnectPage) {
-      document.title = 'Connect — Eotra';
-    } else if (blogRoute !== null) {
-      document.title = blogRoute ? `${POSTS.find((p) => p.slug === blogRoute)?.title ?? 'Blog'} — Eotra` : 'Blog — Eotra';
-    } else {
-      document.title = 'Eotra — Enterprise Operations & Transaction';
-    }
-  }, [activeProduct, isTeamPage, isFaqPage, isConnectPage, blogRoute, serviceSlug, infoPage]);
+    applyMeta(metaForPath(window.location.pathname));
+  }, [activeProduct, isTeamPage, isFaqPage, isConnectPage, blogRoute, serviceSlug, infoPage, notFound]);
 
   // GSAP Animations
   useEffect(() => {
-    if (activeProduct || isTeamPage || isFaqPage || isConnectPage || blogRoute !== null || serviceSlug || infoPage) return;
+    if (activeProduct || isTeamPage || isFaqPage || isConnectPage || blogRoute !== null || serviceSlug || infoPage || notFound) return;
 
     const ctx = gsap.context(() => {
       // Hero entrance animation
@@ -246,7 +251,7 @@ export default function App() {
     });
 
     return () => ctx.revert();
-  }, [activeProduct, isTeamPage, isFaqPage, isConnectPage, blogRoute, serviceSlug, infoPage]);
+  }, [activeProduct, isTeamPage, isFaqPage, isConnectPage, blogRoute, serviceSlug, infoPage, notFound]);
 
   const navigateToProduct = (productId: string) => {
     const targetPath = `/products/${encodeURIComponent(productId)}`;
@@ -334,6 +339,21 @@ export default function App() {
         )
       ) : infoPage === 'company' ? (
         <CompanyPage
+          onNavigateHome={navigateHome}
+          onOpenInquiry={openInquiry}
+          onNavigateToTeam={navigateToTeam}
+          onSelectProduct={navigateToProduct}
+        />
+      ) : notFound ? (
+        <NotFoundPage
+          onNavigateHome={navigateHome}
+          onOpenInquiry={openInquiry}
+          onNavigateToTeam={navigateToTeam}
+          onSelectProduct={navigateToProduct}
+        />
+      ) : infoPage === 'privacy' || infoPage === 'terms' || infoPage === 'security' ? (
+        <LegalPage
+          kind={infoPage}
           onNavigateHome={navigateHome}
           onOpenInquiry={openInquiry}
           onNavigateToTeam={navigateToTeam}
