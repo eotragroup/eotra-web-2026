@@ -1,7 +1,7 @@
 import { goToBlog, goToFaq } from '../lib/nav';
 import { smoothScrollTo } from '../lib/smoothScroll';
 import { useEffect, useState } from 'react';
-import { ArrowRight, Clock, Menu, X } from 'lucide-react';
+import { ArrowRight, Menu, X } from 'lucide-react';
 import { RollButton } from './RollButton';
 
 interface NavbarProps {
@@ -10,25 +10,8 @@ interface NavbarProps {
   onNavigateToTeam?: () => void;
 }
 
-function getIstanbulTime(): string {
-  return new Intl.DateTimeFormat('en-GB', {
-    timeZone: 'Europe/Istanbul',
-    hour: '2-digit',
-    minute: '2-digit',
-    hour12: false,
-  }).format(new Date());
-}
-
 export function Navbar({ onOpenInquiry, onNavigateHome, onNavigateToTeam }: NavbarProps) {
-  const [istanbulTime, setIstanbulTime] = useState<string>(() => getIstanbulTime());
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setIstanbulTime(getIstanbulTime());
-    }, 1000);
-    return () => clearInterval(interval);
-  }, []);
 
   useEffect(() => {
     if (mobileMenuOpen) {
@@ -179,12 +162,8 @@ export function Navbar({ onOpenInquiry, onNavigateHome, onNavigateToTeam }: Navb
             </div>
           </div>
 
-          {/* RIGHT: Live Clock, CTA */}
+          {/* RIGHT: CTA */}
           <div className="hidden md:flex items-center gap-5">
-            <div className="flex items-center gap-1.5 text-[13px] text-gray-600 whitespace-nowrap tabular-nums">
-              <Clock size={14} className="shrink-0" />
-              <span>{istanbulTime} in Istanbul</span>
-            </div>
             <RollButton
               label="Book a demo"
               variant="dark"
@@ -225,11 +204,7 @@ export function Navbar({ onOpenInquiry, onNavigateHome, onNavigateToTeam }: Navb
             mobileMenuOpen ? 'translate-y-0' : 'translate-y-full'
           }`}
         >
-          <div className="flex items-center justify-between">
-            <div className="inline-flex items-center gap-1.5 text-[13px] text-gray-600 bg-gray-100 px-3 py-1.5 rounded-full tabular-nums">
-              <Clock size={14} />
-              <span>{istanbulTime} in Istanbul</span>
-            </div>
+          <div className="flex items-center justify-end">
             <button
               type="button"
               onClick={() => setMobileMenuOpen(false)}
