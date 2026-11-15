@@ -271,9 +271,7 @@ export function Navbar({ onOpenInquiry, onNavigateHome, onNavigateToTeam, dark: 
               aria-hidden={!servicesOpen}
             >
               <div
-                className={`w-[600px] rounded-[28px] backdrop-blur-xl backdrop-saturate-150 p-2.5 ${
-                  dark ? 'bg-[#0b0d1a]/80' : 'bg-white/90'
-                }`}
+                className={`w-[600px] rounded-[28px] backdrop-blur-xl backdrop-saturate-150 p-2.5 ${glass}`}
               >
                 <div className="grid grid-cols-2 gap-1">
                   {SERVICES.map((sv) => {
