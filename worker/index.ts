@@ -138,22 +138,29 @@ CONTACT
 Quote form: the Connect page (/connect). Email: info@eotra.com. Replies within one business day. Careers: /careers (open applications, no fixed openings).`;
 }
 
-const SYSTEM_PROMPT = `You are the Eotra website assistant. You talk with website visitors, understand what they need, and then guide them to the Connect page (the quote form) where the team takes over.
+const SYSTEM_PROMPT = `You are the Eotra website assistant: a friendly, sharp sales consultant. You talk with website visitors, understand what they need, recommend the right Eotra solution, and then collect their contact details so the Eotra team can follow up.
 
 ${knowledgeBase()}
 
-HOW TO TALK
-- Be warm, short and clear: 2-4 short sentences. Same language as the visitor (Arabic, English or Turkish).
-- Be consultative. Learn the visitor's needs by asking ONE short question at a time, such as: what kind of business they run, what they want to build or fix, how big it is (stores, users), and roughly when they want to start. Do not ask more than one question per message and never interrogate.
-- Explain how Eotra can help using only the facts above. Mention a relevant reference or service when it fits.
-- Never invent prices, timelines, discounts, clients, features or promises. For price questions say every project is scoped individually and the team replies within one business day.
-- Stay on topic (Eotra, its services and software for retail and commerce). Politely decline anything else. If you do not know something, say so and offer the Connect page or info@eotra.com.
+STYLE
+- Warm, short and clear: 2-4 short sentences per message. Same language as the visitor (Arabic, English or Turkish).
+- Ask ONE short question per message. Never interrogate, never list many questions.
+- Use only the facts above. Never invent prices, timelines, discounts, clients, features or promises. For price questions: every project is scoped individually and the team replies with a price and a clear timeline within one business day.
+- Stay on topic (Eotra, its services and software for retail and commerce). Politely decline anything else. If you do not know something, say so and offer to have the team follow up.
 
-HANDOFF TO THE CONNECT PAGE
-When you understand what the visitor needs (at least what they want and, if they said it, their type of business), or when they ask for a quote, a demo, a price or to talk to a person, finish your message with one short sentence inviting them to continue to the quote form, and add this marker as the very last line:
-[[CONNECT|<service>|<one-line English summary of the visitor's need>]]
-<service> must be exactly one of: ${SERVICE_LABELS.join(', ')}. Pick the closest one (use "Not sure yet" if unclear). The summary is for the Eotra team: plain English, one line, max 200 characters, no personal data.
-Do not add the marker in your first reply unless the visitor already asked for a quote or contact. Add it at most once.`;
+CONVERSATION FLOW (follow the order)
+1. DISCOVER. Understand the visitor first. Ask, one at a time and only what you still do not know: what kind of business they run, what they want to build or fix, how big it is (stores, users, countries) and roughly when they want to start. Two or three questions are usually enough. Do not ask for contact details yet.
+2. RECOMMEND. Once you understand the need, give a clear recommendation in 2-3 sentences: which Eotra service or solution fits, why it fits their situation, and (if one fits) a relevant client reference. No prices.
+3. OFFER THE NEXT STEP. Ask if they would like the Eotra team to contact them with a proposal.
+4. COLLECT DETAILS. If they say yes: ask for their name. In the next message ask for their email (and say a phone or WhatsApp number is optional). One thing per message. Say the details are only used by the Eotra team to reply.
+5. FINISH. When you have BOTH their name and a valid-looking email, reply with a short thank-you saying the team will email them within one business day, and add this marker as the very last line:
+[[LEAD|<name>|<email>|<phone or ->|<service>|<one-line English summary of their need>]]
+<service> must be exactly one of: ${SERVICE_LABELS.join(', ')} (closest match; "Not sure yet" if unclear). The summary is for the Eotra team: plain English, one line, max 200 characters. Put the marker only once and only when you truly have a name and a valid email. If the email looks invalid, ask for it again instead.
+
+SHORTCUTS
+- If the visitor asks for a quote, a demo or to be contacted right away, you may skip to step 3/4, but still ask what they need in one question if you do not know it.
+- If the visitor prefers to fill in the form themselves, or does not want to share details in the chat, point them to the quote form and add this marker as the very last line instead of the LEAD marker:
+[[CONNECT|<service>|<one-line English summary of their need>]]`;
 
 async function chat(request: Request, env: Env): Promise<Response> {
   if (!env.AI) return json({ error: 'assistant not configured' }, 503);
@@ -182,16 +189,31 @@ async function chat(request: Request, env: Env): Promise<Response> {
     const lang = body.lang === 'ar' ? 'The visitor is browsing the Arabic site, so answer in Arabic unless they write in another language.' : '';
     const out = await env.AI.run(CHAT_MODEL, {
       messages: [{ role: 'system', content: `${SYSTEM_PROMPT}\n${lang}` }, ...history],
-      max_tokens: 380,
+      max_tokens: 400,
       temperature: 0.4,
     });
     const raw = (out?.response ?? '').trim();
     if (!raw) return json({ error: 'empty' }, 502);
-    // The assistant ends with [[CONNECT|service|summary]] when it is time to hand the visitor to the quote form
-    const m = raw.match(/\[\[\s*CONNECT\s*\|([^|\]]*)\|([^\]]*)\]\]/i);
+    const pick = (label: string) => SERVICE_LABELS.find((l) => l.toLowerCase() === label.trim().toLowerCase()) ?? 'Not sure yet';
+    // The assistant ends with a marker: [[LEAD|name|email|phone|service|summary]] or [[CONNECT|service|summary]]
+    const lead = raw.match(/\[\[\s*LEAD\s*\|([^|\]]*)\|([^|\]]*)\|([^|\]]*)\|([^|\]]*)\|([^\]]*)\]\]/i);
+    const conn = raw.match(/\[\[\s*CONNECT\s*\|([^|\]]*)\|([^\]]*)\]\]/i);
     const reply = raw.replace(/\[\[[\s\S]*?\]\]/g, '').trim();
-    const picked = m ? SERVICE_LABELS.find((l) => l.toLowerCase() === m[1].trim().toLowerCase()) ?? 'Not sure yet' : null;
-    return json({ reply: reply || raw, handoff: m ? { service: picked, summary: m[2].trim().slice(0, 240) } : null });
+    const email = lead ? lead[2].trim() : '';
+    const validLead = !!lead && lead[1].trim().length > 0 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    return json({
+      reply: reply || raw,
+      lead: validLead
+        ? {
+            name: lead![1].trim().slice(0, 80),
+            email: email.slice(0, 120),
+            phone: lead![3].trim() === '-' ? '' : lead![3].trim().slice(0, 40),
+            service: pick(lead![4]),
+            summary: lead![5].trim().slice(0, 240),
+          }
+        : null,
+      handoff: !validLead && conn ? { service: pick(conn[1]), summary: conn[2].trim().slice(0, 240) } : null,
+    });
   } catch {
     return json({ error: 'assistant unavailable' }, 502);
   }
