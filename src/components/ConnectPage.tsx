@@ -23,13 +23,13 @@ interface ConnectPageProps {
 export function ConnectPage({ onNavigateHome, onOpenInquiry, onNavigateToTeam, onSelectProduct }: ConnectPageProps) {
   return (
     <div className="min-h-screen bg-white text-gray-900 antialiased">
-      <div className="connect-glass-bg relative isolate overflow-hidden bg-[#f4f4ff]">
+      <div className="connect-glass-bg relative isolate overflow-hidden bg-[#05060f]">
         {/* Soft colour shapes behind the glass card */}
         <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10">
-          <div className="connect-orb absolute -top-24 right-[4%] w-[520px] h-[520px] rounded-full bg-[#0400F5]/45 blur-[110px]" />
-          <div className="connect-orb connect-orb-b absolute top-[38%] right-[30%] w-[420px] h-[420px] rounded-full bg-fuchsia-400/40 blur-[110px]" />
-          <div className="connect-orb absolute bottom-[-6%] right-[2%] w-[460px] h-[460px] rounded-full bg-sky-400/50 blur-[110px]" />
-          <div className="connect-orb connect-orb-b absolute top-[8%] left-[-8%] w-[380px] h-[380px] rounded-full bg-indigo-300/50 blur-[100px]" />
+          <div className="connect-orb absolute -top-28 right-[2%] w-[560px] h-[560px] rounded-full bg-[#0400F5]/60 blur-[120px]" />
+          <div className="connect-orb connect-orb-b absolute top-[42%] right-[34%] w-[440px] h-[440px] rounded-full bg-violet-600/45 blur-[120px]" />
+          <div className="connect-orb absolute bottom-[-8%] right-[0%] w-[480px] h-[480px] rounded-full bg-sky-500/35 blur-[120px]" />
+          <div className="connect-orb connect-orb-b absolute top-[6%] left-[-10%] w-[420px] h-[420px] rounded-full bg-indigo-600/40 blur-[110px]" />
         </div>
 
         <section className="relative flex flex-col">
@@ -39,13 +39,13 @@ export function ConnectPage({ onNavigateHome, onOpenInquiry, onNavigateToTeam, o
         <section className="pt-12 sm:pt-16 lg:pt-20 pb-20 sm:pb-28 lg:pb-36">
           <div className="max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-12 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14">
             <div className="lg:col-span-5">
-              <h1 className="text-[clamp(2.25rem,6vw,4.5rem)] font-medium leading-[1.02] tracking-[-0.03em] text-gray-900">
+              <h1 className="text-[clamp(2.25rem,6vw,4.5rem)] font-medium leading-[1.02] tracking-[-0.03em] text-white">
                 Connect
               </h1>
-              <p className="mt-6 text-[15px] sm:text-[17px] text-gray-700 leading-relaxed max-w-sm">
+              <p className="mt-6 text-[15px] sm:text-[17px] text-white/70 leading-relaxed max-w-sm">
                 Tell us what you need. We reply within one business day.
               </p>
-              <a href="mailto:info@eotra.com" className="mt-6 inline-block text-[15px] font-medium text-gray-900 hover:text-[#0400F5] transition-colors">
+              <a href="mailto:info@eotra.com" className="mt-6 inline-block text-[15px] font-medium text-white hover:text-white/70 transition-colors">
                 info@eotra.com
               </a>
 
@@ -56,7 +56,7 @@ export function ConnectPage({ onNavigateHome, onOpenInquiry, onNavigateToTeam, o
                     src={b.src}
                     alt={b.name}
                     loading="lazy"
-                    className={`${b.h} w-auto object-contain grayscale opacity-75 hover:grayscale-0 hover:opacity-100 transition-all duration-300`}
+                    className={`${b.h} w-auto object-contain brightness-0 invert opacity-60 hover:opacity-100 transition-opacity duration-300`}
                   />
                 ))}
               </div>
@@ -64,8 +64,8 @@ export function ConnectPage({ onNavigateHome, onOpenInquiry, onNavigateToTeam, o
 
             <div className="lg:col-span-7">
               {/* Frosted-glass card */}
-              <div className="rounded-3xl border border-white/70 bg-white/35 backdrop-blur-2xl backdrop-saturate-150 shadow-[0_24px_70px_rgba(4,0,245,0.14),inset_0_1px_0_rgba(255,255,255,0.9)] p-6 sm:p-8 lg:p-10 max-w-2xl">
-                <InquiryForm subject="Connect with Eotra" onClose={() => onNavigateHome()} showClose={false} doneLabel="Back to home" glass />
+              <div className="rounded-3xl border border-white/15 bg-white/[0.06] backdrop-blur-2xl backdrop-saturate-150 shadow-[0_30px_80px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.2)] p-6 sm:p-8 lg:p-10 max-w-2xl">
+                <InquiryForm subject="Connect with Eotra" onClose={() => onNavigateHome()} showClose={false} doneLabel="Back to home" dark />
               </div>
             </div>
           </div>

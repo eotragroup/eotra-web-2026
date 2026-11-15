@@ -59,11 +59,11 @@ interface InquiryFormProps {
   /** Modal shows a close (X) button; the page does not */
   showClose?: boolean;
   doneLabel?: string;
-  /** Translucent fields and tiles, for use on top of the frosted-glass card */
-  glass?: boolean;
+  /** Light-on-dark colours, for use on the dark glass card */
+  dark?: boolean;
 }
 
-export function InquiryForm({ subject, onClose, showClose = true, doneLabel = 'Done', glass = false }: InquiryFormProps) {
+export function InquiryForm({ subject, onClose, showClose = true, doneLabel = 'Done', dark = false }: InquiryFormProps) {
   const isProject = !NOT_A_PROJECT.test(subject || '');
 
   const [services, setServices] = useState<string[]>(() => preselect(subject));
@@ -126,42 +126,70 @@ export function InquiryForm({ subject, onClose, showClose = true, doneLabel = 'D
 
   const title = isProject ? 'Tell us about your project' : subject || 'Contact Eotra';
 
-  const idle = glass ? 'border-white/70 bg-white/55 hover:border-gray-900 hover:bg-white/80' : 'border-gray-200 bg-white hover:border-gray-900';
+  const t = dark
+    ? {
+        title: 'text-white',
+        body: 'text-white/70',
+        label: 'text-white/80',
+        muted: 'text-white/45',
+        iconOk: 'bg-white/10 text-white',
+        err: 'text-red-300',
+        mail: 'text-white/65 hover:text-white',
+        tileSel: 'border-white bg-white text-gray-900',
+        tileIdle: 'border-white/15 bg-white/[0.06] text-white hover:border-white/50 hover:bg-white/10',
+        chipSel: 'bg-gray-900/10 text-gray-900',
+        chipIdle: 'bg-white/10 text-white',
+        boxSel: 'border-gray-900 bg-gray-900 text-white',
+        boxIdle: 'border-white/30 bg-white/10 text-transparent',
+        field: 'border-white/15 bg-white/10 text-white placeholder:text-white/40 focus:border-white/60 focus:bg-white/15',
+        done: 'light' as const,
+      }
+    : {
+        title: 'text-gray-900',
+        body: 'text-gray-600',
+        label: 'text-gray-700',
+        muted: 'text-gray-400',
+        iconOk: 'bg-[#0400F5]/10 text-[#0400F5]',
+        err: 'text-red-600',
+        mail: 'text-gray-600 hover:text-gray-900',
+        tileSel: 'border-gray-900 bg-gray-900 text-white',
+        tileIdle: 'border-gray-200 bg-white text-gray-900 hover:border-gray-900',
+        chipSel: 'bg-white/15 text-white',
+        chipIdle: 'bg-gray-100 text-gray-700',
+        boxSel: 'border-white bg-white text-gray-900',
+        boxIdle: 'border-gray-300 bg-white text-transparent',
+        field: 'border-gray-200 text-gray-900 placeholder:text-gray-400 focus:border-gray-900',
+        done: 'dark' as const,
+      };
 
   const tile = (selected: boolean) =>
-    `text-left rounded-xl border px-4 py-3 text-[14px] font-medium transition-colors cursor-pointer ${
-      selected ? 'border-gray-900 bg-gray-900 text-white' : `${idle} text-gray-900`
-    }`;
+    `text-left rounded-xl border px-4 py-3 text-[14px] font-medium transition-colors cursor-pointer ${selected ? t.tileSel : t.tileIdle}`;
 
   const pill = (selected: boolean) =>
-    `rounded-full border px-4 py-2 text-[13px] font-medium transition-colors cursor-pointer ${
-      selected ? 'border-gray-900 bg-gray-900 text-white' : `${idle} text-gray-900`
-    }`;
+    `rounded-full border px-4 py-2 text-[13px] font-medium transition-colors cursor-pointer ${selected ? t.tileSel : t.tileIdle}`;
 
-  const field = `w-full rounded-xl border px-3.5 py-2.5 text-[14px] text-gray-900 placeholder:text-gray-400 focus:outline-none focus:border-gray-900 ${
-    glass ? 'border-white/70 bg-white/55 focus:bg-white/85' : 'border-gray-200'
-  }`;
-  const sectionLabel = 'block text-[13px] font-semibold text-gray-900 mb-3';
+  const field = `w-full rounded-xl border px-3.5 py-2.5 text-[14px] focus:outline-none ${t.field}`;
+  const sectionLabel = `block text-[13px] font-semibold mb-3 ${t.title}`;
 
   return (
     <>
       {submitted ? (
         <div className="py-4">
-          <div className="w-11 h-11 rounded-full bg-[#0400F5]/10 text-[#0400F5] flex items-center justify-center mb-4">
+          <div className={`w-11 h-11 rounded-full flex items-center justify-center mb-4 ${t.iconOk}`}>
             <CheckCircle2 size={22} />
           </div>
-          <h3 id="inquiry-modal-title" className="text-2xl font-medium tracking-tight text-gray-900 mb-2">
+          <h3 id="inquiry-modal-title" className={`text-2xl font-medium tracking-tight mb-2 ${t.title}`}>
             Thank you, {name.trim().split(' ')[0]}.
           </h3>
-          <p className="text-[14px] text-gray-600 leading-relaxed mb-6">
+          <p className={`text-[14px] leading-relaxed mb-6 ${t.body}`}>
             We received your request{isProject && services.length ? ` for ${services.join(', ')}` : ''}. We will reply to {email.trim()} within one business day.
           </p>
-          <RollButton label={doneLabel} variant="dark" size="hero" onClick={onClose} />
+          <RollButton label={doneLabel} variant={t.done} size="hero" onClick={onClose} />
         </div>
       ) : (
         <form onSubmit={onFormSubmit} noValidate>
           <div className="flex items-start justify-between gap-4 mb-6">
-            <h3 id="inquiry-modal-title" className="text-2xl font-medium tracking-tight text-gray-900">
+            <h3 id="inquiry-modal-title" className={`text-2xl font-medium tracking-tight ${t.title}`}>
               {title}
             </h3>
             {showClose && (
@@ -182,21 +210,21 @@ export function InquiryForm({ subject, onClose, showClose = true, doneLabel = 'D
               {isProject && <span className={sectionLabel}>How can we reach you?</span>}
               <div className="space-y-4">
                 <div>
-                  <label htmlFor="inquiry-name" className="block text-[13px] font-medium text-gray-700 mb-1.5">
+                  <label htmlFor="inquiry-name" className={`block text-[13px] font-medium mb-1.5 ${t.label}`}>
                     Your name
                   </label>
                   <input id="inquiry-name" type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="Alex Morgan" autoComplete="name" className={field} />
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label htmlFor="inquiry-email" className="block text-[13px] font-medium text-gray-700 mb-1.5">
+                    <label htmlFor="inquiry-email" className={`block text-[13px] font-medium mb-1.5 ${t.label}`}>
                       Email
                     </label>
                     <input id="inquiry-email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="alex@company.com" autoComplete="email" className={field} />
                   </div>
                   <div>
-                    <label htmlFor="inquiry-phone" className="block text-[13px] font-medium text-gray-700 mb-1.5">
-                      Phone / WhatsApp <span className="text-gray-400 font-normal">(optional)</span>
+                    <label htmlFor="inquiry-phone" className={`block text-[13px] font-medium mb-1.5 ${t.label}`}>
+                      Phone / WhatsApp <span className={`font-normal ${t.muted}`}>(optional)</span>
                     </label>
                     <input id="inquiry-phone" type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="+90 …" autoComplete="tel" className={field} />
                   </div>
@@ -208,7 +236,7 @@ export function InquiryForm({ subject, onClose, showClose = true, doneLabel = 'D
             {isProject && (
               <>
                 <div>
-                  <span className={sectionLabel}>What do you need? <span className="text-gray-400 font-normal">Choose one or more</span></span>
+                  <span className={sectionLabel}>What do you need? <span className={`font-normal ${t.muted}`}>Choose one or more</span></span>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5" role="group" aria-label="Services">
                     {SERVICES.map((s) => {
                       const on = services.includes(s.label);
@@ -223,7 +251,7 @@ export function InquiryForm({ subject, onClose, showClose = true, doneLabel = 'D
                         >
                           <span
                             className={`w-8 h-8 shrink-0 rounded-lg flex items-center justify-center transition-colors ${
-                              on ? 'bg-white/15 text-white' : glass ? 'bg-white/70 text-gray-700' : 'bg-gray-100 text-gray-700'
+                              on ? t.chipSel : t.chipIdle
                             }`}
                           >
                             <s.Icon size={16} strokeWidth={1.8} />
@@ -232,7 +260,7 @@ export function InquiryForm({ subject, onClose, showClose = true, doneLabel = 'D
                           <span
                             aria-hidden="true"
                             className={`w-5 h-5 shrink-0 rounded-md border flex items-center justify-center transition-colors ${
-                              on ? 'border-white bg-white text-gray-900' : glass ? 'border-gray-300 bg-white/70 text-transparent' : 'border-gray-300 bg-white text-transparent'
+                              on ? t.boxSel : t.boxIdle
                             }`}
                           >
                             <Check size={13} strokeWidth={3} />
@@ -268,21 +296,21 @@ export function InquiryForm({ subject, onClose, showClose = true, doneLabel = 'D
 
             {/* 3. Optional note, right above Send */}
             <div>
-              <label htmlFor="inquiry-notes" className="block text-[13px] font-medium text-gray-700 mb-1.5">
-                Anything else? <span className="text-gray-400 font-normal">(optional)</span>
+              <label htmlFor="inquiry-notes" className={`block text-[13px] font-medium mb-1.5 ${t.label}`}>
+                Anything else? <span className={`font-normal ${t.muted}`}>(optional)</span>
               </label>
               <textarea id="inquiry-notes" rows={3} value={notes} onChange={(e) => setNotes(e.target.value)} placeholder="Tell us a little about your project" className={`${field} resize-none`} />
             </div>
           </div>
 
           {error && (
-            <p className="mt-5 text-[13px] text-red-600" role="alert">
+            <p className={`mt-5 text-[13px] ${t.err}`} role="alert">
               {error}
             </p>
           )}
 
           <div className="mt-7 flex items-center justify-between gap-3">
-            <a href="mailto:info@eotra.com" className="inline-flex items-center gap-1.5 text-[13px] text-gray-600 hover:text-gray-900">
+            <a href="mailto:info@eotra.com" className={`inline-flex items-center gap-1.5 text-[13px] ${t.mail}`}>
               <Mail size={14} />
               <span>info@eotra.com</span>
             </a>
