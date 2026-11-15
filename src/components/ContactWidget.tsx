@@ -194,7 +194,7 @@ export function ContactWidget() {
 
   return (
     // Always at the bottom-right corner, also on the Arabic site (the layout inside the panel still follows the language)
-    <aside aria-label={t('Quick contact')} dir="ltr" style={{ right: 'var(--cw-right)' }} className="cw-anchor fixed bottom-5 sm:bottom-6 z-40 flex flex-col items-end gap-3">
+    <aside aria-label={t('Quick contact')} dir="ltr" style={{ right: 'var(--cw-right)' }} className="cw-anchor fixed bottom-5 sm:bottom-6 z-40 pointer-events-none">
       {/* Always mounted so it can open and close smoothly (grows from the button) */}
       {(
         <div
@@ -203,8 +203,9 @@ export function ContactWidget() {
           aria-hidden={!open}
           inert={!open}
           dir={lang === 'ar' ? 'rtl' : 'ltr'}
-          className={`w-[calc(100vw-2.5rem)] sm:w-[380px] max-h-[min(640px,calc(100dvh-7.5rem))] flex flex-col rounded-[28px] bg-white/95 backdrop-blur-xl shadow-[0_24px_80px_rgba(0,0,0,0.18)] overflow-hidden origin-bottom-right transition-[opacity,transform,visibility] duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] ${
-            open ? 'opacity-100 translate-y-0 scale-100 visible' : 'opacity-0 translate-y-4 scale-90 invisible pointer-events-none'
+          style={{ right: 0, left: 'auto' }}
+          className={`absolute bottom-[calc(100%+0.75rem)] w-[calc(100vw-2.5rem)] sm:w-[380px] max-h-[min(640px,calc(100dvh-7.5rem))] flex flex-col rounded-[28px] bg-white/95 backdrop-blur-xl shadow-[0_24px_80px_rgba(0,0,0,0.18)] overflow-hidden origin-bottom-right transition-[opacity,transform,visibility] duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] ${
+            open ? 'opacity-100 translate-y-0 scale-100 visible pointer-events-auto' : 'opacity-0 translate-y-4 scale-90 invisible pointer-events-none'
           }`}
         >
           {/* Header */}
@@ -456,7 +457,7 @@ export function ContactWidget() {
         aria-expanded={open}
         aria-label={open ? t('Close') : t('Open contact chat')}
         title={t('Contact Eotra')}
-        className="group relative flex items-center justify-center w-[52px] h-[52px] sm:w-[56px] sm:h-[56px] bg-gray-950 hover:bg-black text-white rounded-full shadow-2xl hover:shadow-black/40 transition-all duration-200 ease-out hover:scale-105 active:scale-95 cursor-pointer border border-white/15"
+        className="pointer-events-auto group relative flex items-center justify-center w-[52px] h-[52px] sm:w-[56px] sm:h-[56px] bg-gray-950 hover:bg-black text-white rounded-full shadow-2xl hover:shadow-black/40 transition-all duration-200 ease-out hover:scale-105 active:scale-95 cursor-pointer border border-white/15"
       >
         <MessageSquare
           size={22}
