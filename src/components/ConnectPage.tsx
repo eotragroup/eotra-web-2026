@@ -64,7 +64,7 @@ export function ConnectPage({ onNavigateHome, onOpenInquiry, onNavigateToTeam, o
 
             <div className="lg:col-span-7">
               {/* Frosted-glass card */}
-              <div className="rounded-3xl border border-white/15 bg-white/[0.06] backdrop-blur-2xl backdrop-saturate-150 shadow-[0_30px_80px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.2)] p-6 sm:p-8 lg:p-10 max-w-2xl">
+              <div className="rounded-[32px] bg-white/[0.06] backdrop-blur-2xl backdrop-saturate-150 p-6 sm:p-8 lg:p-10 max-w-2xl">
                 <InquiryForm subject="Connect with Eotra" onClose={() => onNavigateHome()} showClose={false} doneLabel="Back to home" dark />
               </div>
             </div>

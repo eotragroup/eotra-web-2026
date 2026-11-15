@@ -130,46 +130,48 @@ export function InquiryForm({ subject, onClose, showClose = true, doneLabel = 'D
     ? {
         title: 'text-white',
         body: 'text-white/70',
-        label: 'text-white/80',
-        muted: 'text-white/45',
+        label: 'text-white/60',
+        muted: 'text-white/40',
         iconOk: 'bg-white/10 text-white',
         err: 'text-red-300',
         mail: 'text-white/65 hover:text-white',
-        tileSel: 'border-white bg-white text-gray-900',
-        tileIdle: 'border-white/15 bg-white/[0.06] text-white hover:border-white/50 hover:bg-white/10',
+        tileSel: 'bg-white text-gray-900',
+        tileIdle: 'bg-white/[0.07] text-white hover:bg-white/[0.14]',
         chipSel: 'bg-gray-900/10 text-gray-900',
         chipIdle: 'bg-white/10 text-white',
-        boxSel: 'border-gray-900 bg-gray-900 text-white',
-        boxIdle: 'border-white/30 bg-white/10 text-transparent',
-        field: 'border-white/15 bg-white/10 text-white placeholder:text-white/40 focus:border-white/60 focus:bg-white/15',
+        boxSel: 'bg-gray-900 text-white',
+        boxIdle: 'bg-white/15 text-transparent',
+        field: 'bg-white/[0.08] text-white placeholder:text-white/35 focus:bg-white/[0.14] focus:ring-1 focus:ring-white/30',
         done: 'light' as const,
       }
     : {
         title: 'text-gray-900',
         body: 'text-gray-600',
-        label: 'text-gray-700',
+        label: 'text-gray-500',
         muted: 'text-gray-400',
         iconOk: 'bg-[#0400F5]/10 text-[#0400F5]',
         err: 'text-red-600',
         mail: 'text-gray-600 hover:text-gray-900',
-        tileSel: 'border-gray-900 bg-gray-900 text-white',
-        tileIdle: 'border-gray-200 bg-white text-gray-900 hover:border-gray-900',
+        tileSel: 'bg-gray-900 text-white',
+        tileIdle: 'bg-gray-900/[0.05] text-gray-900 hover:bg-gray-900/10',
         chipSel: 'bg-white/15 text-white',
         chipIdle: 'bg-gray-100 text-gray-700',
-        boxSel: 'border-white bg-white text-gray-900',
-        boxIdle: 'border-gray-300 bg-white text-transparent',
-        field: 'border-gray-200 text-gray-900 placeholder:text-gray-400 focus:border-gray-900',
+        boxSel: 'bg-white text-gray-900',
+        boxIdle: 'bg-gray-900/10 text-transparent',
+        field: 'bg-gray-900/[0.05] text-gray-900 placeholder:text-gray-400 focus:bg-gray-900/[0.08] focus:ring-1 focus:ring-gray-900/25',
         done: 'dark' as const,
       };
 
   const tile = (selected: boolean) =>
-    `text-left rounded-xl border px-4 py-3 text-[14px] font-medium transition-colors cursor-pointer ${selected ? t.tileSel : t.tileIdle}`;
+    `text-left rounded-2xl px-4 py-2.5 text-[14px] transition-colors cursor-pointer ${selected ? t.tileSel : t.tileIdle}`;
 
   const pill = (selected: boolean) =>
-    `rounded-full border px-4 py-2 text-[13px] font-medium transition-colors cursor-pointer ${selected ? t.tileSel : t.tileIdle}`;
+    `rounded-full px-4 py-2 text-[13px] transition-colors cursor-pointer ${selected ? t.tileSel : t.tileIdle}`;
 
-  const field = `w-full rounded-xl border px-3.5 py-2.5 text-[14px] focus:outline-none ${t.field}`;
-  const sectionLabel = `block text-[13px] font-semibold mb-3 ${t.title}`;
+  const fieldBase = `w-full text-[14px] focus:outline-none transition-colors ${t.field}`;
+  const field = `${fieldBase} rounded-full px-5 py-3`;
+  const area = `${fieldBase} rounded-3xl px-5 py-3 resize-none`;
+  const sectionLabel = `block text-[12px] font-medium tracking-wide mb-3 ${t.label}`;
 
   return (
     <>
@@ -189,7 +191,7 @@ export function InquiryForm({ subject, onClose, showClose = true, doneLabel = 'D
       ) : (
         <form onSubmit={onFormSubmit} noValidate>
           <div className="flex items-start justify-between gap-4 mb-6">
-            <h3 id="inquiry-modal-title" className={`text-2xl font-medium tracking-tight ${t.title}`}>
+            <h3 id="inquiry-modal-title" className={`text-2xl font-normal tracking-tight ${t.title}`}>
               {title}
             </h3>
             {showClose && (
@@ -250,7 +252,7 @@ export function InquiryForm({ subject, onClose, showClose = true, doneLabel = 'D
                           className={`${tile(on)} flex items-center gap-3`}
                         >
                           <span
-                            className={`w-8 h-8 shrink-0 rounded-lg flex items-center justify-center transition-colors ${
+                            className={`w-8 h-8 shrink-0 rounded-full flex items-center justify-center transition-colors ${
                               on ? t.chipSel : t.chipIdle
                             }`}
                           >
@@ -259,7 +261,7 @@ export function InquiryForm({ subject, onClose, showClose = true, doneLabel = 'D
                           <span className="flex-1">{s.label}</span>
                           <span
                             aria-hidden="true"
-                            className={`w-5 h-5 shrink-0 rounded-md border flex items-center justify-center transition-colors ${
+                            className={`w-5 h-5 shrink-0 rounded-full flex items-center justify-center transition-colors ${
                               on ? t.boxSel : t.boxIdle
                             }`}
                           >
@@ -299,7 +301,7 @@ export function InquiryForm({ subject, onClose, showClose = true, doneLabel = 'D
               <label htmlFor="inquiry-notes" className={`block text-[13px] font-medium mb-1.5 ${t.label}`}>
                 Anything else? <span className={`font-normal ${t.muted}`}>(optional)</span>
               </label>
-              <textarea id="inquiry-notes" rows={3} value={notes} onChange={(e) => setNotes(e.target.value)} placeholder="Tell us a little about your project" className={`${field} resize-none`} />
+              <textarea id="inquiry-notes" rows={3} value={notes} onChange={(e) => setNotes(e.target.value)} placeholder="Tell us a little about your project" className={area} />
             </div>
           </div>
 
