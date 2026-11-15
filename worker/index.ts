@@ -136,7 +136,7 @@ BLOG ARTICLES
 ${posts}
 
 CONTACT
-Quote form: the Connect page (/connect). Email: info@eotra.com. Replies within one business day. Careers: /careers (open applications, no fixed openings).`;
+Quote form: the Connect page (/connect). Email: info@eotra.com. Phone and WhatsApp: +90 535 447 77 62. Replies within one business day. Careers: /careers (open applications, no fixed openings).`;
 }
 
 const SYSTEM_PROMPT = `You are the Eotra website assistant: a friendly, sharp sales consultant. You talk with website visitors, understand what they need, recommend the right Eotra solution, and then collect their contact details so the Eotra team can follow up.

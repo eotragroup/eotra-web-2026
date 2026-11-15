@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState, type FormEvent, type ReactNode } from 'react';
 import { ArrowRight, Bot, Check, CheckCircle2, Mail, MessageCircle, MessageSquare, Send, X } from 'lucide-react';
 import { useI18n } from '../i18n';
-import { CONTACT_EMAIL, WHATSAPP_NUMBER } from '../data/contact';
+import { CONTACT_EMAIL, PHONE_DISPLAY, WHATSAPP_NUMBER } from '../data/contact';
 import { goToConnect } from '../lib/nav';
 import { suggestEmail } from '../lib/emailTypos';
 
@@ -232,7 +232,7 @@ export function ContactWidget() {
                   role="tab"
                   aria-selected={tab === x.id}
                   onClick={() => setTab(x.id)}
-                  className={`flex-1 inline-flex items-center justify-center gap-1.5 rounded-full px-3 py-2 text-[13px] font-medium transition-colors cursor-pointer ${
+                  className={`flex-1 min-w-0 inline-flex items-center justify-center gap-1 whitespace-nowrap rounded-full px-2 py-2 text-[12.5px] font-medium transition-colors cursor-pointer ${
                     tab === x.id ? 'bg-gray-900 text-white' : 'bg-gray-900/[0.06] text-gray-900 hover:bg-gray-900/10'
                   }`}
                 >
@@ -375,6 +375,7 @@ export function ContactWidget() {
                 </span>
                 <p className="mt-4 text-[15px] font-medium text-gray-900">{t('Chat with our team on WhatsApp')}</p>
                 <p className="mt-1 text-[13px] text-gray-500 leading-relaxed">{t('Message us any time. We usually reply within one business day.')}</p>
+                <p className="mt-2 text-[14px] font-medium text-gray-900" dir="ltr">{PHONE_DISPLAY}</p>
                 <a
                   href={`https://wa.me/${WHATSAPP_NUMBER}?text=${waText}`}
                   target="_blank"

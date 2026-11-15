@@ -2,6 +2,7 @@ import { Navbar } from './Navbar';
 import { Footer } from './Footer';
 import { InquiryForm } from './InquiryModal';
 import { Globe } from './Globe';
+import { PHONE_DISPLAY, PHONE_TEL } from '../data/contact';
 import { useI18n } from '../i18n';
 import { RevealWords } from './RevealWords';
 import { usePageAnimations } from '../lib/pageAnimations';
@@ -60,6 +61,9 @@ export function ConnectPage({ onNavigateHome, onOpenInquiry, onNavigateToTeam, o
               </p>
               <a href="mailto:info@eotra.com" className="mt-6 inline-block text-[15px] font-medium text-gray-900 hover:text-gray-500 transition-colors">
                 info@eotra.com
+              </a>
+              <a href={`tel:${PHONE_TEL}`} dir="ltr" className="mt-2 block w-fit text-[15px] font-medium text-gray-900 hover:text-gray-500 transition-colors">
+                {PHONE_DISPLAY}
               </a>
 
               <div className="mt-10 lg:mt-14 flex flex-wrap items-center gap-x-9 gap-y-7 max-w-md">
