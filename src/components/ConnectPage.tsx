@@ -24,12 +24,12 @@ export function ConnectPage({ onNavigateHome, onOpenInquiry, onNavigateToTeam, o
   return (
     <div className="min-h-screen bg-white text-gray-900 antialiased">
       <div className="connect-glass-bg relative isolate overflow-hidden bg-[#05060f]">
-        {/* Soft colour shapes behind the glass card */}
-        <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10">
-          <div className="connect-orb absolute -top-28 right-[2%] w-[560px] h-[560px] rounded-full bg-[#0400F5]/60 blur-[120px]" />
-          <div className="connect-orb connect-orb-b absolute top-[42%] right-[34%] w-[440px] h-[440px] rounded-full bg-violet-600/45 blur-[120px]" />
-          <div className="connect-orb absolute bottom-[-8%] right-[0%] w-[480px] h-[480px] rounded-full bg-sky-500/35 blur-[120px]" />
-          <div className="connect-orb connect-orb-b absolute top-[6%] left-[-10%] w-[420px] h-[420px] rounded-full bg-indigo-600/40 blur-[110px]" />
+                <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10">
+          {/* Kept to the left and the far edges, so nothing bright sits behind the form card */}
+          <div className="connect-orb absolute top-[22%] left-[-14%] w-[560px] h-[560px] rounded-full bg-[#0400F5]/55 blur-[120px]" />
+          <div className="connect-orb connect-orb-b absolute bottom-[-6%] left-[12%] w-[440px] h-[440px] rounded-full bg-violet-600/40 blur-[120px]" />
+          <div className="connect-orb absolute top-[4%] right-[-16%] w-[420px] h-[420px] rounded-full bg-sky-500/30 blur-[120px]" />
+          <div className="connect-orb connect-orb-b absolute top-[-8%] left-[14%] w-[380px] h-[380px] rounded-full bg-indigo-600/35 blur-[110px]" />
         </div>
 
         <section className="relative flex flex-col">
