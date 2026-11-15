@@ -9,6 +9,8 @@ import { TechBadge } from './TechBadge';
 import { SERVICES, SERVICE_STEPS, getService } from '../data/services';
 import { goToConnect, goToService } from '../lib/nav';
 import { useI18n } from '../i18n';
+import { RevealWords } from './RevealWords';
+import { usePageAnimations } from '../lib/pageAnimations';
 
 const OFFER_ICONS: Record<string, LucideIcon> = { Activity, AppWindow, BarChart3, Boxes, Cloud, CreditCard, Database, GitBranch, Globe, Layers, LifeBuoy, Link2, MousePointerClick, Package, Palette, Plug, Receipt, RefreshCw, Rocket, Search, ShieldCheck, ShoppingCart, Smartphone, Sparkles, Store, TestTube2, Truck, Users, Warehouse, WifiOff, Wrench };
 
@@ -24,6 +26,7 @@ interface ServicePageProps {
 
 export function ServicePage({ slug, onNavigateHome, onOpenInquiry, onNavigateToTeam, onSelectProduct }: ServicePageProps) {
   const { t } = useI18n();
+  usePageAnimations(slug);
   const service = getService(slug);
 
   useEffect(() => {
@@ -65,9 +68,7 @@ export function ServicePage({ slug, onNavigateHome, onOpenInquiry, onNavigateToT
               <Icon size={14} strokeWidth={1.8} />
               {t(service.category)}
             </button>
-            <h1 className="mt-6 text-[clamp(2.25rem,5.5vw,4.25rem)] font-medium leading-[1.03] tracking-[-0.03em] text-gray-900">
-              {t(service.title)}
-            </h1>
+            <h1 className="mt-6 text-[clamp(2.25rem,5.5vw,4.25rem)] font-medium leading-[1.03] tracking-[-0.03em] text-gray-900"><RevealWords text={t(service.title)} /></h1>
             <p className="mt-5 text-[16px] sm:text-[18px] text-gray-500 leading-relaxed max-w-lg">{t(service.tagline)}</p>
             <div className="mt-8">
               <RollButton label={t('Start a project')} variant="orange" size="hero" onClick={() => goToConnect(service.inquirySubject)} />

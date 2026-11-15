@@ -4,6 +4,8 @@ import { Navbar } from './Navbar';
 import { Footer } from './Footer';
 import { RollButton } from './RollButton';
 import { useI18n } from '../i18n';
+import { RevealWords } from './RevealWords';
+import { usePageAnimations } from '../lib/pageAnimations';
 import { goToConnect } from '../lib/nav';
 
 interface PageProps {
@@ -28,6 +30,7 @@ const ROLES = [
 
 export function CareersPage({ onNavigateHome, onOpenInquiry, onNavigateToTeam, onSelectProduct }: PageProps) {
   const { t } = useI18n();
+  usePageAnimations();
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -44,9 +47,7 @@ export function CareersPage({ onNavigateHome, onOpenInquiry, onNavigateToTeam, o
           <span className="inline-flex items-center rounded-full bg-gray-100 px-3.5 py-1.5 text-[12px] sm:text-[13px] font-medium text-gray-900">
             {t('Careers')}
           </span>
-          <h1 className="mt-6 text-[clamp(2.25rem,6vw,5rem)] font-medium leading-[1.02] tracking-[-0.03em] text-gray-900 max-w-4xl">
-            {t('Build the future of retail with us.')}
-          </h1>
+          <h1 className="mt-6 text-[clamp(2.25rem,6vw,5rem)] font-medium leading-[1.02] tracking-[-0.03em] text-gray-900 max-w-4xl"><RevealWords text={t('Build the future of retail with us.')} /></h1>
           <p className="mt-6 text-[16px] sm:text-[19px] text-gray-500 leading-relaxed max-w-2xl">
             {t('Eotra is a small, founder-led startup. We do not have a fixed list of openings: if you are good at what you do and want to build real products, we would like to meet you.')}
           </p>

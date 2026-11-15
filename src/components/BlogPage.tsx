@@ -7,6 +7,8 @@ import { POSTS, BlogPost, formatPostDate } from '../data/posts';
 import { formatViews, recordView, useViewCounts } from '../lib/views';
 import { goToBlog, goToPost } from '../lib/nav';
 import { useI18n } from '../i18n';
+import { RevealWords } from './RevealWords';
+import { usePageAnimations } from '../lib/pageAnimations';
 
 // Cover pictures load automatically from src/assets/blog/<slug>.jpg (or .jpeg/.png/.webp)
 const COVER_FILES = import.meta.glob('../assets/blog/*.{jpg,jpeg,png,webp}', {
@@ -80,6 +82,7 @@ function PostCard({ post, views }: { post: BlogPost; views?: number | null }) {
 
 export function BlogPage({ onNavigateHome, onOpenInquiry, onNavigateToTeam, onSelectProduct }: SharedProps) {
   const { t } = useI18n();
+  usePageAnimations();
   const [counts] = useViewCounts();
 
   return (
@@ -90,9 +93,7 @@ export function BlogPage({ onNavigateHome, onOpenInquiry, onNavigateToTeam, onSe
 
       <section className="bg-white pt-12 sm:pt-16 lg:pt-20 pb-20 sm:pb-28 lg:pb-36">
         <div className="max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-12">
-          <h1 className="text-[clamp(2.25rem,6vw,4.5rem)] font-medium leading-[1.02] tracking-[-0.03em] text-gray-900 mb-10 sm:mb-14">
-            {t('Blog')}
-          </h1>
+          <h1 className="text-[clamp(2.25rem,6vw,4.5rem)] font-medium leading-[1.02] tracking-[-0.03em] text-gray-900 mb-10 sm:mb-14"><RevealWords text={t('Blog')} /></h1>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
             {POSTS.map((post) => (
               <PostCard key={post.slug} post={post} views={counts ? counts[post.slug] ?? 0 : null} />
@@ -119,6 +120,7 @@ export function BlogPostPage({
   onSelectProduct,
 }: SharedProps & { slug: string }) {
   const { t } = useI18n();
+  usePageAnimations(slug);
   const post = POSTS.find((p) => p.slug === slug);
   const [counts, setCount] = useViewCounts();
 
@@ -166,9 +168,7 @@ export function BlogPostPage({
 
               <div className="max-w-4xl">
                 <PostMeta post={post} views={counts ? counts[post.slug] ?? null : null} />
-                <h1 className="mt-4 text-[clamp(2rem,5vw,3.75rem)] font-medium leading-[1.06] tracking-[-0.03em] text-gray-900 text-balance">
-                  {t(post.title)}
-                </h1>
+                <h1 className="mt-4 text-[clamp(2rem,5vw,3.75rem)] font-medium leading-[1.06] tracking-[-0.03em] text-gray-900 text-balance"><RevealWords text={t(post.title)} /></h1>
               </div>
 
               <div className="mt-10 sm:mt-12 relative aspect-[16/9] rounded-2xl overflow-hidden ring-1 ring-black/5 bg-gray-100">

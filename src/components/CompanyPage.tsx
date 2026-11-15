@@ -9,6 +9,8 @@ import { PRODUCTS } from '../data/products';
 import { SERVICES } from '../data/services';
 import { goToConnect, goToSolutions } from '../lib/nav';
 import { useI18n } from '../i18n';
+import { RevealWords } from './RevealWords';
+import { usePageAnimations } from '../lib/pageAnimations';
 
 interface PageProps {
   onNavigateHome: (sectionId?: string) => void;
@@ -37,6 +39,7 @@ const VALUES = [
 
 export function CompanyPage({ onNavigateHome, onOpenInquiry, onNavigateToTeam, onSelectProduct }: PageProps) {
   const { t } = useI18n();
+  usePageAnimations();
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -60,9 +63,7 @@ export function CompanyPage({ onNavigateHome, onOpenInquiry, onNavigateToTeam, o
           <span className="inline-flex items-center rounded-full bg-gray-100 px-3.5 py-1.5 text-[12px] sm:text-[13px] font-medium text-gray-900">
             {t('Our Company')}
           </span>
-          <h1 className="mt-6 text-[clamp(2.25rem,6vw,5rem)] font-medium leading-[1.02] tracking-[-0.03em] text-gray-900 max-w-4xl">
-            {t('We build the software modern retail runs on.')}
-          </h1>
+          <h1 className="mt-6 text-[clamp(2.25rem,6vw,5rem)] font-medium leading-[1.02] tracking-[-0.03em] text-gray-900 max-w-4xl"><RevealWords text={t('We build the software modern retail runs on.')} /></h1>
           <p className="mt-6 text-[16px] sm:text-[19px] text-gray-500 leading-relaxed max-w-2xl">
             {t('Eotra is a technology company from Istanbul. We replace five disconnected systems with one platform linking POS, warehouse, ERP and CRM, and we build web and mobile products for the brands we work with.')}
           </p>

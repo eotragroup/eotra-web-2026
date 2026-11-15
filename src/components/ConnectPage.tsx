@@ -3,6 +3,8 @@ import { Footer } from './Footer';
 import { InquiryForm } from './InquiryModal';
 import { Globe } from './Globe';
 import { useI18n } from '../i18n';
+import { RevealWords } from './RevealWords';
+import { usePageAnimations } from '../lib/pageAnimations';
 
 // Same brand logos as the homepage strip
 const BRANDS = [
@@ -32,6 +34,7 @@ function subjectFromUrl() {
 
 export function ConnectPage({ onNavigateHome, onOpenInquiry, onNavigateToTeam, onSelectProduct }: ConnectPageProps) {
   const { t } = useI18n();
+  usePageAnimations();
   return (
     <div className="min-h-screen bg-white text-gray-900 antialiased">
       <div className="relative isolate overflow-hidden bg-white">
@@ -43,9 +46,7 @@ export function ConnectPage({ onNavigateHome, onOpenInquiry, onNavigateToTeam, o
         <section className="pt-12 sm:pt-16 lg:pt-20 pb-20 sm:pb-28 lg:pb-36">
           <div className="max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-12 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14">
             <div className="lg:col-span-5">
-              <h1 className="text-[clamp(2.25rem,6vw,4.5rem)] font-medium leading-[1.02] tracking-[-0.03em] text-gray-900">
-                {t('Connect')}
-              </h1>
+              <h1 className="text-[clamp(2.25rem,6vw,4.5rem)] font-medium leading-[1.02] tracking-[-0.03em] text-gray-900"><RevealWords text={t('Connect')} /></h1>
               <p className="mt-6 text-[15px] sm:text-[17px] text-gray-500 leading-relaxed max-w-sm">
                 {t('Tell us what you need. We reply within one business day.')}
               </p>
