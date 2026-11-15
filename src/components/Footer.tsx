@@ -141,7 +141,8 @@ export function Footer({
             <button
               type="button"
               onClick={() => onNavigateHome?.()}
-              className="overflow-hidden inline-flex items-center -ml-3 -mr-6 mb-4 cursor-pointer"
+              style={{ marginLeft: -12, marginRight: -24 }}
+              className="overflow-hidden inline-flex items-center mb-4 cursor-pointer"
               aria-label={t('Back to home')}
             >
               <img

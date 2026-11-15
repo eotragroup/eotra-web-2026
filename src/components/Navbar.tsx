@@ -198,7 +198,8 @@ export function Navbar({ onOpenInquiry, onNavigateHome, onNavigateToTeam, dark: 
                   <img
                     src="/assets/aistudio/Eotra_aef517cd.svg"
                     alt="Eotra"
-                    className={`h-[28px] md:h-[32px] w-auto max-w-none -ml-3 -mr-6 ${dark ? 'brightness-0 invert' : ''}`}
+                    style={{ marginLeft: -12, marginRight: -24 }}
+                    className={`h-[28px] md:h-[32px] w-auto max-w-none ${dark ? 'brightness-0 invert' : ''}`}
                   />
                 </span>
               </a>
