@@ -12,6 +12,8 @@ interface KV {
 }
 interface Env {
   VIEWS?: KV;
+  /** Cloudflare Workers AI (no API key needed) */
+  AI?: { run(model: string, input: unknown): Promise<{ response?: string }> };
   ASSETS: { fetch(request: Request): Promise<Response> };
 }
 
@@ -95,6 +97,59 @@ function withPageMeta(res: Response, url: URL): Response {
   return new Response(rewritten.body, { status: meta.noindex ? 404 : res.status, headers: res.headers });
 }
 
+// ---- AI assistant for the floating contact button ----
+const CHAT_MODEL = '@cf/meta/llama-3.3-70b-instruct-fp8-fast';
+const CHAT_DAILY_LIMIT = 60; // messages per visitor per day (keeps the cost under control)
+
+const SYSTEM_PROMPT = `You are the Eotra website assistant. Eotra is a small, founder-led technology company based in Istanbul, Türkiye.
+What Eotra does: it builds a unified retail platform (POS and order management, inventory and warehouse management WMS, ERP, CRM, loyalty and analytics) and builds software for clients.
+Services: custom web apps; mobile development (iOS and Android); UI/UX and product design; e-commerce builds; backend and APIs; cloud and DevOps; internal tools and ERP; QA and dedicated teams.
+Client references: Jamjoom Pharmacy Group, EOTRA Menu (QR digital menus), NEOSHE (skincare e-commerce), IBOSH STORE (luxury bags), Lidya&Co, TradesPilot AI.
+Contact: info@eotra.com, or the contact form at /connect, or WhatsApp from the contact button. Replies come within one business day.
+Rules:
+- Answer briefly (2-4 short sentences), friendly and clear. Use the same language as the user (Arabic, English or Turkish).
+- Only state facts listed above. Never invent prices, timelines, clients, team members or promises. If asked about price, say every project is scoped on its own and offer the quote form at /connect.
+- If you do not know something, or the user wants a person, point them to WhatsApp or email info@eotra.com.
+- Stay on the topic of Eotra, its services and software for retail and commerce. Politely decline anything else.`;
+
+async function chat(request: Request, env: Env): Promise<Response> {
+  if (!env.AI) return json({ error: 'assistant not configured' }, 503);
+  let body: { messages?: { role?: string; content?: string }[]; lang?: string };
+  try {
+    body = await request.json();
+  } catch {
+    return json({ error: 'bad request' }, 400);
+  }
+  const history = (body.messages ?? [])
+    .filter((m) => (m.role === 'user' || m.role === 'assistant') && typeof m.content === 'string' && m.content.trim())
+    .slice(-10)
+    .map((m) => ({ role: m.role as 'user' | 'assistant', content: String(m.content).slice(0, 500) }));
+  if (!history.length || history[history.length - 1].role !== 'user') return json({ error: 'bad request' }, 400);
+
+  // simple per-visitor daily limit
+  if (env.VIEWS) {
+    const ip = request.headers.get('cf-connecting-ip') ?? 'unknown';
+    const key = `chat:${ip}:${new Date().toISOString().slice(0, 10)}`;
+    const used = Number((await env.VIEWS.get(key)) ?? 0);
+    if (used >= CHAT_DAILY_LIMIT) return json({ error: 'limit' }, 429);
+    await env.VIEWS.put(key, String(used + 1));
+  }
+
+  try {
+    const lang = body.lang === 'ar' ? 'The visitor is browsing the Arabic site, so answer in Arabic unless they write in another language.' : '';
+    const out = await env.AI.run(CHAT_MODEL, {
+      messages: [{ role: 'system', content: `${SYSTEM_PROMPT}\n${lang}` }, ...history],
+      max_tokens: 320,
+      temperature: 0.4,
+    });
+    const reply = (out?.response ?? '').trim();
+    if (!reply) return json({ error: 'empty' }, 502);
+    return json({ reply });
+  } catch {
+    return json({ error: 'assistant unavailable' }, 502);
+  }
+}
+
 const json = (data: unknown, status = 200) =>
   new Response(JSON.stringify(data), {
     status,
@@ -111,6 +166,8 @@ export default {
         headers: { 'content-type': 'text/plain; charset=utf-8', 'cache-control': 'public, max-age=3600' },
       });
     }
+
+    if (url.pathname === '/api/chat' && request.method === 'POST') return chat(request, env);
 
     if (url.pathname === '/api/views' && request.method === 'GET') {
       if (!env.VIEWS) return json({ error: 'views storage not configured' }, 503);
