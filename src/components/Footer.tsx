@@ -1,4 +1,4 @@
-import { goToBlog, goToFaq } from '../lib/nav';
+import { goToBlog, goToConnect, goToFaq } from '../lib/nav';
 import React, { useState } from 'react';
 import { ArrowRight, Check, Globe } from 'lucide-react';
 import { PRODUCTS } from '../data/products';
@@ -292,7 +292,7 @@ export function Footer({
               <li>
                 <button
                   type="button"
-                  onClick={() => onOpenInquiry?.('Book an Enterprise Demo')}
+                  onClick={() => goToConnect()}
                   className="hover:text-[#0400F5] transition-colors text-left font-medium text-gray-900"
                 >
                   Request a Demo
