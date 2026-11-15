@@ -220,7 +220,7 @@ export function ServicesSlider({ onOpenInquiry }: ServicesSliderProps) {
     >
       <div className="max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-12">
         {/* Header + Controls */}
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-10 sm:mb-12">
+        <div className="flex flex-row items-end justify-between gap-4 mb-8 sm:mb-12">
           <div>
             <ScrollRevealText
               as="h2"
@@ -231,13 +231,13 @@ export function ServicesSlider({ onOpenInquiry }: ServicesSliderProps) {
             />
           </div>
 
-          <div className="flex items-center gap-3 shrink-0">
+          <div className="flex items-center gap-2 sm:gap-3 shrink-0">
             <button
               type="button"
               onClick={() => scrollByCard(-1)}
               disabled={!canScrollPrev}
               aria-label="Previous services"
-              className="w-11 h-11 rounded-full bg-white shadow-sm text-gray-900 hover:bg-gray-900 hover:text-white disabled:opacity-35 disabled:pointer-events-none transition-colors duration-200 flex items-center justify-center cursor-pointer"
+              className="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-white shadow-sm text-gray-900 hover:bg-gray-900 hover:text-white disabled:opacity-35 disabled:pointer-events-none transition-colors duration-200 flex items-center justify-center cursor-pointer"
             >
               <ArrowLeft size={16} />
             </button>
@@ -246,7 +246,7 @@ export function ServicesSlider({ onOpenInquiry }: ServicesSliderProps) {
               onClick={() => scrollByCard(1)}
               disabled={!canScrollNext}
               aria-label="Next services"
-              className="w-11 h-11 rounded-full bg-white shadow-sm text-gray-900 hover:bg-[#0400F5] hover:text-white disabled:opacity-35 disabled:pointer-events-none transition-colors duration-200 flex items-center justify-center cursor-pointer"
+              className="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-white shadow-sm text-gray-900 hover:bg-[#0400F5] hover:text-white disabled:opacity-35 disabled:pointer-events-none transition-colors duration-200 flex items-center justify-center cursor-pointer"
             >
               <ArrowRight size={16} />
             </button>
