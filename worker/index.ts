@@ -21,6 +21,7 @@ function sitemap(origin: string): Response {
     { path: '/' },
     { path: '/team' },
     { path: '/faq' },
+    { path: '/connect' },
     { path: '/blog' },
     ...PRODUCTS.map((p) => ({ path: `/products/${p.id}` })),
     ...POSTS.map((p) => ({ path: `/blog/${p.slug}`, lastmod: p.date })),

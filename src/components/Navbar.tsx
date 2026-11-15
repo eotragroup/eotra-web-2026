@@ -1,4 +1,4 @@
-import { goToBlog, goToFaq } from '../lib/nav';
+import { goToBlog, goToConnect, goToFaq } from '../lib/nav';
 import { smoothScrollTo } from '../lib/smoothScroll';
 import { useEffect, useState } from 'react';
 import { ArrowRight, Menu, X } from 'lucide-react';
@@ -154,7 +154,7 @@ export function Navbar({ onOpenInquiry, onNavigateHome, onNavigateToTeam }: Navb
               </a>
               <button
                 type="button"
-                onClick={() => onOpenInquiry('Connect with Eotra')}
+                onClick={() => goToConnect()}
                 className="text-[14px] text-gray-900 hover:text-gray-500 transition-colors duration-300 whitespace-nowrap shrink-0 cursor-pointer"
               >
                 Connect
@@ -281,7 +281,7 @@ export function Navbar({ onOpenInquiry, onNavigateHome, onNavigateToTeam }: Navb
               type="button"
               onClick={() => {
                 setMobileMenuOpen(false);
-                onOpenInquiry('Connect with Eotra');
+                goToConnect();
               }}
               className="text-left text-[28px] sm:text-[32px] font-medium text-gray-900 leading-tight hover:text-gray-500 transition-colors cursor-pointer"
             >

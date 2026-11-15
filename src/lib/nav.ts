@@ -10,5 +10,6 @@ export function navigateTo(path: string) {
 }
 
 export const goToFaq = () => navigateTo('/faq');
+export const goToConnect = () => navigateTo('/connect');
 export const goToBlog = () => navigateTo('/blog');
 export const goToPost = (slug: string) => navigateTo(`/blog/${slug}`);
