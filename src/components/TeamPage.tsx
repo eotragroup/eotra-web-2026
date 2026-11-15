@@ -149,7 +149,7 @@ export function TeamPage({ onNavigateHome, onOpenInquiry, onNavigateToTeam, onSe
     <div className="min-h-screen bg-white text-gray-900 antialiased">
       {/* Navbar */}
       <section className="relative flex flex-col bg-white">
-        <Navbar onOpenInquiry={onOpenInquiry} onNavigateHome={onNavigateHome} onNavigateToTeam={onNavigateToTeam} />
+        <Navbar onOpenInquiry={onOpenInquiry} onNavigateHome={onNavigateHome} onNavigateToTeam={onNavigateToTeam} bordered />
       </section>
 
       {/* Team Section */}

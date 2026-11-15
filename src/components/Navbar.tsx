@@ -8,9 +8,11 @@ interface NavbarProps {
   onOpenInquiry: (subject?: string) => void;
   onNavigateHome?: (sectionId?: string) => void;
   onNavigateToTeam?: () => void;
+  /** Light grey outline, for pages with a plain white background */
+  bordered?: boolean;
 }
 
-export function Navbar({ onOpenInquiry, onNavigateHome, onNavigateToTeam }: NavbarProps) {
+export function Navbar({ onOpenInquiry, onNavigateHome, onNavigateToTeam, bordered = false }: NavbarProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
@@ -66,7 +68,7 @@ export function Navbar({ onOpenInquiry, onNavigateHome, onNavigateToTeam }: Navb
       <header className="relative z-20 w-full max-w-[1440px] mx-auto p-2 sm:p-3">
         <nav
           aria-label="Primary navigation"
-          className="bg-white rounded-full p-[5px] flex items-center justify-between"
+          className={`bg-white rounded-full p-[5px] flex items-center justify-between ${bordered ? 'border border-gray-200' : ''}`}
         >
           {/* LEFT: Logo + Desktop Nav Links */}
           <div className="flex items-center">
