@@ -210,13 +210,13 @@ export function TeamPage({ onNavigateHome, onOpenInquiry, onNavigateToTeam, onSe
               >
                 <span
                   aria-hidden="true"
-                  className={`absolute -top-px left-0 h-[2px] w-full origin-left scale-x-0 bg-[#0400F5] transition-transform duration-500 ease-out group-hover:scale-x-100 ${
+                  className={`absolute -top-px left-0 h-px w-full origin-left scale-x-0 bg-[#0400F5] transition-transform duration-500 ease-out group-hover:scale-x-100 ${
                     i < 2 ? '' : 'hidden lg:block'
                   }`}
                 />
                 <span
                   aria-hidden="true"
-                  className={`absolute -bottom-px left-0 h-[2px] w-full origin-left scale-x-0 bg-[#0400F5] transition-transform duration-500 ease-out group-hover:scale-x-100 ${
+                  className={`absolute -bottom-px left-0 h-px w-full origin-left scale-x-0 bg-[#0400F5] transition-transform duration-500 ease-out group-hover:scale-x-100 ${
                     i >= 2 ? '' : 'hidden lg:block'
                   }`}
                 />
