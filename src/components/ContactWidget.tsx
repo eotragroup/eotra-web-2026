@@ -180,7 +180,7 @@ export function ContactWidget() {
     }
   };
 
-  const waText = encodeURIComponent(lang === 'ar' ? 'مرحبًا إوترا، أود الاستفسار عن خدماتكم.' : 'Hello Eotra, I would like to ask about your services.');
+  const waText = encodeURIComponent(lang === 'ar' ? 'مرحبًا إيوترا، أود الاستفسار عن خدماتكم.' : 'Hello Eotra, I would like to ask about your services.');
   const suggestions = [t('I run a retail business'), t('I need a website or app'), t('I want a quote')];
 
 

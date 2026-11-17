@@ -56,11 +56,11 @@ function withPageMeta(res: Response, url: URL): Response {
   const lang = langFromPath(url.pathname);
   const bare = stripLang(url.pathname);
   const meta = metaForPath(bare, lang);
-  const title = meta.title.includes('Eotra') || meta.title.includes('إوترا') ? meta.title : `${meta.title} — Eotra`;
+  const title = meta.title.includes('Eotra') || meta.title.includes('إيوترا') ? meta.title : `${meta.title} — Eotra`;
   const enUrl = `${url.origin}${bare === '/' ? '/' : bare}`;
   const arUrl = `${url.origin}/ar${bare === '/' ? '' : bare}`;
   const pageUrl = `${url.origin}${url.pathname}`;
-  const image = `${url.origin}/og.png?v=2`; // bump the number when the picture changes so WhatsApp and others fetch it again
+  const image = `${url.origin}/og.png?v=3`; // bump the number when the picture changes so WhatsApp and others fetch it again
   const content = (value: string) => ({
     element(e: { setAttribute(n: string, v: string): void }) {
       e.setAttribute('content', value);
