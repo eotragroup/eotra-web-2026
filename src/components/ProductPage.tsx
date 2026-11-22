@@ -219,19 +219,23 @@ export function ProductPage({
 
           {screens.desktop.length > 0 && (
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-6">
-              <BrowserShot
-                className="product-gsap-fade lg:col-span-8"
-                src={screens.desktop[0]}
-                domain={product.domainLabel}
-                alt={`${product.title} ${t('home page')}`}
-              />
-              {screens.mobile && (
-                <PhoneShot
-                  className="product-gsap-fade lg:col-span-4"
-                  src={screens.mobile}
-                  alt={`${product.title} ${t('on a phone')}`}
+              {screens.desktop.map((src, i) => (
+                <BrowserShot
+                  key={src}
+                  className="product-gsap-fade lg:col-span-8"
+                  src={src}
+                  domain={product.domainLabel}
+                  alt={`${product.title} ${t('home page')}${i > 0 ? ` ${i + 1}` : ''}`}
                 />
-              )}
+              ))}
+              {screens.mobile.map((src, i) => (
+                <PhoneShot
+                  key={src}
+                  className="product-gsap-fade lg:col-span-4"
+                  src={src}
+                  alt={`${product.title} ${t('on a phone')}${i > 0 ? ` ${i + 1}` : ''}`}
+                />
+              ))}
             </div>
           )}
         </div>

@@ -125,14 +125,15 @@ const SCREENS = import.meta.glob('../assets/products/screens/*.jpg', {
   import: 'default',
 }) as Record<string, string>;
 
-export function screensFor(id: string): { desktop: string[]; mobile?: string } {
+export function screensFor(id: string): { desktop: string[]; mobile: string[] } {
   const get = (suffix: string) => {
     const key = Object.keys(SCREENS).find((k) => (k.split('/').pop() ?? '') === `${id}-${suffix}.jpg`);
     return key ? SCREENS[key] : undefined;
   };
   return {
     desktop: ['1', '2', '3'].map(get).filter((x): x is string => !!x),
-    mobile: get('m'),
+    // phone shots: <id>-m.jpg, then any language variant such as <id>-m-ar.jpg
+    mobile: [get('m'), get('m-ar')].filter((x): x is string => !!x),
   };
 }
 
